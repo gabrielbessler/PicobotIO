@@ -3,18 +3,19 @@
 def Picobot(object):
 
     # constructor
-    def __init__(xPos, yPos, rules):
-        self.xPos = xPos
-        self.yPos = yPos
+    def __init__(self, L, rules):
+        self.xPos = L[0]
+        self.yPos = L[1]
+        self.color = L[2]
         self.ruleList = rules
         self.currentState = 0
-    
-    def getDir(surroundings):
-        for rule in rules:
+
+    def getDir(self, surroundings):
+        for rule in ruleList:
             if self.currentState == rule[0] and surroundings == rule[1]:
                 self.currentState = rule[3]
                 return rule[2]
         return
-        
+
 
 

@@ -17,7 +17,9 @@ def join_game(game_num):
     games[game_num][1] += 1
     if games[game_num][1] == 2:
         m = Map.Map("type1")
-        return render_template("Game.html")
+        return render_template("Game.html", board=m.getMap())
+    else:
+        return "loading..."
 
 @app.route('/update_instructions', methods=["GET", "POST"])
 def get_instructions():

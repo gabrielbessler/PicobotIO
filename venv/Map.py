@@ -11,18 +11,18 @@ class Map(object):
         self.start1 = [0,0,1]
         self.start2 = [20, 20, 2]
         self.map = self.generate(mapType)
-    
+
     # return map
     def getMap(self):
-        self.map[start1[0], start1[1]] = [1, Picobot(start1[2], [])]
-        self.map[start2[0], start2[1]] = [2, Picobot(start2[2], [])]
+        self.map[self.start1[0], self.start1[1]] = [1, str(Picobot(self.start1[2], []))]
+        self.map[self.start2[0], self.start2[1]] = [2, str(Picobot(self.start2[2], []))]
         # checkConsistent(self.map)
         return self.map
 
     # generate Map
     def generate(self, mapType):
         size = 20
-        row = [[0, None] for x in range(size)]
+        row = [[0, 0] for x in range(size)]
         board = [row for x in range(size)]
         if mapType == "default":
             return board

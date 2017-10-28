@@ -43,13 +43,21 @@ function getImages() {
 
 function startGame() {
     drawMap(sampleMap);
+    console.log(sampleMap);
+    getData();
+    //drawMap(sampleMap);
+}
+
+function getData() {
+
+    //s = eval(document.getElementById("data").getAttribute('val'));
+    //sampleMap = s;
 }
 
 function drawMap(map) {
     /* Takes a map as a javascript array and draws the map on the screen */
     ctx.strokeStyle = "rgba(0, 0, 0, .7)";
     for (var row = 0; row < map.length; row++) {
-
         for (var col = 0; col < map[row].length; col++) {
             currSquare = map[row][col];
             var xpos = col * COL_WIDTH;
