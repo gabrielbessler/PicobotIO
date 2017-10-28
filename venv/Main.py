@@ -134,9 +134,11 @@ def get_instructions():
             print("got to here")
 
             ruleList.append([int(i[1]), i[4:8], i[11], int(i[14])])
-    print(ruleList)
-    game_boards[0].bot2.ruleList = ruleList
-    print(game_boards[0].bot2)
+    if playerNum == 1:
+        game_boards[0].bot2.ruleList = ruleList
+    else:
+        game_boards[0].bot1.ruleList = ruleList
+
     return json.dumps("Your inputs are valid.")
 
 def isDirections(s):

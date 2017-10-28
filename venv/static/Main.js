@@ -147,7 +147,7 @@ function submit() {
         contentType: 'application/json; charset=UTF-8',
         data: JSON.stringify(playerNum + inst) ,
         success: function(data){
-            console.log(data);
+            document.getElementById("pico_errors").innerHTML = data;
         }
     });
 }
