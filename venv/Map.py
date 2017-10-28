@@ -8,11 +8,14 @@ class Map():
 
     # map constructor with type
     def __init__(self, mapType):
-        self.start1 = [0,0,1]
-        self.start2 = [19, 19, 2]
+        self.start1 = [1,1,1]
+        self.start2 = [18, 18, 2]
         self.map = self.generate(mapType)
-        self.map[0][0] = [1, Picobot[start1, []]]
-        self.map[19][19] = [2, Picobot[start2, []]]
+        self.p1 = Picobot(self.start1, [])
+        self.p2 = Picobot(self.start2, [])
+        self.map[1][1] = [1, self.p1]
+        self.map[18][18] = [2, self.p2]
+        self.size = 20
 
     # generate Map
     def generate(self, mapType):
@@ -21,6 +24,12 @@ class Map():
         if mapType == "default":
             return board
         if mapType == "type1":
+            for i in range(0, 20):
+                w = Wall()
+                board[0][i] = [0, w]
+                board[19][i] = [0, w]
+                board[i][0] = [0, w]
+                board[i][19] = [0, w]
             for i in range(8, 12):
                 for j in range(8, 12):
                     w = Wall()
@@ -37,6 +46,7 @@ class Map():
 
     # return a string with the surroundings
     def getSurroundings(self, xPos, yPos):
+        print(yPos, xPos)
         if self.map[yPos + 1][xPos][1] == Wall():
             north = "x"
         else:

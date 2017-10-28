@@ -57,6 +57,8 @@ function getData() {
         type: "POST",
         success: function(data){
             map = eval(data);
+            console.log(map);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawMap(map);
         }
     });

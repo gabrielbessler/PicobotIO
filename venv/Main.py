@@ -26,8 +26,9 @@ def join_game(game_num):
 
         #First, we create a map
         m = Map.Map("type1")
+        g = Game(m)
 
-        game_boards[game_num] = m
+        game_boards[game_num] = g
         Timer(1, update_data, [5, game_num]).start()
         return render_template("Game.html", score=[1,2,3])
     else:
@@ -44,13 +45,12 @@ def update_game(counter, game_num):
     game_boards[game_num].update()
     Timer(1, update_data, [counter - 1, game_num]).start()
 
-
 def printit():
     print("HELLO WORLD")
 
 @app.route('/get_map', methods=["POST"])
 def get_map():
-    return json.dumps(game_boards[0].getMap())
+    return json.dumps(game_boards[0].map.getMap())
 
 @app.route('/update_instructions', methods=["GET", "POST"])
 def get_instructions():
