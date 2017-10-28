@@ -117,8 +117,8 @@ def get_instructions():
     Updates the instructions for a given picobot
     '''
     L = request.get_json()
-    playerNum = L[0]
-    L = L[1:]
+    playerNum = int(L[0])
+    L = L[1:-1]
     print(playerNum)
     print(L)
     ruleList = []
