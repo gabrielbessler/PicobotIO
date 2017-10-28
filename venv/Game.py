@@ -2,13 +2,13 @@ import Picobot
 import Map
 
 class Game(object):
-    def __init__(bot1, bot2, map):
+    def __init__(self, bot1, bot2, map):
         """constructor for Game given two Picobots and a map"""
         self.bot1 = bot1
         self.bot2 = bot2
         self.map = map
-    
-    def update():
+
+    def update(self):
         """update the positions of the bots"""
         bot1Dir = bot1.getDirection(self.map.getSurroundings(bot1.x,bot1.y))
         bot2Dir = bot2.getDirection(self.map.getSurroundings(bot2.x,bot2.y))
