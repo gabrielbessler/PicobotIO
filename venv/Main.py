@@ -85,7 +85,7 @@ def get_instructions():
         i.replace(" ", "")
         if(i[0] != '[' or i[11] != ']'):
             return json.dumps("Start and end with square brackets.")
-        else if not (RepresentsInt(i[1]) and RepresentsInt(i[10])):
+        elif not (RepresentsInt(i[1]) and RepresentsInt(i[10])):
             return json.dumps("Current and next states must be ints.")
         else:
             directions = i[3:7] + [i[8]]
