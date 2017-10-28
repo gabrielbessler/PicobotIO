@@ -72,6 +72,7 @@ def get_instructions():
     Updates the instructions for a given picobot
     '''
     L = request.get_json()
+    ruleList = []
     for i in L:
         i.replace(" ", "")
         if(i[0] != '[' or i[11] != ']'):
@@ -82,16 +83,20 @@ def get_instructions():
             directions = i[3:7] + [i[8]]
             if not (isDirections(directions)):
                 return json.dumps("Use valid direction operators.")
+	ruleList.append([int(i[1]), i[3:7], i[8], int(i[10]))
+        game_boards[0].bot1.rules = ruleList
     return json.dumps("Your inputs are valid.")
 
 def isDirections(s):
-    if not(s[0] == "N" or s[0] == "*" or s[0] == "x"):
+    if not(s[0] == "_" or s[0] == "*" or s[0] == "x"):
         return False
-    else if not(s[1] == "S" or s[1] == "*" or s[1] == "x"):
+    elif not(s[1] == "_" or s[1] == "*" or s[1] == "x"):
         return False
-    else if not(s[2] == "E" or s[2] == "*" or s[2] == "x"):
+    elif not(s[2] == "_" or s[2] == "*" or s[2] == "x"):
         return False
-    else if not(s[3] == "W" or s[3] == "*" or s[3] == "x"):
+    elif not(s[3] == "_" or s[3] == "*" or s[3] == "x"):
+        return False
+    elif not(s[4] == "_" or s[4] == "_" or s[4] == "_" or s[4] == "_"):
         return False
     else:
         return True
