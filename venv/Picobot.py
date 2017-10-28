@@ -1,6 +1,6 @@
 # Picobot Class
 
-def Picobot(object):
+class Picobot(object):
 
     # constructor
     def __init__(self, L, rules):
@@ -18,4 +18,5 @@ def Picobot(object):
         return
 
 
-
+    def __repr__(self):
+        return "Picobot(" + str(self.color) + ")"
