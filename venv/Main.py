@@ -38,7 +38,10 @@ def join_game(game_num):
                 if games[game_num][1] == 1:
                     return render_template("waiting.html")
                 else:
-                    return render_template("Game.html", score=[0,GAME_TIME,0])
+                    if session["player_ID"] == game_players[game_num][0]:
+                        return render_template("Game.html", score=[0,GAME_TIME,0],player_num=1)
+                    else:
+                        return render_template("Game.html", score=[0,GAME_TIME,0],player_num=2)
             else:
                 return "Game Full...<a href='/'>go home.</a>"
         else:
@@ -61,7 +64,7 @@ def join_game(game_num):
                     games[game_num][1] += 1
                     session["player_ID"] = NUM_ID[0]
                     NUM_ID[0] += 1
-                    return render_template("Game.html", score=[0,GAME_TIME,0])
+                    return render_template("Game.html", score=[0,GAME_TIME,0], player_num=2)
             else:
                 return "Game Full...<a href='/'>go home.</a>"
 
