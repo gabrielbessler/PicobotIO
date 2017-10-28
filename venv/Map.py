@@ -14,8 +14,8 @@ class Map(object):
 
     # return map
     def getMap():
-        self.map[start1[0], start1[1]] = [1, Picobot(start1[2])]
-        self.map[start2[0], start2[1]] = [2, Picobot(start2[2])]
+        self.map[start1[0], start1[1]] = [1, Picobot(start1[2], [])]
+        self.map[start2[0], start2[1]] = [2, Picobot(start2[2], [])]
         # checkConsistent(self.map)
         return self.map
     
