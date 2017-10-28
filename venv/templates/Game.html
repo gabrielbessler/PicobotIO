@@ -36,13 +36,18 @@
         </h1>
     </canvas>
     <div>
-        <textarea id="pico_instructions" style="margin-left: 30px" rows="28" cols="75">
-            Input your picobot code here...
+        <center><h1>Rules</h1></center>
+        <textarea id="pico_instructions" style="margin-left: 30px" rows="15" cols="75">
+        Input your picobot code here...
 
-            Sample Code:
-            state[n] input[NSEW] output[dir] goto_state[n2]
+        Sample Code:
+        state[n] input[NSEW] output[dir] goto_state[n2]
         </textarea><br>
-        <input type="button" value="Submit Changes" style="position: relative; left: 135px" onclick="submit()"></input>
+        <input type="button" value="Submit Changes" style="position: relative; left: 135px" onclick="submit()"></input><br>
+        <center><h2>Errors</h2></center>
+        <textarea id="pico_instructions" style="margin-left: 30px" rows="5" cols="75">
+        Your rules are valid.
+        </textarea>
     </div>
 
     <script src="/static/Main.js"></script>
