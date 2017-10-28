@@ -32,6 +32,20 @@ def join_game(game_num):
     '''
     if game_num >= len(games):
         abort(404)
+<<<<<<< HEAD
+=======
+    games[game_num][1] += 1
+    if games[game_num][1] == 2:
+
+        #First, we create a map
+        m = Map.Map("diamond")
+        g = Game(m)
+
+        game_boards[game_num] = g
+        game_timers[0] = 5
+        Timer(1, update_data, [5, game_num]).start()
+        return render_template("Game.html", score=[0,GAME_TIME,0])
+>>>>>>> 44119aa49c9b1562bf6153da768d10a98a53e8f6
     else:
         if "player_ID" in session:
             if session["player_ID"] == game_players[game_num][0] or session["player_ID"] == game_players[game_num][1]:
