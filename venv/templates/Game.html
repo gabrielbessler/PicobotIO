@@ -37,7 +37,12 @@
         </h1>
     </canvas>
     <div>
-        <center><h1>Rules (Player Number {{ player_num }})</h1></center>
+        {% if player_num == 1 %}
+            <center><h1 style="color: red">Rules (Player {{ player_num }})</h1></center>
+        {% else %}
+            <center><h1 style="color: blue">Rules (Player {{ player_num }})</h1></center>
+        {% endif %}
+
         <textarea id="pico_instructions" style="margin-left: 30px" rows="15" cols="75">
         Input your picobot code here...
 
