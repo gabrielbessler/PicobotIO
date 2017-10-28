@@ -8,8 +8,8 @@ class Map():
 
     # map constructor with type
     def __init__(self, mapType):
-        self.start1 = [1,1,1]
-        self.start2 = [18, 18, 2]
+        self.start1 = 0
+        self.start2 = 0
         self.map = self.generate(mapType)
         self.p1 = Picobot(self.start1, [])
         self.p2 = Picobot(self.start2, [])
@@ -31,6 +31,8 @@ class Map():
             for i in range(8, 12):
                 for j in range(8, 12):
                     board[i][j] = w
+            self.start1 = [1, 1, 1]
+            self.start2 = [18,18, 2]
         if mapType == "random":
             for i in range(size):
                 for j in range(size):
@@ -39,17 +41,34 @@ class Map():
                         board[i][j] = w
         if mapType == "diamond":
             for i in range(1, 9):
-                for j in range(10-2):
+                for j in range(1, 10-i):
                     board[i][j] = w
                     board[19 - i][j] = w
                     board[i][19 - j] = w
                     board[19- i][19 - j] = w
             self.start1 = [1, 9, 1]
             self.start2 = [18, 10, 2]
+
+        if mapType == "islands":
+            for i in range(3, 7):
+                for j in range(3, 7):
+                    board[i][j] = w
+            for i in range(13, 17):
+                for j in range(13, 17):
+                    board[i][j] = w
+            for i in range(13, 17):
+                for j in range(3,7):
+                    board[i][j] = w
+            for i in range(3, 7):
+                for j in range(13, 17):
+                    board[i][j] = w
+            self.start1 = [1, 9, 1]
+            self.start2 = [19, 9, 2]
         return board
 
     # return a string with the surroundings
     def getSurroundings(self, xPos, yPos):
+
         if self.map[yPos-1][xPos][1] == "Wall()":
             north = "x"
         else:

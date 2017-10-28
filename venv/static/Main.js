@@ -49,7 +49,7 @@ function startGame() {
 interval = setInterval(function() {
     getScore();
     a = getData();
-}, 200);
+}, 400);
 
 function getData() {
     $.ajax({
@@ -57,7 +57,6 @@ function getData() {
         type: "POST",
         success: function(data){
             if ( data == "poop" ) {
-                console.log("hello");
                 clearInterval(interval);
                 return -1
             } else {
@@ -79,7 +78,10 @@ function getScore() {
 
             } else if (data == -1) {
                 document.getElementById("timer").innerHTML = 0 + " s";
-                if (data[2] > data[0]) {
+                if (data[2] == data[0]) {
+                    document.getElementById("score1").innerHTML = "TIE";
+                    document.getElementById("score2").innerHTML = "TIE";
+                } else if (data[2] < data[0]) {
                     document.getElementById("score1").innerHTML = "WINNER";
                     document.getElementById("score2").innerHTML = "LOSER";
                 } else {
@@ -138,15 +140,16 @@ function drawMap(map) {
 }
 
 function submit() {
+    playerNum = document.getElementById('player_num').getAttribute('val');
     inst = document.getElementById('pico_instructions').value.split('\n');
     $.ajax({
         url: "/update_instructions",
         type: "POST",
         dataType: "json",
         contentType: 'application/json; charset=UTF-8',
-        data: JSON.stringify(inst),
+        data: JSON.stringify(playerNum + inst) ,
         success: function(data){
-            //console.log("N/A");
+            document.getElementById("pico_errors").innerHTML = data;
         }
     });
 }

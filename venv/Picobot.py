@@ -7,7 +7,6 @@ class Picobot(object):
         self.xPos = L[0]
         self.yPos = L[1]
         self.color = L[2]
-        rules = [[0, "_xx_", "N", 0],[0, "__x_", "N", 0], [0, "x_x_", "W", 1], [1, "x___", "S", 2], [2, "____", "S", 2]]
         self.ruleList = rules
         self.currentState = 0
 
@@ -22,7 +21,6 @@ class Picobot(object):
                     self.currentState = rule[3]
                     return rule[2]
         return
-
 
     def __repr__(self):
         return "Picobot(" + str(self.color) + ")"
