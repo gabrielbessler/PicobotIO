@@ -49,7 +49,6 @@ class Map():
             self.start1 = [1, 9, 1]
             self.start2 = [18, 10, 2]
 
-
         if mapType == "islands":
             for i in range(3, 7):
                 for j in range(3, 7):

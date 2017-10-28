@@ -49,7 +49,7 @@ function startGame() {
 interval = setInterval(function() {
     getScore();
     a = getData();
-}, 200);
+}, 400);
 
 function getData() {
     $.ajax({
@@ -57,7 +57,6 @@ function getData() {
         type: "POST",
         success: function(data){
             if ( data == "poop" ) {
-                console.log("hello");
                 clearInterval(interval);
                 return -1
             } else {

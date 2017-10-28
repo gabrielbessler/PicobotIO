@@ -131,7 +131,6 @@ def get_instructions():
             directions = i[4:8] + i[11]
             if not (isDirections(directions)):
                 return json.dumps("Use valid direction operators.")
-            print("got to here")
 
             ruleList.append([int(i[1]), i[4:8], i[11], int(i[14])])
     if playerNum == 1:
