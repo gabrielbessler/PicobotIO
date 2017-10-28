@@ -15,7 +15,7 @@ GAME_TIME = 60
 def index():
     '''
     '''
-    return render_template("Main.html", games = [[0,1], [1,2], [2,0]])
+    return render_template("Main.html", games = games)
 
 @app.route('/game/<int:game_num>')
 def join_game(game_num):
@@ -58,7 +58,7 @@ def update_game(counter, game_num):
     '''
     game_timers[0] = counter
     game_boards[game_num].update()
-    Timer(1, update_game, [counter - 1, game_num]).start()
+    Timer(.5, update_game, [counter - .5, game_num]).start()
 
 @app.route('/get_map', methods=["POST"])
 def get_map():
