@@ -141,7 +141,6 @@ function submit() {
     playerNum = document.getElementById('player_num').getAttribute('val');
     inst = [playerNum];
     inst += document.getElementById('pico_instructions').value.split('\n');
-    console.log(inst);
     $.ajax({
         url: "/update_instructions",
         type: "POST",
@@ -149,8 +148,7 @@ function submit() {
         contentType: 'application/json; charset=UTF-8',
         data: JSON.stringify(playerNum + inst),
         success: function(data){
-            console.log(data)
-
+            console.log(data);
         }
     });
 }

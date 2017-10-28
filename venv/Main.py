@@ -117,6 +117,7 @@ def get_instructions():
     Updates the instructions for a given picobot
     '''
     L = request.get_json()
+    print(L)
     ruleList = []
     for i in L:
         i.replace(" ", "")
