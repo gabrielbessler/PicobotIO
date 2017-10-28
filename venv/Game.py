@@ -29,6 +29,7 @@ class Game(object):
             self.map.map[self.bot1.yPos][self.bot1.xPos] = [1,0]
             self.bot1.xPos -= 1
             self.map.map[self.bot1.yPos][self.bot1.xPos][1] = self.bot1
+
         if bot2Dir == 'N':
             self.map.map[self.bot2.yPos][self.bot2.xPos] = [2,0]
             self.bot2.yPos -= 1

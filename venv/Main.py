@@ -135,7 +135,7 @@ def get_instructions():
 
             ruleList.append([int(i[1]), i[4:8], i[11], int(i[14])])
     print(ruleList)
-    game_boards[0].bot2.rules = ruleList
+    game_boards[0].bot2.ruleList = ruleList
     print(game_boards[0].bot2)
     return json.dumps("Your inputs are valid.")
 
