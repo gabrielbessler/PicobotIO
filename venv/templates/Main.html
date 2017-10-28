@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Pico.io</title>
+
+  <link rel="stylesheet" href="Main.css">
+
+</head>
+<header>
+    <h1>
+        Multiplayer Picobot Game - Lobby
+    </h1>
+</header>
+
+<body>
+
+    <title> Picoio</title>
+    <ul>
+    {% for game in games %}
+        <li>
+            <canvas id="myCanvas" width="600" height="100" style="border:1px solid #000000;">
+                <h1> Game Number {{game[0]}}: {{game[1]}} players in game.</h1>
+                {% if game[1] == 2 %}
+                    <a href = "/game/{{game[0]}}">
+                        <input type = "button" class = "btn btn-default" value = "Full"><input>
+                    </a>
+                {% else %}
+                    <a href = "/game/{{game[0]}}">
+                        <input type = "button" class = "btn btn-success" value = "Join Game"> </input>
+                    </a>
+                {% endif %}
+            </canvas>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <script src="Main.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+</body>
+</html>
+
