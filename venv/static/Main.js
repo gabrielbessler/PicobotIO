@@ -78,7 +78,10 @@ function getScore() {
 
             } else if (data == -1) {
                 document.getElementById("timer").innerHTML = 0 + " s";
-                if (data[2] < data[0]) {
+                if (data[2] == data[0]) {
+                    document.getElementById("score1").innerHTML = "TIE";
+                    document.getElementById("score2").innerHTML = "TIE";
+                } else if (data[2] > data[0]) {
                     document.getElementById("score1").innerHTML = "WINNER";
                     document.getElementById("score2").innerHTML = "LOSER";
                 } else {
