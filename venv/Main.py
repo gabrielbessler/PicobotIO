@@ -1,11 +1,15 @@
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, request, abort, session, os
 import json
 import Map
 from Game import Game
 from Picobot import Picobot
 from threading import Timer
-app = Flask(__name__)
 
+app = Flask(__name__)
+app.secret_key = os.urandom(24) #used for user sessions
+num_users = 0
+
+# Stores all of the game information
 games = [[0, 0], [1, 0], [2, 0]]
 game_boards = {}
 game_timers = {}
@@ -14,6 +18,7 @@ GAME_TIME = 5
 @app.route('/')
 def index():
     '''
+    Main lobby/waiting screen
     '''
     return render_template("Main.html", games = games)
 
@@ -36,7 +41,7 @@ def join_game(game_num):
         Timer(1, update_data, [5, game_num]).start()
         return render_template("Game.html", score=[0,GAME_TIME,0])
     else:
-        return "loading..."
+        return render_template("waiting.html")
 
 @app.route('/get_score', methods=["POST"])
 def get_score():
@@ -50,6 +55,7 @@ def get_score():
 
 def update_data(counter, game_num):
     '''
+    Countdown before the game actually starts
     '''
     game_timers[0] = counter
     if counter <= 0:
@@ -59,6 +65,7 @@ def update_data(counter, game_num):
 
 def update_game(counter, game_num):
     '''
+    Countdown and update the game until the game ends
     '''
     if counter <= 0:
         game_boards[game_num] = -1
@@ -71,6 +78,7 @@ def update_game(counter, game_num):
 @app.route('/get_map', methods=["POST"])
 def get_map():
     '''
+
     '''
     if len(game_boards) >= 1:
         if game_boards[0] == -1:
@@ -101,6 +109,8 @@ def get_instructions():
     return json.dumps("Your inputs are valid.")
 
 def isDirections(s):
+    '''
+    '''
     if not(s[0] == "_" or s[0] == "*" or s[0] == "x"):
         return False
     elif not(s[1] == "_" or s[1] == "*" or s[1] == "x"):
@@ -115,6 +125,8 @@ def isDirections(s):
         return True
 
 def RepresentsInt(s):
+    '''
+    '''
     try:
         int(s)
         return True
@@ -132,5 +144,6 @@ def create_new_game():
 @app.errorhandler(404)
 def page_not_found(e):
     '''
+    Displays a "page not found" error for 404 errors
     '''
     return render_template('404.html')
