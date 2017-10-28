@@ -149,7 +149,7 @@ def isDirections(s):
         return False
     elif not(s[3] == "_" or s[3] == "*" or s[3] == "x"):
         return False
-    elif not(s[4] == "_" or s[4] == "_" or s[4] == "_" or s[4] == "_"):
+    elif not(s[4] == "N" or s[4] == "S" or s[4] == "W" or s[4] == "E"):
         return False
     else:
         return True
