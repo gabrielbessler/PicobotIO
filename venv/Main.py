@@ -4,6 +4,7 @@ import Map
 app = Flask(__name__)
 
 games = [[0,0], [1,0], [2,0]]
+game_boards = {}
 
 @app.route('/')
 def index():
@@ -17,9 +18,14 @@ def join_game(game_num):
     games[game_num][1] += 1
     if games[game_num][1] == 2:
         m = Map.Map("type1")
-        return render_template("Game.html", board=m.getMap())
+        game_boards[game_num] = m
+        return render_template("Game.html", score="[1,2,3]")
     else:
         return "loading..."
+
+@app.route('/get_map', methods=["POST"])
+def get_map():
+    return json.dumps(game_boards[0].getMap())
 
 @app.route('/update_instructions', methods=["GET", "POST"])
 def get_instructions():

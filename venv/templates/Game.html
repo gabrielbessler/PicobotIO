@@ -12,7 +12,15 @@
 </head>
 
 <body>
-    <span id="data" val="{{ board }}"></span>
+    <center><table class = "table-bordered">
+        <tbody>
+            <tr>
+                <td>{{score[0]}</td>
+                <td>:{{score[1]}}</td>
+                <td>{{score[2]}}</td>
+            </tr>
+        </tbody>
+    </table></center>
     <canvas id="canvas" width="600" height="600" style="float: left; border:1px solid #000000;">
         <h1>
             Canvas not supported

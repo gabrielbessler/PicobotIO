@@ -6,6 +6,7 @@ var loadedImages = 0;
 var bluepico;
 var redpico;
 var item;
+var map;
 getImages();
 
 function getImages() {
@@ -42,16 +43,25 @@ function getImages() {
 }
 
 function startGame() {
-    drawMap(sampleMap);
-    console.log(sampleMap);
     getData();
-    //drawMap(sampleMap);
+    drawMap(sampleMap);
 }
 
-function getData() {
+setInterval(function() {
+    getData();
 
-    //s = eval(document.getElementById("data").getAttribute('val'));
-    //sampleMap = s;
+}, 2000);
+
+function getData() {
+    $.ajax({
+        url: "/get_map",
+        type: "POST",
+        success: function(data){
+            console.log(data);
+            drawMap();
+        }
+    });
+    return 0;
 }
 
 function drawMap(map) {
