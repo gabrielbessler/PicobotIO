@@ -138,8 +138,8 @@ function drawMap(map) {
 }
 
 function submit() {
-    inst = [playerNum]
     playerNum = document.getElementById('player_num').getAttribute('val');
+    inst = [playerNum];
     inst += document.getElementById('pico_instructions').value.split('\n');
     console.log(inst);
     $.ajax({
