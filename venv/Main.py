@@ -50,7 +50,7 @@ def update_data(counter, game_num):
     '''
     '''
     game_timers[0] = counter
-    if counter == 0:
+    if counter <= 0:
         Timer(1, update_game, [GAME_TIME, game_num]).start()
     else:
         Timer(1, update_data, [counter - 1, game_num]).start()
