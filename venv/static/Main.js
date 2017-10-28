@@ -48,8 +48,8 @@ function startGame() {
 
 setInterval(function() {
     getData();
-
-}, 2000);
+    getScore();
+}, 1000);
 
 function getData() {
     $.ajax({
@@ -57,9 +57,20 @@ function getData() {
         type: "POST",
         success: function(data){
             map = eval(data);
-            console.log(map);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawMap(map);
+        }
+    });
+    return 0;
+}
+
+function getScore() {
+    $.ajax({
+        url: "/get_score",
+        type: "POST",
+        success: function(data){
+            data = eval(data);
+            document.getElementById("timer").innerHTML = data[1] + " s";
         }
     });
     return 0;

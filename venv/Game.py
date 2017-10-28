@@ -60,6 +60,7 @@ class Game(object):
                     self.map.map[x][y][0] = 2
                     self.map.map[x][y-1][0] = 0
                     self.map.map[x][y-1][1] = self.bot2
+        print(self.map.map)
 
     # scoring function
     def getScore(self):

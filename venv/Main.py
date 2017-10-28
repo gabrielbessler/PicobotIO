@@ -9,9 +9,12 @@ app = Flask(__name__)
 games = [[0,0], [1,0], [2,0]]
 game_boards = {}
 game_timers = {}
+GAME_TIME = 60
 
 @app.route('/')
 def index():
+    '''
+    '''
     return render_template("Main.html", games = [[0,1], [1,2], [2,0]])
 
 @app.route('/game/<int:game_num>')
@@ -29,27 +32,37 @@ def join_game(game_num):
         g = Game(m)
 
         game_boards[game_num] = g
+        game_timers[0] = 5
         Timer(1, update_data, [5, game_num]).start()
-        return render_template("Game.html", score=[1,2,3])
+        return render_template("Game.html", score=[0,GAME_TIME,0])
     else:
         return "loading..."
 
+@app.route('/get_score', methods=["POST"])
+def get_score():
+    return json.dumps([0,game_timers[0],0])
+
 def update_data(counter, game_num):
+    '''
+    '''
+    game_timers[0] = counter
     print(counter, game_num)
     if counter == 0:
-        Timer(1, update_game, [60, game_num]).start()
+        Timer(1, update_game, [GAME_TIME, game_num]).start()
     else:
         Timer(1, update_data, [counter - 1, game_num]).start()
 
 def update_game(counter, game_num):
+    '''
+    '''
+    game_timers[0] = counter
     game_boards[game_num].update()
     Timer(1, update_data, [counter - 1, game_num]).start()
 
-def printit():
-    print("HELLO WORLD")
-
 @app.route('/get_map', methods=["POST"])
 def get_map():
+    '''
+    '''
     return json.dumps(game_boards[0].map.getMap())
 
 @app.route('/update_instructions', methods=["GET", "POST"])
@@ -72,4 +85,6 @@ def create_new_game():
 
 @app.errorhandler(404)
 def page_not_found(e):
+    '''
+    '''
     return render_template('404.html')
