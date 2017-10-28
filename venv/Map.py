@@ -65,6 +65,11 @@ class Map(object):
     def getSize(self):
         return this.size
 
+    # returns the map
+    def getMap(self):
+        return self.map
+
+
     # check consistent map
     '''
     def checkConsistent(map):
