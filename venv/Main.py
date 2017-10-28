@@ -58,7 +58,7 @@ def update_data(counter, game_num):
 def update_game(counter, game_num):
     '''
     '''
-    if counter == 0:
+    if counter <= 0:
         game_boards[game_num] = -1
         games[game_num][1] = 0
     else:
