@@ -86,4 +86,18 @@ function drawMap(map) {
     }
 }
 
+function submit() {
+    inst = document.getElementById('pico_instructions').value.split('\n');
+    console.log(inst);
+    $.ajax({
+        url: "/update_instructions.html",
+        type: "POST",
+        dataType: "json",
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify("hello world"),
+        success: function(data){
+            console.log(data);
+        }
+    });
+}
 sampleMap = [[[1,"Wall()"],[0,"Player(1)"],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0]], [[0,0],[2,0],[0,"Item()"]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,"Player(2)"],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]]];

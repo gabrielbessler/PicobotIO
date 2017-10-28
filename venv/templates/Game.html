@@ -21,15 +21,15 @@
         </h1>
     </canvas>
     <div>
-        <textarea style="margin-left: 10px;" rows="30" cols="50">
+        <textarea id="pico_instructions" style="margin-left: 10px;" rows="30" cols="75">
             Input your picobot code here...\n
 
             Sample Code:
             state[n] input[NSEW] output[dir] goto_state[n2]
-        </textarea>
+        </textarea><br>
+        <input type="button" value="Submit Changes" style="position: relative; left: 135px" onclick="submit()"></input>
     </div>
 
-    <input type="button" value="Submit Changes"></input>
     <script src="/static/Main.js"></script>
 </body>
 </html>

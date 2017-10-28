@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 app = Flask(__name__)
-import Map
+#import Map
 
 @app.route('/')
 def index():
@@ -11,5 +11,12 @@ def join_game(game_num):
     '''
     Join game number <game_num> given in the URL
     '''
-    m = Map.Map("type1")
+    #m = Map.Map("type1")
     return render_template("Game.html")
+
+@app.route('/update_instructions', methods=["POST"])
+def get_instructions():
+    '''
+    Updates the instructions for a given picobot
+    '''
+    return 0
