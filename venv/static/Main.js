@@ -138,15 +138,16 @@ function drawMap(map) {
 }
 
 function submit() {
+    playerNum = document.getElementById('player_num').getAttribute('val');
     inst = document.getElementById('pico_instructions').value.split('\n');
     $.ajax({
         url: "/update_instructions",
         type: "POST",
         dataType: "json",
         contentType: 'application/json; charset=UTF-8',
-        data: JSON.stringify(inst),
+        data: JSON.stringify("[" + playerNum + "]," + inst),
         success: function(data){
-            //console.log("N/A");
+            console.log(data);
         }
     });
 }

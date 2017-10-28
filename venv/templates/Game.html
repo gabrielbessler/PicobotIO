@@ -13,6 +13,7 @@
 </head>
 
 <body style = "padding-left: 30px; padding-right: 30px">
+    <span id="player_num" val="{{ player_num }}"></span>
     <div class="bs-example">
         <table class="table">
             <thead>
@@ -37,12 +38,17 @@
         </h1>
     </canvas>
     <div>
-        <center><h1>Rules (Player Number {{ player_num }})</h1></center>
-        <textarea id="pico_instructions" style="margin-left: 30px" rows="15" cols="75">
-        Input your picobot code here...
+        {% if player_num == 1 %}
+            <center><h1 style="color: red">Rules (Player {{ player_num }})</h1></center>
+        {% else %}
+            <center><h1 style="color: blue">Rules (Player {{ player_num }})</h1></center>
+        {% endif %}
 
-        Sample Code:
-        [0, _xx_, N, 1]
+        <textarea id="pico_instructions" style="margin-left: 30px" rows="15" cols="75">
+Input your picobot code here...
+
+Sample Code:
+[0, _xx_, N, 1]
         </textarea><br>
         <input type="button" value="Submit Changes" style="position: relative; left: 135px" onclick="submit()"></input><br>
         <center><h2>Errors</h2></center>
