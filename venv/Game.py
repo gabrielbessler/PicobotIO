@@ -4,9 +4,9 @@ import Map
 class Game(object):
     def __init__(bot1, bot2, map):
         """constructor for Game given two Picobots and a map"""
-        self.bot1 = bot1;
-        self.bot2 = bot2;
-        self.map = map;
+        self.bot1 = bot1
+        self.bot2 = bot2
+        self.map = map
     
     def update():
         """update the positions of the bots"""
@@ -61,4 +61,14 @@ class Game(object):
                     self.map.map[x][y-1][0] = 0
                     self.map.map[x][y-1][1] = bot2
 
-
+    # scoring function
+    def getScore(self):
+        score1 = 0
+        score2 = 0
+        for x in range(20):
+            for y in range(20):
+                if self.map.map[x][y][0] == 1:
+                    score1 += 1
+                if self.map.map[x][y][0] == 2:
+                    score2 += 1
+        return [score1, score2]

@@ -63,12 +63,15 @@ class Map(object):
 
     # return the map's size
     def getSize(self):
-        return this.size
+        return self.size
 
     # returns the map
     def getMap(self):
-        return self.map
-
+        tempMap = self.map
+        for i in range(20):
+            for j in range(20):
+                tempMap[i][j][1] = str(self.map[i][j][1])
+        return tempMap
 
     # check consistent map
     '''
