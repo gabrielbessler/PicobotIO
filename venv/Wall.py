@@ -1,6 +1,6 @@
 # wall class 
 
-def Wall(object):
+def Wall():
 
     def __init__(self):
         pass
