@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, abort, session, os
+from flask import Flask, render_template, request, abort, session
+import os
 import json
 import Map
 from Game import Game
