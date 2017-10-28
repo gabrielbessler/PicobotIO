@@ -11,23 +11,32 @@
 
 </head>
 
-<body>
-    <center><table class = "table-bordered">
-        <tbody>
-            <tr>
-                <td>{{score[0]}}</td>
-                <td>{{score[1]}}</td>
-                <td>{{score[2]}}</td>
-            </tr>
-        </tbody>
-    </table></center>
+<body style = "padding-left: 30px; padding-right: 30px">
+    <div class="bs-example">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class = "text-center">Blue Score</th>
+                    <th class = "text-center">Time Remaining</th>
+                    <th class = "text-center">Red Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class = "info text-center" style="font-weight:bold">{{score[0]}}</td>
+                    <td class = "text-center" style="font-weight:bold">:{{score[1]}}</td>
+                    <td class = "danger text-center" style="font-weight:bold">{{score[2]}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <canvas id="canvas" width="600" height="600" style="float: left; border:1px solid #000000;">
         <h1>
             Canvas not supported
         </h1>
     </canvas>
     <div>
-        <textarea id="pico_instructions" style="margin-left: 10px;" rows="30" cols="75">
+        <textarea id="pico_instructions" style="margin-left: 30px" rows="28" cols="75">
             Input your picobot code here...
 
             Sample Code:
