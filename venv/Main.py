@@ -8,13 +8,15 @@ from threading import Timer
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24) #used for user sessions
-num_users = 0
 
 # Stores all of the game information
 games = [[0, 0], [1, 0], [2, 0]]
+game_players = {}
 game_boards = {}
 game_timers = {}
-GAME_TIME = 5
+GAME_TIME = 60
+STARTUP_TIME = 5
+NUM_ID = [0]
 
 @app.route('/')
 def index():
@@ -30,19 +32,38 @@ def join_game(game_num):
     '''
     if game_num >= len(games):
         abort(404)
-    games[game_num][1] += 1
-    if games[game_num][1] == 2:
-
-        #First, we create a map
-        m = Map.Map("type1")
-        g = Game(m)
-
-        game_boards[game_num] = g
-        game_timers[0] = 5
-        Timer(1, update_data, [5, game_num]).start()
-        return render_template("Game.html", score=[0,GAME_TIME,0])
     else:
-        return render_template("waiting.html")
+        if "player_ID" in session:
+            if session["player_ID"] == game_players[game_num][0] or session["player_ID"] == game_players[game_num][1]:
+                if games[game_num][1] == 1:
+                    return render_template("waiting.html")
+                else:
+                    return render_template("Game.html", score=[0,GAME_TIME,0])
+            else:
+                return "Game Full...<a href='/'>go home.</a>"
+        else:
+            # first, we check how many players are in the game
+            if games[game_num][1] < 2:
+                #if it's less than 2, we want to add a new player
+                if games[game_num][1] == 0:
+                    game_players[game_num] = [NUM_ID[0]]
+                    games[game_num][1] += 1
+                    session["player_ID"] = NUM_ID[0]
+                    NUM_ID[0] += 1
+                    return render_template("waiting.html")
+                else:
+                    game_players[game_num].append(NUM_ID[0])
+                    m = Map.Map("type1")
+                    g = Game(m)
+                    game_boards[game_num] = g
+                    game_timers[0] = STARTUP_TIME
+                    Timer(1, update_data, [STARTUP_TIME, game_num]).start()
+                    games[game_num][1] += 1
+                    session["player_ID"] = NUM_ID[0]
+                    NUM_ID[0] += 1
+                    return render_template("Game.html", score=[0,GAME_TIME,0])
+            else:
+                return "Game Full...<a href='/'>go home.</a>"
 
 @app.route('/get_score', methods=["POST"])
 def get_score():
@@ -79,7 +100,7 @@ def update_game(counter, game_num):
 @app.route('/get_map', methods=["POST"])
 def get_map():
     '''
-
+    Returns a text representation of the map to the user
     '''
     if len(game_boards) >= 1:
         if game_boards[0] == -1:
