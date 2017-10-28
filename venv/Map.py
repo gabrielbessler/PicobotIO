@@ -48,8 +48,8 @@ class Map():
                     board[19- i][19 - j] = w
             self.start1 = [1, 9, 1]
             self.start2 = [18, 10, 2]
-	    
-	    
+
+
         if mapType == "islands":
             for i in range(3, 7):
                 for j in range(3, 7):
@@ -69,6 +69,7 @@ class Map():
 
     # return a string with the surroundings
     def getSurroundings(self, xPos, yPos):
+
         if self.map[yPos-1][xPos][1] == "Wall()":
             north = "x"
         else:

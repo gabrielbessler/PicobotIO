@@ -118,18 +118,17 @@ def get_instructions():
     '''
     L = request.get_json()
     playerNum = int(L[0])
-    L = L[1:-1]
-    print(playerNum)
-    print(L)
+    L = eval("[" + L[1:] + "]")
     ruleList = []
     for i in L:
+        i = str(i)
         i.replace(" ", "")
         if(i[0] != '[' or i[11] != ']'):
             return json.dumps("Start and end with square brackets.")
         elif not (RepresentsInt(i[1]) and RepresentsInt(i[10])):
             return json.dumps("Current and next states must be ints.")
         else:
-            directions = i[3:7] + [i[8]]
+            directions = i[3:7] + i[8]
             if not (isDirections(directions)):
                 return json.dumps("Use valid direction operators.")
     for i in L:
