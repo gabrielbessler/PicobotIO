@@ -105,7 +105,7 @@ def isDirections(s):
         return True
 
 def RepresentsInt(s):
-    try: 
+    try:
         int(s)
         return True
     except ValueError:
