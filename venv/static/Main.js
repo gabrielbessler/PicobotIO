@@ -56,8 +56,9 @@ function getData() {
         url: "/get_map",
         type: "POST",
         success: function(data){
-            map = data;
+            map = eval(data);
             console.log(map);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawMap(map);
         }
     });
@@ -95,9 +96,9 @@ function drawMap(map) {
                 ctx.fillRect(xpos, ypos, COL_WIDTH, ROW_WIDTH);
             } else if(currSquare[1] == "Item()") {
                 ctx.drawImage(item, xpos, ypos);
-            } else if(currSquare[1] == "Player(1)") {
+            } else if(currSquare[1] == "Picobot(1)") {
                 ctx.drawImage(bluepico, xpos, ypos);
-            } else if(currSquare[1] == "Player(2)") {
+            } else if(currSquare[1] == "Picobot(2)") {
                 ctx.drawImage(redpico, xpos, ypos);
             }
         }
@@ -117,5 +118,5 @@ function submit() {
         }
     });
 }
-sampleMap = [[[1,"Wall()"],[0,"Player(1)"],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0],[2,0]], [[0,0],[2,0],[0,"Item()"]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,"Player(2)"],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]], [[2,0],[1,0],[0,0]]];
+sampleMap = [];
 

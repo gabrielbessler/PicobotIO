@@ -1,6 +1,6 @@
 # Picobot Class
 
-def Picobot(object):
+class Picobot(object):
 
     # constructor
     def __init__(self, L, rules):
@@ -11,11 +11,12 @@ def Picobot(object):
         self.currentState = 0
 
     def getDir(self, surroundings):
-        for rule in ruleList:
+        for rule in self.ruleList:
             if self.currentState == rule[0] and surroundings == rule[1]:
                 self.currentState = rule[3]
                 return rule[2]
         return
 
 
-
+    def __repr__(self):
+        return "Picobot(" + str(self.color) + ")"

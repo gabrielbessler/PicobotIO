@@ -1,10 +1,14 @@
 from flask import Flask, render_template, request, abort
 import json
 import Map
+from Game import Game
+from Picobot import Picobot
+from threading import Timer
 app = Flask(__name__)
 
 games = [[0,0], [1,0], [2,0]]
 game_boards = {}
+game_timers = {}
 
 @app.route('/')
 def index():
@@ -19,15 +23,34 @@ def join_game(game_num):
         abort(404)
     games[game_num][1] += 1
     if games[game_num][1] == 2:
+
+        #First, we create a map
         m = Map.Map("type1")
-        game_boards[game_num] = m
+        g = Game(m)
+
+        game_boards[game_num] = g
+        Timer(1, update_data, [5, game_num]).start()
         return render_template("Game.html", score=[1,2,3])
     else:
         return "loading..."
 
+def update_data(counter, game_num):
+    print(counter, game_num)
+    if counter == 0:
+        Timer(1, update_game, [60, game_num]).start()
+    else:
+        Timer(1, update_data, [counter - 1, game_num]).start()
+
+def update_game(counter, game_num):
+    game_boards[game_num].update()
+    Timer(1, update_data, [counter - 1, game_num]).start()
+
+def printit():
+    print("HELLO WORLD")
+
 @app.route('/get_map', methods=["POST"])
 def get_map():
-    return json.dumps(game_boards[0].getMap())
+    return json.dumps(game_boards[0].map.getMap())
 
 @app.route('/update_instructions', methods=["GET", "POST"])
 def get_instructions():
