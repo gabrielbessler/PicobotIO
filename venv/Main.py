@@ -9,7 +9,7 @@ app = Flask(__name__)
 games = [[0,0], [1,0], [2,0]]
 game_boards = {}
 game_timers = {}
-GAME_TIME = 60
+GAME_TIME = 5
 
 @app.route('/')
 def index():
@@ -40,9 +40,11 @@ def join_game(game_num):
 
 @app.route('/get_score', methods=["POST"])
 def get_score():
+    if game_boards[0] == -1:
+        return json.dumps(-1)
     score = game_boards[0].getScore()
-
     return json.dumps([score[1],game_timers[0],score[0]])
+
 
 def update_data(counter, game_num):
     '''
@@ -56,14 +58,20 @@ def update_data(counter, game_num):
 def update_game(counter, game_num):
     '''
     '''
-    game_timers[0] = counter
-    game_boards[game_num].update()
-    Timer(.5, update_game, [counter - .5, game_num]).start()
+    if counter == 0:
+        game_boards[game_num] = -1
+        games[game_num][1] = 0
+    else:
+        game_timers[0] = counter
+        game_boards[game_num].update()
+        Timer(.5, update_game, [counter - .5, game_num]).start()
 
 @app.route('/get_map', methods=["POST"])
 def get_map():
     '''
     '''
+    if game_boards[0] == -1:
+        return "poop"
     return json.dumps(game_boards[0].map.getMap())
 
 @app.route('/update_instructions', methods=["GET", "POST"])

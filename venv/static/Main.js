@@ -46,9 +46,9 @@ function startGame() {
     getData();
 }
 
-setInterval(function() {
-    getData();
+interval = setInterval(function() {
     getScore();
+    a = getData();
 }, 200);
 
 function getData() {
@@ -56,9 +56,15 @@ function getData() {
         url: "/get_map",
         type: "POST",
         success: function(data){
-            map = eval(data);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawMap(map);
+            if ( data == "poop" ) {
+                console.log("hello");
+                clearInterval(interval);
+                return -1
+            } else {
+                map = eval(data);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawMap(map);
+            }
         }
     });
     return 0;
@@ -69,8 +75,21 @@ function getScore() {
         url: "/get_score",
         type: "POST",
         success: function(data){
-            data = eval(data);
-            document.getElementById("timer").innerHTML = data[1] + " s";
+            if (data == -1) {
+                document.getElementById("timer").innerHTML = 0 + " s";
+                if (data[2] > data[0]) {
+                    document.getElementById("score1").innerHTML = "WINNER";
+                    document.getElementById("score2").innerHTML = "LOSER";
+                } else {
+                    document.getElementById("score1").innerHTML = "LOSER";
+                    document.getElementById("score2").innerHTML = "WINNER";
+                }
+            } else {
+                data = eval(data);
+                document.getElementById("timer").innerHTML = data[1] + " s";
+                document.getElementById("score1").innerHTML = data[2] + " points";
+                document.getElementById("score2").innerHTML = data[0] + " points";
+            }
         }
     });
     return 0;
