@@ -1,6 +1,5 @@
 # item class
 
-def Item(object):
-
+def Item():
     def __init__(self, itemId):
         self.type = itemId
