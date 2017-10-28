@@ -56,7 +56,9 @@ function getData() {
         url: "/get_map",
         type: "POST",
         success: function(data){
-            drawMap();
+            map = data;
+            console.log(map);
+            drawMap(map);
         }
     });
     return 0;
