@@ -6,7 +6,7 @@ from Picobot import Picobot
 from threading import Timer
 app = Flask(__name__)
 
-games = [[0,0], [1,0], [2,0]]
+games = [[0, 0], [1, 0], [2, 0]]
 game_boards = {}
 game_timers = {}
 GAME_TIME = 5
@@ -40,11 +40,13 @@ def join_game(game_num):
 
 @app.route('/get_score', methods=["POST"])
 def get_score():
-    if game_boards[0] == -1:
-        return json.dumps(-1)
-    score = game_boards[0].getScore()
-    return json.dumps([score[1],game_timers[0],score[0]])
-
+    if len(game_boards) >= 1:
+        if game_boards[0] == -1:
+            return json.dumps(-1)
+        score = game_boards[0].getScore()
+        return json.dumps([score[1],game_timers[0],score[0]])
+    else:
+        return json.dumps(-2)
 
 def update_data(counter, game_num):
     '''
@@ -70,9 +72,11 @@ def update_game(counter, game_num):
 def get_map():
     '''
     '''
-    if game_boards[0] == -1:
-        return "poop"
-    return json.dumps(game_boards[0].map.getMap())
+    if len(game_boards) >= 1:
+        if game_boards[0] == -1:
+            return "poop"
+        return json.dumps(game_boards[0].map.getMap())
+    return "Server Restarting... Refresh"
 
 @app.route('/update_instructions', methods=["GET", "POST"])
 def get_instructions():
