@@ -15,12 +15,50 @@ class Game(object):
         if bot1Dir == 'N':
             for x in range(0,self.map.getSize()):
                 for y in range(0,self.map.getSize()):
-
+                    self.map.map[x][y][0] = 1
+                    self.map.map[x-1][y][0] = 0
+                    self.map.map[x-1][y][1] = bot1
         elif bot1Dir == 'S':
+            for x in range(0,self.map.getSize()):
+                for y in range(0,self.map.getSize()):
+                    self.map.map[x][y][0] = 1
+                    self.map.map[x+1][y][0] = 0
+                    self.map.map[x+1][y][1] = bot1
         elif bot1Dir == 'E':
-        else:#test
-        if bot2Dir == 'N':
-        elif bot2Dir == 'S':
-        elif bot2Dir == 'E':
+            for x in range(0,self.map.getSize()):
+                for y in range(0,self.map.getSize()):
+                    self.map.map[x][y][0] = 1
+                    self.map.map[x][y+1][0] = 0
+                    self.map.map[x][y+1][1] = bot1
         else:
+            for x in range(0,self.map.getSize()):
+                for y in range(0,self.map.getSize()):
+                    self.map.map[x][y][0] = 1
+                    self.map.map[x][y-1][0] = 0
+                    self.map.map[x][y-1][1] = bot1
+        if bot2Dir == 'N':
+            for x in range(0,self.map.getSize()):
+                for y in range(0,self.map.getSize()):
+                    self.map.map[x][y][0] = 2
+                    self.map.map[x-1][y][0] = 0
+                    self.map.map[x-1][y][1] = bot2
+        elif bot2Dir == 'S':
+            for x in range(0,self.map.getSize()):
+                for y in range(0,self.map.getSize()):
+                    self.map.map[x][y][0] = 2
+                    self.map.map[x+1][y][0] = 0
+                    self.map.map[x+1][y][1] = bot2
+        elif bot2Dir == 'E':
+            for x in range(0,self.map.getSize()):
+                for y in range(0,self.map.getSize()):
+                    self.map.map[x][y][0] = 2
+                    self.map.map[x][y+1][0] = 0
+                    self.map.map[x][y+1][1] = bot2
+        else:
+            for x in range(0,self.map.getSize()):
+                for y in range(0,self.map.getSize()):
+                    self.map.map[x][y][0] = 2
+                    self.map.map[x][y-1][0] = 0
+                    self.map.map[x][y-1][1] = bot2
+
 
