@@ -28,7 +28,7 @@ def join_game(game_num):
     if games[game_num][1] == 2:
 
         #First, we create a map
-        m = Map.Map("type1")
+        m = Map.Map("diamond")
         g = Game(m)
 
         game_boards[game_num] = g

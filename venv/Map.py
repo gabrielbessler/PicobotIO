@@ -21,28 +21,32 @@ class Map():
     def generate(self, mapType):
         size = 20
         board =[[[0, 0] for x in range(size)] for y in range(size)]
-        if mapType == "default":
-            return board
+        w = [0, Wall()]
+        for i in range(0, 20):
+                board[0][i] = w
+                board[19][i] = w
+                board[i][0] = w
+                board[i][19] = w
         if mapType == "type1":
-            for i in range(0, 20):
-                w = Wall()
-                board[0][i] = [0, w]
-                board[19][i] = [0, w]
-                board[i][0] = [0, w]
-                board[i][19] = [0, w]
             for i in range(8, 12):
                 for j in range(8, 12):
-                    w = Wall()
-                    board[i][j] = [0, w]
-            return board
+                    board[i][j] = w
         if mapType == "random":
             for i in range(size):
                 for j in range(size):
                     randNum = random.randint(1, 101)
                     if randNum < 21:
-                        board[i][j] = [0, Wall()]
-            return board
-
+                        board[i][j] = w
+        if mapType == "diamond":
+            for i in range(1, 9):
+                for j in range(10-2):
+                    board[i][j] = w
+                    board[19 - i][j] = w
+                    board[i][19 - j] = w
+                    board[19- i][19 - j] = w
+            self.start1 = [1, 9, 1]
+            self.start2 = [18, 10, 2]
+        return board
 
     # return a string with the surroundings
     def getSurroundings(self, xPos, yPos):
