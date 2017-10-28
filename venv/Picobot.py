@@ -13,9 +13,7 @@ class Picobot(object):
 
     def getDir(self, surroundings):
         for rule in self.ruleList:
-            print(rule)
             if self.currentState == rule[0]:
-                print('ok')
                 matches = True
                 for x in range(0,4):
                     if surroundings[x] != rule[1][x] and rule[1][x] != '*':
