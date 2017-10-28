@@ -49,7 +49,7 @@ function startGame() {
 setInterval(function() {
     getData();
     getScore();
-}, 1000);
+}, 200);
 
 function getData() {
     $.ajax({

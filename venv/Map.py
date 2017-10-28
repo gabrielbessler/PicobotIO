@@ -46,20 +46,19 @@ class Map():
 
     # return a string with the surroundings
     def getSurroundings(self, xPos, yPos):
-        print(yPos, xPos)
-        if self.map[yPos + 1][xPos][1] == Wall():
+        if self.map[yPos-1][xPos][1] == "Wall()":
             north = "x"
         else:
             north = "_"
-        if self.map[yPos][xPos - 1][1] == Wall():
+        if self.map[yPos][xPos-1][1] == "Wall()":
             west = "x"
         else:
             west = "_"
-        if self.map[yPos][xPos + 1][1] == Wall():
+        if self.map[yPos][xPos + 1][1] == "Wall()":
             east = "x"
         else:
             east = "_"
-        if self.map[yPos - 1][xPos][1] == Wall():
+        if self.map[yPos+1][xPos][1] == "Wall()":
             south = "x"
         else:
             south = "_"

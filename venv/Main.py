@@ -40,13 +40,14 @@ def join_game(game_num):
 
 @app.route('/get_score', methods=["POST"])
 def get_score():
-    return json.dumps([0,game_timers[0],0])
+    score = game_boards[0].getScore()
+
+    return json.dumps([score[1],game_timers[0],score[0]])
 
 def update_data(counter, game_num):
     '''
     '''
     game_timers[0] = counter
-    print(counter, game_num)
     if counter == 0:
         Timer(1, update_game, [GAME_TIME, game_num]).start()
     else:
@@ -57,7 +58,7 @@ def update_game(counter, game_num):
     '''
     game_timers[0] = counter
     game_boards[game_num].update()
-    Timer(1, update_data, [counter - 1, game_num]).start()
+    Timer(1, update_game, [counter - 1, game_num]).start()
 
 @app.route('/get_map', methods=["POST"])
 def get_map():
