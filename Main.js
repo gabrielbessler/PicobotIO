@@ -39,9 +39,7 @@ function getImages() {
         }
     };
 
-    item.src = "item.png";
-
-
+    item.src = "item.png"
 }
 
 function startGame() {
