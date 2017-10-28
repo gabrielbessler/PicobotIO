@@ -61,6 +61,10 @@ class Map(object):
         surroundings = north + south + east + west
         return surroundings
 
+    # return the map's size
+    def getSize():
+        return this.size
+
     # check consistent map
     '''
     def checkConsistent(map):
