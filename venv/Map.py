@@ -15,8 +15,7 @@ class Map():
     # generate Map
     def generate(self, mapType):
         size = 20
-        row = [[0, 0] for x in range(size)]
-        board = [row for x in range(size)]
+        board =[[[0, 0] for x in range(size)] for y in range(size)]
         if mapType == "default":
             return board
         if mapType == "type1":
