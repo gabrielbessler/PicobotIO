@@ -13,6 +13,31 @@ class Game(object):
         bot1Dir = self.bot1.getDir(self.map.getSurroundings(self.bot1.xPos,self.bot1.yPos))
         bot2Dir = self.bot2.getDir(self.map.getSurroundings(self.bot2.xPos,self.bot2.yPos))
         if bot1Dir == 'N':
+<<<<<<< HEAD
+            self.map.map[bot1.xPos][bot1.yPos][0] = 1
+            self.map.map[bot1.xPos-1][bot1.yPos][1] = self.bot1
+        elif bot1Dir == 'S':
+            self.map.map[bot1.xPos][bot1.yPos][0] = 1
+            self.map.map[bot1.xPos+1][bot1.yPos][1] = self.bot1
+        elif bot1Dir == 'E':
+            self.map.map[bot1.xPos][bot1.yPos][0] = 1
+            self.map.map[bot1.xPos][bot1.yPos+1][1] = self.bot1
+        else:
+            self.map.map[bot1.xPos][bot1.yPos][0] = 1
+            self.map.map[bot1.xPos][bot1.yPos-1][1] = self.bot1
+        if bot2Dir == 'N':
+            self.map.map[bot2.xPos][bot2.yPos][0] = 1
+            self.map.map[bot2.xPos-1][bot2.yPos][1] = self.bot2
+        elif bot2Dir == 'S':
+            self.map.map[bot2.xPos][bot2.yPos][0] = 1
+            self.map.map[bot2.xPos+1][bot2.yPos][1] = self.bot2
+        elif bot2Dir == 'E':
+            self.map.map[bot2.xPos][bot2.yPos][0] = 1
+            self.map.map[bot2.xPos][bot2.yPos+1][1] = self.bot2
+        else:
+            self.map.map[bot2.xPos][bot2.yPos][0] = 1
+            self.map.map[bot2.xPos][bot2.yPos-1][1] = self.bot2
+=======
             self.map.map[self.bot1.xPos][self.bot1.yPos][0] = 1
             self.map.map[x-1][y][1] = self.bot1
         elif bot1Dir == 'S':
@@ -40,6 +65,7 @@ class Game(object):
                     self.map.map[x][y-1][0] = 0
                     self.map.map[x][y-1][1] = self.bot2
         print(self.map.map)
+>>>>>>> bd6555d851172970addf7c7780d9d1c2e523a8f9
 
     # scoring function
     def getScore(self):
