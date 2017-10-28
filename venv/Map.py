@@ -31,6 +31,8 @@ class Map():
             for i in range(8, 12):
                 for j in range(8, 12):
                     board[i][j] = w
+            self.start1 = [1, 1, 1]
+            self.start2 = [19,19, 2]
         if mapType == "random":
             for i in range(size):
                 for j in range(size):
