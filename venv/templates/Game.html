@@ -15,11 +15,21 @@
 </head>
 
 <body>
-    <canvas id="canvas" width="600" height="600" style="border:1px solid #000000;">
+    <canvas id="canvas" width="600" height="600" style="float: left; border:1px solid #000000;">
         <h1>
             Canvas not supported
         </h1>
     </canvas>
-    <script src="Main.js"></script>
+    <div>
+        <textarea style="margin-left: 10px;" rows="30" cols="50">
+            Input your picobot code here...\n
+
+            Sample Code:
+            state[n] input[NSEW] output[dir] goto_state[n2]
+        </textarea>
+    </div>
+
+    <input type="button" value="Submit Changes"></input>
+    <script src="/static/Main.js"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 app = Flask(__name__)
+import Map
 
 @app.route('/')
 def index():
@@ -10,4 +11,5 @@ def join_game(game_num):
     '''
     Join game number <game_num> given in the URL
     '''
+    m = Map("type1")
     return render_template("Game.html")

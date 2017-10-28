@@ -10,7 +10,6 @@ getImages();
 
 function getImages() {
     /* Load guy 1 */
-    console.log("here");
     bluepico = new Image();
     bluepico.onload = function() {
         loadedImages++;
@@ -19,7 +18,7 @@ function getImages() {
         }
     };
 
-    bluepico.src = "picoblue.png";
+    bluepico.src = "/static/picoblue.png";
 
     redpico = new Image();
     redpico.onload = function() {
@@ -29,7 +28,7 @@ function getImages() {
         }
     };
 
-    redpico.src = "picored.png";
+    redpico.src = "/static/picored.png";
 
     item = new Image();
     item.onload = function() {
@@ -39,7 +38,7 @@ function getImages() {
         }
     };
 
-    item.src = "item.png"
+    item.src = "/static/item.png"
 }
 
 function startGame() {
