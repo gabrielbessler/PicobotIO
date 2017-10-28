@@ -118,7 +118,7 @@ def get_instructions():
     '''
     L = request.get_json()
     playerNum = L[0]
-    L = L[1]
+    L = L[1:]
     print(playerNum)
     print(L)
     ruleList = []
