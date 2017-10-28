@@ -18,7 +18,7 @@ class Game(object):
 
         elif bot1Dir == 'S':
         elif bot1Dir == 'E':
-        else:
+        else:#test
         if bot2Dir == 'N':
         elif bot2Dir == 'S':
         elif bot2Dir == 'E':
