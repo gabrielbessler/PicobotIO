@@ -158,6 +158,7 @@ def isDirections(s):
 
 def RepresentsInt(s):
     '''
+    Checks if a number can be represntated as an integer
     '''
     try:
         int(s)

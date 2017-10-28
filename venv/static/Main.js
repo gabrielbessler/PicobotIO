@@ -49,7 +49,7 @@ function startGame() {
 interval = setInterval(function() {
     getScore();
     a = getData();
-}, 400);
+}, 450);
 
 function getData() {
     $.ajax({
@@ -74,6 +74,7 @@ function getScore() {
         url: "/get_score",
         type: "POST",
         success: function(data){
+            console.log(data);
             if (data == -2) {
 
             } else if (data == -1) {
