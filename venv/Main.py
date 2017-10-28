@@ -122,8 +122,7 @@ def get_instructions():
     ruleList = []
     for i in L:
         i = str(i)
-        i.replace(" ", "")
-        print("1")
+        i = i.replace(" ", "")
         print(i)
         if(i[0] != '[' or i[11] != ']'):
             print("1")
