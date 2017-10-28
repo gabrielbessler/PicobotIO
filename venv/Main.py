@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, abort
 import json
 import Map
+import threading
 app = Flask(__name__)
 
 games = [[0,0], [1,0], [2,0]]
 game_boards = {}
+game_timers = {}
 
 @app.route('/')
 def index():
@@ -24,6 +26,9 @@ def join_game(game_num):
         return render_template("Game.html", score=[1,2,3])
     else:
         return "loading..."
+
+def printit():
+    print("HELLO WORLD")
 
 @app.route('/get_map', methods=["POST"])
 def get_map():
