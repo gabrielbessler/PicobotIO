@@ -91,7 +91,8 @@ def get_instructions():
             directions = i[3:7] + [i[8]]
             if not (isDirections(directions)):
                 return json.dumps("Use valid direction operators.")
-	ruleList.append([int(i[1]), i[3:7], i[8], int(i[10])])
+    for i in L:
+        ruleList.append([int(i[1]), i[3:7], i[8], int(i[10])])
         game_boards[0].bot1.rules = ruleList
     return json.dumps("Your inputs are valid.")
 
