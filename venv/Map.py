@@ -2,7 +2,7 @@
 
 import Wall
 import Item
-import Player
+import Picobot
 import random
 class Map(object):
     
@@ -10,12 +10,12 @@ class Map(object):
     def __init__(self, mapType):
         self.start1 = [0,0,1]
         self.start2 = [20, 20, 2]
-        self.map = generate(mapType);
+        self.map = generate(mapType)
 
     # return map
     def getMap():
-        self.map[start1[0], start1[1]] = [1, Player(start1[2])]
-        self.map[start2[0], start2[1]] = [2, Player(start2[2])]
+        self.map[start1[0], start1[1]] = [1, Picobot(start1[2])]
+        self.map[start2[0], start2[1]] = [2, Picobot(start2[2])]
         # checkConsistent(self.map)
         return self.map
     
