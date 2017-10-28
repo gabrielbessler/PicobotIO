@@ -146,7 +146,7 @@ function submit() {
         type: "POST",
         dataType: "json",
         contentType: 'application/json; charset=UTF-8',
-        data: JSON.stringify(playerNum + inst),
+        data: JSON.stringify(inst),
         success: function(data){
             console.log(data);
         }
