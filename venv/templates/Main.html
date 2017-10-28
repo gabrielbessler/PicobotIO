@@ -1,38 +1,45 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
 
-  <title>Pico.io</title>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <title>Pico.io</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
 
 </head>
 <header>
     <h1>
-        Multiplayer Picobot Game - Lobby
+        <center>
+            <img src="/static/picoblue.png">
+            Multiplayer Picobot Game - Lobby
+            <img src="/static/picored.png">
+        </center>
     </h1>
 </header>
 
 <body>
 
     <title> Picoio</title>
-    <ul>
+    <ul class = "list-group" style="padding-left: 30px; padding-right: 30px">
     {% for game in games %}
-        <li>
-            <h1> Game Number {{game[0] +1 }}: {{game[1]}} players in game.</h1>
+        <li class = "list-group-item clearfix">
+            
+            <h1>  Game Number {{game[0] +1 }}: {{game[1]}} players in game.
                 {% if game[1] == 2 %}
                     <a href = "/game/{{game[0]}}">
-                        <input type = "button" class = "btn btn-default" value = "Full"></input>
+                        <input type = "button" class = "btn btn-default pull-right" value = "Full"></input>
                     </a>
                 {% else %}
                     <a href = "/game/{{game[0]}}">
-                        <input type = "button" class = "btn btn-success" value = "Join Game"> </input>
+                        <input type = "button" class = "btn btn-success pull-right" value = "Join Game"> </input>
                     </a>
                 {% endif %}
+            </h1>
         </li>
     {% endfor %}
     </ul>
