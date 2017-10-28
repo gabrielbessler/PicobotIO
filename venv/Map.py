@@ -4,20 +4,13 @@ from Wall import Wall
 from Item import Item
 from Picobot import Picobot
 import random
-class Map(object):
+class Map():
 
     # map constructor with type
     def __init__(self, mapType):
         self.start1 = [0,0,1]
         self.start2 = [20, 20, 2]
         self.map = self.generate(mapType)
-
-    # return map
-    def getMap(self):
-        self.map[self.start1[0], self.start1[1]] = [1, str(Picobot(self.start1[2], []))]
-        self.map[self.start2[0], self.start2[1]] = [2, str(Picobot(self.start2[2], []))]
-        # checkConsistent(self.map)
-        return self.map
 
     # generate Map
     def generate(self, mapType):
@@ -29,7 +22,8 @@ class Map(object):
         if mapType == "type1":
             for i in range(8, 12):
                 for j in range(8, 12):
-                    board[i][j] = [0, Wall()]
+                    w = Wall()
+                    board[i][j] = [0, w]
             return board
         if mapType == "random":
             for i in range(size):

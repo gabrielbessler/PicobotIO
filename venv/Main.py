@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
 import json
 import Map
 app = Flask(__name__)
@@ -15,6 +15,8 @@ def join_game(game_num):
     '''
     Join game number <game_num> given in the URL
     '''
+    if game_num >= len(games):
+        abort(404)
     games[game_num][1] += 1
     if games[game_num][1] == 2:
         m = Map.Map("type1")
@@ -25,6 +27,7 @@ def join_game(game_num):
 
 @app.route('/get_map', methods=["POST"])
 def get_map():
+    print(game_boards[0].getMap())
     return json.dumps(game_boards[0].getMap())
 
 @app.route('/update_instructions', methods=["GET", "POST"])
@@ -44,3 +47,7 @@ def create_new_game():
     '''
     games.append([len(games),0])
     return json.dumps("Success")
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html')

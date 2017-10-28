@@ -44,7 +44,6 @@ function getImages() {
 
 function startGame() {
     getData();
-    drawMap(sampleMap);
 }
 
 setInterval(function() {
@@ -57,7 +56,6 @@ function getData() {
         url: "/get_map",
         type: "POST",
         success: function(data){
-            console.log(data);
             drawMap();
         }
     });
@@ -113,7 +111,7 @@ function submit() {
         contentType: 'application/json; charset=UTF-8',
         data: JSON.stringify(inst),
         success: function(data){
-            console.log("N/A");
+            //console.log("N/A");
         }
     });
 }

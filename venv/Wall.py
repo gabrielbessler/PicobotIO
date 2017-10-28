@@ -1,6 +1,9 @@
-# wall class 
+# wall class
 
-def Wall():
+class Wall():
 
     def __init__(self):
-        pass
+        self.something = 1
+
+    def __repr__(self):
+        return "Wall()"
