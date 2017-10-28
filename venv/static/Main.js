@@ -88,13 +88,12 @@ function drawMap(map) {
 
 function submit() {
     inst = document.getElementById('pico_instructions').value.split('\n');
-    console.log(inst);
     $.ajax({
         url: "/update_instructions",
         type: "POST",
         dataType: "json",
         contentType: 'application/json; charset=UTF-8',
-        data: JSON.stringify("hello world"),
+        data: JSON.stringify(inst),
         success: function(data){
             console.log("N/A");
         }
