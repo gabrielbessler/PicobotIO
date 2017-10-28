@@ -13,53 +13,29 @@ class Game(object):
         bot1Dir = self.bot1.getDir(self.map.getSurroundings(self.bot1.xPos,self.bot1.yPos))
         bot2Dir = self.bot2.getDir(self.map.getSurroundings(self.bot2.xPos,self.bot2.yPos))
         if bot1Dir == 'N':
-            for x in range(0,self.map.getSize()):
-                for y in range(0,self.map.getSize()):
-                    self.map.map[x][y][0] = 1
-                    self.map.map[x-1][y][0] = 0
-                    self.map.map[x-1][y][1] = self.bot1
+            self.map.map[bot1.xPos][bot1.yPos][0] = 1
+            self.map.map[x-1][y][1] = self.bot1
         elif bot1Dir == 'S':
-            for x in range(0,self.map.getSize()):
-                for y in range(0,self.map.getSize()):
-                    self.map.map[x][y][0] = 1
-                    self.map.map[x+1][y][0] = 0
-                    self.map.map[x+1][y][1] = self.bot1
+            self.map.map[bot1.xPos][bot1.yPos][0] = 1
+            self.map.map[x+1][y][1] = self.bot1
         elif bot1Dir == 'E':
-            for x in range(0,self.map.getSize()):
-                for y in range(0,self.map.getSize()):
-                    self.map.map[x][y][0] = 1
-                    self.map.map[x][y+1][0] = 0
-                    self.map.map[x][y+1][1] = self.bot1
+            self.map.map[bot1.xPos][bot1.yPos][0] = 1
+            self.map.map[x][y+1][1] = self.bot1
         else:
-            for x in range(0,self.map.getSize()):
-                for y in range(0,self.map.getSize()):
-                    self.map.map[x][y][0] = 1
-                    self.map.map[x][y-1][0] = 0
-                    self.map.map[x][y-1][1] = self.bot1
+            self.map.map[bot1.xPos][bot1.yPos][0] = 1
+            self.map.map[x][y-1][1] = self.bot1
         if bot2Dir == 'N':
-            for x in range(0,self.map.getSize()):
-                for y in range(0,self.map.getSize()):
-                    self.map.map[x][y][0] = 2
-                    self.map.map[x-1][y][0] = 0
-                    self.map.map[x-1][y][1] = self.bot2
+            self.map.map[bot2.xPos][bot2.yPos][0] = 1
+            self.map.map[x-1][y][1] = self.bot2
         elif bot2Dir == 'S':
-            for x in range(0,self.map.getSize()):
-                for y in range(0,self.map.getSize()):
-                    self.map.map[x][y][0] = 2
-                    self.map.map[x+1][y][0] = 0
-                    self.map.map[x+1][y][1] = self.bot2
+            self.map.map[bot2.xPos][bot2.yPos][0] = 1
+            self.map.map[x+1][y][1] = self.bot2
         elif bot2Dir == 'E':
-            for x in range(0,self.map.getSize()):
-                for y in range(0,self.map.getSize()):
-                    self.map.map[x][y][0] = 2
-                    self.map.map[x][y+1][0] = 0
-                    self.map.map[x][y+1][1] = self.bot2
+            self.map.map[bot2.xPos][bot2.yPos][0] = 1
+            self.map.map[x][y+1][1] = self.bot2
         else:
-            for x in range(0,self.map.getSize()):
-                for y in range(0,self.map.getSize()):
-                    self.map.map[x][y][0] = 2
-                    self.map.map[x][y-1][0] = 0
-                    self.map.map[x][y-1][1] = self.bot2
+            self.map.map[bot2.xPos][bot2.yPos][0] = 1
+            self.map.map[x][y-1][1] = self.bot2
 
     # scoring function
     def getScore(self):
