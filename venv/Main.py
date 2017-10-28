@@ -11,5 +11,5 @@ def join_game(game_num):
     '''
     Join game number <game_num> given in the URL
     '''
-    m = Map("type1")
+    m = Map.Map("type1")
     return render_template("Game.html")

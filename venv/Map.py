@@ -5,12 +5,12 @@ import Item
 import Picobot
 import random
 class Map(object):
-    
+
     # map constructor with type
     def __init__(self, mapType):
         self.start1 = [0,0,1]
         self.start2 = [20, 20, 2]
-        self.map = generate(mapType)
+        self.map = self.generate(mapType)
 
     # return map
     def getMap():
@@ -18,11 +18,11 @@ class Map(object):
         self.map[start2[0], start2[1]] = [2, Picobot(start2[2], [])]
         # checkConsistent(self.map)
         return self.map
-    
+
     # generate Map
-    def generate(mapType):
+    def generate(self, mapType):
         size = 20
-        column = [[0, null] for x in range(size)]
+        column = [[0, None] for x in range(size)]
         board = [column for x in range(size)]
         if mapType == "default":
             return board
@@ -41,14 +41,14 @@ class Map(object):
 
 
     # return a string with the surroundings
-    def getSurroundings(xPos, yPos):
+    def getSurroundings(self, xPos, yPos):
         if self.map[xPos, yPos + 1][1] == Wall():
             north = "x"
         else:
             north = "_"
         if self.map[xPos - 1, yPos][1] == Wall():
             west = "x"
-        else: 
+        else:
             west = "_"
         if self.map[xPos + 1, yPos][1] == Wall():
             east = "x"
@@ -62,7 +62,7 @@ class Map(object):
         return surroundings
 
     # return the map's size
-    def getSize():
+    def getSize(self):
         return this.size
 
     # check consistent map
