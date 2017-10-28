@@ -123,14 +123,19 @@ def get_instructions():
     for i in L:
         i = str(i)
         i.replace(" ", "")
+        print("0")
         if(i[0] != '[' or i[11] != ']'):
+            print("1")
             return json.dumps("Start and end with square brackets.")
         elif not (RepresentsInt(i[1]) and RepresentsInt(i[10])):
+            print("2")
             return json.dumps("Current and next states must be ints.")
         else:
+            print("3")
             directions = i[3:7] + i[8]
             if not (isDirections(directions)):
                 return json.dumps("Use valid direction operators.")
+    print("got to here")
     for i in L:
         ruleList.append([int(i[1]), i[3:7], i[8], int(i[10])])
         game_boards[0].bot1.rules = ruleList
