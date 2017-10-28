@@ -81,8 +81,35 @@ def get_instructions():
     '''
     L = request.get_json()
     for i in L:
-        print(i)
-    return json.dumps("hello")
+        i.replace(" ", "")
+        if(i[0] != '[' or i[11] != ']'):
+            return json.dumps("Start and end with square brackets.")
+        else if not (RepresentsInt(i[1]) and RepresentsInt(i[10])):
+            return json.dumps("Current and next states must be ints.")
+        else:
+            directions = i[3:7] + [i[8]]
+            if not (isDirections(directions)):
+                return json.dumps("Use valid direction operators.")
+    return json.dumps("Your inputs are valid.")
+
+def isDirections(s):
+    if not(s[0] == "N" or s[0] == "*" or s[0] == "x"):
+        return False
+    else if not(s[1] == "S" or s[1] == "*" or s[1] == "x"):
+        return False
+    else if not(s[2] == "E" or s[2] == "*" or s[2] == "x"):
+        return False
+    else if not(s[3] == "W" or s[3] == "*" or s[3] == "x"):
+        return False
+    else:
+        return True
+
+def RepresentsInt(s):
+    try: 
+        int(s)
+        return True
+    except ValueError:
+        return False
 
 @app.route('/create_game', methods=["POST"])
 def create_new_game():
