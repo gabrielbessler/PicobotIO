@@ -9,8 +9,10 @@ class Map():
     # map constructor with type
     def __init__(self, mapType):
         self.start1 = [0,0,1]
-        self.start2 = [20, 20, 2]
+        self.start2 = [19, 19, 2]
         self.map = self.generate(mapType)
+        self.map[0][0] = [1, Picobot[start1, []]]
+        self.map[19][19] = [2, Picobot[start2, []]]
 
     # generate Map
     def generate(self, mapType):
