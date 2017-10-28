@@ -123,16 +123,13 @@ def get_instructions():
     for i in L:
         i = str(i)
         i = i.replace(" ", "")
-        print(i)
         if(i[0] != '[' or i[15] != ']'):
-            print("1")
             return json.dumps("Start and end with square brackets.")
         elif not (RepresentsInt(i[1]) and RepresentsInt(i[14])):
-            print("2")
             return json.dumps("Current and next states must be ints.")
         else:
-            print("3")
             directions = i[4:8] + i[11]
+            print(directions)
             if not (isDirections(directions)):
                 return json.dumps("Use valid direction operators.")
             print("got to here")
