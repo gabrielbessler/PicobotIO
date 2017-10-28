@@ -81,7 +81,7 @@ function getScore() {
                 if (data[2] == data[0]) {
                     document.getElementById("score1").innerHTML = "TIE";
                     document.getElementById("score2").innerHTML = "TIE";
-                } else if (data[2] > data[0]) {
+                } else if (data[2] < data[0]) {
                     document.getElementById("score1").innerHTML = "WINNER";
                     document.getElementById("score2").innerHTML = "LOSER";
                 } else {

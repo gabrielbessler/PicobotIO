@@ -15,7 +15,7 @@ game_players = {}
 game_boards = {}
 game_timers = {}
 GAME_TIME = 60
-STARTUP_TIME = 5
+STARTUP_TIME = 30
 NUM_ID = [0]
 
 @app.route('/')
