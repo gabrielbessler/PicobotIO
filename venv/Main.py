@@ -107,7 +107,7 @@ def get_map():
     '''
     if len(game_boards) >= 1:
         if game_boards[0] == -1:
-            return "poop"
+            return json.dumps(-1)
         return json.dumps(game_boards[0].map.getMap())
     return "Server Restarting... Refresh"
 

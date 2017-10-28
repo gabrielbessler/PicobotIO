@@ -56,7 +56,7 @@ function getData() {
         url: "/get_map",
         type: "POST",
         success: function(data){
-            if ( data == "poop" ) {
+            if ( data == -1 ) {
                 clearInterval(interval);
                 return -1
             } else {
@@ -76,7 +76,7 @@ function getScore() {
         success: function(data){
             console.log(data);
             if (data == -2) {
-
+                console.log('true');
             } else if (data == -1) {
                 document.getElementById("timer").innerHTML = 0 + " s";
                 if (data[2] == data[0]) {
