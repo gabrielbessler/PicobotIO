@@ -123,7 +123,8 @@ def get_instructions():
     for i in L:
         i = str(i)
         i.replace(" ", "")
-        print("0")
+        print("1")
+        print(i)
         if(i[0] != '[' or i[11] != ']'):
             print("1")
             return json.dumps("Start and end with square brackets.")
