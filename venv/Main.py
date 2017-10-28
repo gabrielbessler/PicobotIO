@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import json
 app = Flask(__name__)
 #import Map
 
@@ -14,9 +15,9 @@ def join_game(game_num):
     #m = Map.Map("type1")
     return render_template("Game.html")
 
-@app.route('/update_instructions', methods=["POST"])
+@app.route('/update_instructions', methods=["GET", "POST"])
 def get_instructions():
     '''
     Updates the instructions for a given picobot
     '''
-    return 0
+    return json.dumps("hello")

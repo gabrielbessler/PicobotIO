@@ -9,7 +9,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 <header>
@@ -28,7 +28,7 @@
     <ul class = "list-group" style="padding-left: 30px; padding-right: 30px">
     {% for game in games %}
         <li class = "list-group-item clearfix">
-            
+
             <h1>  Game Number {{game[0] +1 }}: {{game[1]}} players in game.
                 {% if game[1] == 2 %}
                     <a href = "/game/{{game[0]}}">
