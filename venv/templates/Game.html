@@ -38,25 +38,25 @@
         </h1>
     </canvas>
     <center><div>
-        <center><h1>Rules</h1></center>
-            <div>
         {% if player_num == 1 %}
             <center><h1 style="color: red">Rules (Player {{ player_num }})</h1></center>
         {% else %}
             <center><h1 style="color: blue">Rules (Player {{ player_num }})</h1></center>
         {% endif %}
 
-        <textarea id="pico_instructions" style="margin-left: 30px" rows="15" cols="75" style="resize: none;">
+        <textarea id="pico_instructions" class="form-control" style="width: 600px; margin-left: 30px; resize: none;" rows="15">
 Input your picobot code here...
-
+Note: "x" - wall | "_" - empty | "*" - wildcard
+Inputs are in the order: North, South, East, West
 Sample Code:
-[0, _xx_, N, 1]
-        </textarea><br>
-        <input type="button" value="Submit Changes" onclick="submit()"></input><br>
+[0, "_xx_", "N", 1]</textarea><br>
+        <input type="button" class="btn btn-primary" value="Submit Changes" onclick="submit()"></input>
+        <input onclick="preset1()" type"button" class="btn btn-info" value="Preset One"></input>
+        <input onclick="preset2()" type"button" class="btn btn-info" value="Preset Two"></input>
+        <br>
         <center><h2>Errors</h2></center>
-        <textarea id="pico_errors" style="margin-left: 30px" rows="5" cols="75" style="resize: none;">
-Your rules are valid.
-        </textarea>
+        <textarea class="form-control" id="pico_errors" style="width: 600px; margin-left: 30px; resize: none" rows="3">
+Your rules are valid.</textarea>
     </div></center>
 
     <script src="/static/Main.js"></script>

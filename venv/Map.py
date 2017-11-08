@@ -8,8 +8,8 @@ class Map():
 
     # map constructor with type
     def __init__(self, mapType):
-        self.start1 = 0
-        self.start2 = 0
+        self.start1 = [1,1,1]
+        self.start2 = [18,18,2]
         self.map = self.generate(mapType)
         self.p1 = Picobot(self.start1, [])
         self.p2 = Picobot(self.start2, [])
@@ -62,8 +62,8 @@ class Map():
             for i in range(3, 7):
                 for j in range(13, 17):
                     board[i][j] = w
-            self.start1 = [1, 9, 1]
-            self.start2 = [19, 9, 2]
+            self.start1 = [1, 1, 1]
+            self.start2 = [18, 18, 2]
         return board
 
     # return a string with the surroundings

@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, abort, session
+from random import randint
 import os
 import json
 import Map
 from Game import Game
+from Item import Item
 from Picobot import Picobot
 from threading import Timer
 
@@ -11,11 +13,11 @@ app.secret_key = os.urandom(24) #used for user sessions
 
 # Stores all of the game information
 games = [[0, 0], [1, 0], [2, 0]]
+STARTUP_TIME = 10
 game_players = {}
 game_boards = {}
 game_timers = {}
-GAME_TIME = 60
-STARTUP_TIME = 30
+GAME_TIME = 1000
 NUM_ID = [0]
 
 @app.route('/')
@@ -56,7 +58,7 @@ def join_game(game_num):
                     return render_template("waiting.html")
                 else:
                     game_players[game_num].append(NUM_ID[0])
-                    m = Map.Map("type1")
+                    m = Map.Map("islands")
                     g = Game(m)
                     game_boards[game_num] = g
                     game_timers[0] = STARTUP_TIME
@@ -70,13 +72,15 @@ def join_game(game_num):
 
 @app.route('/get_score', methods=["POST"])
 def get_score():
+    '''
+    Calculate and return the score of each player in the game
+    '''
     if len(game_boards) >= 1:
         if game_boards[0] == -1:
             return json.dumps(-1)
         score = game_boards[0].getScore()
-        return json.dumps([score[1],game_timers[0],score[0]])
-    else:
-        return json.dumps(-2)
+        return json.dumps([score[1],game_timers[0],score[0], game_boards[0].map.getMap()])
+    return json.dumps("-2")
 
 def update_data(counter, game_num):
     '''
@@ -84,6 +88,7 @@ def update_data(counter, game_num):
     '''
     game_timers[0] = counter
     if counter <= 0:
+        print('test')
         Timer(1, update_game, [GAME_TIME, game_num]).start()
     else:
         Timer(1, update_data, [counter - 1, game_num]).start()
@@ -96,20 +101,14 @@ def update_game(counter, game_num):
         game_boards[game_num] = -1
         games[game_num][1] = 0
     else:
+        r = randint(1,3)
+        if r == 1:
+            i = Item(1)
+            print('creating item')
+            game_boards[game_num][randint(0,19), randint(0,19)] = i
         game_timers[0] = counter
         game_boards[game_num].update()
         Timer(.5, update_game, [counter - .5, game_num]).start()
-
-@app.route('/get_map', methods=["POST"])
-def get_map():
-    '''
-    Returns a text representation of the map to the user
-    '''
-    if len(game_boards) >= 1:
-        if game_boards[0] == -1:
-            return json.dumps(-1)
-        return json.dumps(game_boards[0].map.getMap())
-    return "Server Restarting... Refresh"
 
 @app.route('/update_instructions', methods=["GET", "POST"])
 def get_instructions():
@@ -125,11 +124,11 @@ def get_instructions():
         i = i.replace(" ", "")
         if(i[0] != '[' or i[15] != ']'):
             return json.dumps("Start and end with square brackets.")
-        elif not (RepresentsInt(i[1]) and RepresentsInt(i[14])):
+        elif not (represents_int(i[1]) and represents_int(i[14])):
             return json.dumps("Current and next states must be ints.")
         else:
             directions = i[4:8] + i[11]
-            if not (isDirections(directions)):
+            if not (is_directions(directions)):
                 return json.dumps("Use valid direction operators.")
 
             ruleList.append([int(i[1]), i[4:8], i[11], int(i[14])])
@@ -140,8 +139,10 @@ def get_instructions():
 
     return json.dumps("Your inputs are valid.")
 
-def isDirections(s):
+def is_directions(s):
     '''
+    Given a string S representing the environment segment of an instruction,
+    check if the environement is in the correct format
     '''
     if not(s[0] == "_" or s[0] == "*" or s[0] == "x"):
         return False
@@ -156,7 +157,7 @@ def isDirections(s):
     else:
         return True
 
-def RepresentsInt(s):
+def represents_int(s):
     '''
     Checks if a number can be represntated as an integer
     '''

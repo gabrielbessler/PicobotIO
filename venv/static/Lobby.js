@@ -1,3 +1,6 @@
+/**
+ *
+ */
 function createNewGame() {
     $.ajax({
         url: "/create_game",

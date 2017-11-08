@@ -3,103 +3,86 @@ var ctx = canvas.getContext('2d');
 const COL_WIDTH = 30;
 const ROW_WIDTH = 30;
 var loadedImages = 0;
+var sampleMap = [];
 var bluepico;
 var redpico;
+var score1;
+var score2;
 var item;
 var map;
+
 getImages();
 
+/**
+ * Loads all of the images that will be used for the game
+ */
 function getImages() {
-    /* Load guy 1 */
-    bluepico = new Image();
-    bluepico.onload = function() {
-        loadedImages++;
-        if (loadedImages == 2) {
-            startGame();
-        }
-    };
+    imageURLS = ["/static/item.png", "/static/picoblue.png", "/static/picored.png"]
+    loadedImages = 0;
+    images = [0,0,0];
+    for (i = 0; i < imageURLS.length; i++) {
+        pic = new Image();
+        pic.src = imageURLS[i];
+        images[i] = pic;
 
-    bluepico.src = "/static/picoblue.png";
+        pic.onload = function() {
+            loadedImages++;
+            if (loadedImages == 3) {
+                bluepico = images[1];
+                redpico = images[2];
+                item = images[0];
 
-    redpico = new Image();
-    redpico.onload = function() {
-        loadedImages++;
-        if (loadedImages == 2) {
-            startGame();
-        }
-    };
-
-    redpico.src = "/static/picored.png";
-
-    item = new Image();
-    item.onload = function() {
-        loadedImages++;
-        if (loadedImages == 2) {
-            startGame();
-        }
-    };
-
-    item.src = "/static/item.png"
-}
-
-function startGame() {
-    getData();
-}
-
-interval = setInterval(function() {
-    getScore();
-    a = getData();
-}, 450);
-
-function getData() {
-    $.ajax({
-        url: "/get_map",
-        type: "POST",
-        success: function(data){
-            if ( data == -1 ) {
-                clearInterval(interval);
-                return -1
-            } else {
-                map = eval(data);
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                drawMap(map);
+                interval = setInterval(function() {
+                    getScore();
+                }, 450);
             }
         }
-    });
-    return 0;
+    }
 }
 
+/**
+ * Sends a post request to the server and updates the score being displayed
+ * using a callback function.
+ */
 function getScore() {
     $.ajax({
         url: "/get_score",
         type: "POST",
         success: function(data){
-            console.log(data);
-            if (data == -2) {
-                console.log('true');
-            } else if (data == -1) {
+            if (data == -1) {
+                clearInterval(interval);
                 document.getElementById("timer").innerHTML = 0 + " s";
-                if (data[2] == data[0]) {
+                if (score1 == score2) {
                     document.getElementById("score1").innerHTML = "TIE";
                     document.getElementById("score2").innerHTML = "TIE";
-                } else if (data[2] < data[0]) {
+                } else if (score2 < score1) {
                     document.getElementById("score1").innerHTML = "WINNER";
                     document.getElementById("score2").innerHTML = "LOSER";
                 } else {
                     document.getElementById("score1").innerHTML = "LOSER";
                     document.getElementById("score2").innerHTML = "WINNER";
                 }
-            } else {
+            } else if (data != "-2") {
                 data = eval(data);
-                document.getElementById("timer").innerHTML = data[1] + " s";
+                map = eval(data[3]);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawMap(map);
+                document.getElementById("timer").innerHTML = Math.round(data[1]) + " s";
                 document.getElementById("score1").innerHTML = data[2] + " points";
+                score1 = data[2];
                 document.getElementById("score2").innerHTML = data[0] + " points";
+                score2 = data[0];
             }
         }
     });
     return 0;
 }
 
+/**
+ * Takes a 2D array representing the picobot map and draws it on the HTML5
+ * canvas
+ * @param {Array} map
+ */
 function drawMap(map) {
     /* Takes a map as a javascript array and draws the map on the screen */
     ctx.strokeStyle = "rgba(0, 0, 0, .7)";
@@ -140,6 +123,23 @@ function drawMap(map) {
     }
 }
 
+/**
+ * Sets the picobot instructions to a preset of instructions that work
+ */
+function preset2() {
+    document.getElementById('pico_instructions').value = "[0, '_***', 'N', 0]\n[0, 'x***', 'W', 1]\n[1, '***_', 'W', 1]\n[1, '***x', 'S', 2]\n[2, '*_**', 'S', 2]\n[2, '*x**', 'E', 3]\n[3, '**_*', 'E', 3]\n[3, '**x*', 'N', 0]";
+}
+
+/**
+ * Sets the picobot instructions to a preset of instructions that work
+ */
+function preset1() {
+    document.getElementById('pico_instructions').value = "[0, '****', 'S', 1]\n[1, '****', 'S', 2]\n[2, '****', 'E', 3]\n[3, '**x*', 'S', 3]\n[3, '**_*', 'E', 4]\n[4, 'x***', 'E', 4]\n[4, '_***','N', 5]\n[5, '***x', 'N', 5]\n[5, '***_', 'W', 6]\n[6, '*x**', 'W', 6]\n[6, '*_**', 'S', 3]";
+}
+
+/**
+ * Submit inscructions to the server for the picobot of your given your color
+ */
 function submit() {
     playerNum = document.getElementById('player_num').getAttribute('val');
     inst = document.getElementById('pico_instructions').value.split('\n');
@@ -154,5 +154,3 @@ function submit() {
         }
     });
 }
-sampleMap = [];
-
