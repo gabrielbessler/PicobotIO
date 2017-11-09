@@ -1,13 +1,17 @@
 # Map Class
 
+import random
 from Wall import Wall
 from Item import Item
 from Picobot import Picobot
-import random
+
 class Map():
 
     # map constructor with type
     def __init__(self, mapType):
+        '''
+
+        '''
         self.start1 = [1,1,1]
         self.start2 = [18,18,2]
         self.map = self.generate(mapType)
@@ -19,6 +23,9 @@ class Map():
 
     # generate Map
     def generate(self, mapType):
+        '''
+        Given a map type, initialises a new map in the type of the 2D list
+        '''
         size = 20
         board =[[[0, 0] for x in range(size)] for y in range(size)]
         w = [0, Wall()]
@@ -32,12 +39,12 @@ class Map():
                 for j in range(8, 12):
                     board[i][j] = w
             self.start1 = [1, 1, 1]
-            self.start2 = [18,18, 2]
+            self.start2 = [18, 18, 2]
         if mapType == "random":
             for i in range(size):
                 for j in range(size):
-                    randNum = random.randint(1, 101)
-                    if randNum < 21:
+                    rand_num = random.randint(1, 101)
+                    if rand_num < 21:
                         board[i][j] = w
         if mapType == "diamond":
             for i in range(1, 9):
@@ -88,19 +95,25 @@ class Map():
         surroundings = north + south + east + west
         return surroundings
 
-    # return the map's size
     def getSize(self):
+        '''
+        Returns the map's size
+        '''
         return self.size
 
-    # returns the map
     def getMap(self):
+        '''
+        Returns a representation of the map where each object is converted
+        to its string representation
+        '''
         tempMap = self.map
         for i in range(20):
             for j in range(20):
                 tempMap[i][j][1] = str(self.map[i][j][1])
         return tempMap
 
-    # check consistent map
-    '''
-    def checkConsistent(map):
-    '''
+    def checkConsistent(self, map):
+        '''
+        TODO: check if the map is consistent
+        '''
+        pass
