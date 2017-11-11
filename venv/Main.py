@@ -9,7 +9,9 @@ from Picobot import Picobot
 from threading import Timer
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24) #used for user sessions
+app.secret_key = os.urandom(24)
+
+
 
 # Stores all of the game information
 games = [[0, 0], [1, 0], [2, 0]]
@@ -19,6 +21,11 @@ game_boards = {}
 game_timers = {}
 GAME_TIME = 1000
 NUM_ID = [0]
+
+
+@app.route('/jake', methods=["GET", "POST"])
+def get_jake_data():
+    return json.dumps("here's some data")
 
 @app.route('/')
 def index():
@@ -105,7 +112,8 @@ def update_game(counter, game_num):
         if r == 1:
             i = Item(1)
             print('creating item')
-            game_boards[game_num][randint(0,19), randint(0,19)] = i
+            #game_boards[game_num][randint(0,19), randint(0,19)] = i
+            print(game_boards[game_num].map.map)
         game_timers[0] = counter
         game_boards[game_num].update()
         Timer(.5, update_game, [counter - .5, game_num]).start()
