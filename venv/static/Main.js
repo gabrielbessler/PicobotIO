@@ -112,7 +112,8 @@ function drawMap(map) {
             if (currSquare[1] == "Wall()") {
                 ctx.fillStyle = "rgba(50, 50, 50, .9)";
                 ctx.fillRect(xpos, ypos, COL_WIDTH, ROW_WIDTH);
-            } else if(currSquare[1] == "Item()") {
+            } else if(currSquare[1] == "Item(1)") {
+                console.log("doing it")
                 ctx.drawImage(item, xpos, ypos);
             } else if(currSquare[1] == "Picobot(1)") {
                 ctx.drawImage(bluepico, xpos, ypos);

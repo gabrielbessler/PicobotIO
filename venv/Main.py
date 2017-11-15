@@ -11,8 +11,6 @@ from threading import Timer
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-
-
 # Stores all of the game information
 games = [[0, 0], [1, 0], [2, 0]]
 STARTUP_TIME = 10
@@ -20,12 +18,14 @@ game_players = {}
 game_boards = {}
 game_timers = {}
 GAME_TIME = 1000
+ITEM_DELAY = 10
+MAX_ITEMS = 10 #TODO: implement
 NUM_ID = [0]
 
-
-@app.route('/jake', methods=["GET", "POST"])
-def get_jake_data():
-    return json.dumps("here's some data")
+## TEMP ##
+# @app.route('/jake', methods=["GET", "POST"])
+# def get_jake_data():
+#     return json.dumps("here's some data")
 
 @app.route('/')
 def index():
@@ -95,7 +95,6 @@ def update_data(counter, game_num):
     '''
     game_timers[0] = counter
     if counter <= 0:
-        print('test')
         Timer(1, update_game, [GAME_TIME, game_num]).start()
     else:
         Timer(1, update_data, [counter - 1, game_num]).start()
@@ -108,12 +107,13 @@ def update_game(counter, game_num):
         game_boards[game_num] = -1
         games[game_num][1] = 0
     else:
-        r = randint(1,3)
+        r = randint(1,ITEM_DELAY)
         if r == 1:
             i = Item(1)
-            print('creating item')
-            #game_boards[game_num][randint(0,19), randint(0,19)] = i
-            print(game_boards[game_num].map.map)
+            x_spawn = randint(0,19)
+            y_spawn = randint(0,19)
+            if game_boards[game_num].map.map[x_spawn][y_spawn][1] != "Wall()":
+                game_boards[game_num].map.map[x_spawn][y_spawn] = [game_boards[game_num].map.map[x_spawn][y_spawn][0], i]
         game_timers[0] = counter
         game_boards[game_num].update()
         Timer(.5, update_game, [counter - .5, game_num]).start()
