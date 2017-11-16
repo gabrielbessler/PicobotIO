@@ -1,5 +1,3 @@
-# Map Class
-
 import random
 from Wall import Wall
 from Picobot import Picobot
@@ -39,13 +37,13 @@ class Map():
                     board[i][j] = w
             self.start1 = [1, 1, 1]
             self.start2 = [18, 18, 2]
-        else if map_type == "random":
+        elif map_type == "random":
             for i in range(size):
                 for j in range(size):
                     rand_num = random.randint(1, 101)
                     if rand_num < 21:
                         board[i][j] = w
-        else if map_type == "diamond":
+        elif map_type == "diamond":
             for i in range(1, 9):
                 for j in range(1, 10-i):
                     board[i][j] = w
@@ -54,7 +52,7 @@ class Map():
                     board[19- i][19 - j] = w
             self.start1 = [1, 9, 1]
             self.start2 = [18, 10, 2]
-        else if map_type == "islands":
+        elif map_type == "islands":
             for i in range(3, 7):
                 for j in range(3, 7):
                     board[i][j] = w

@@ -19,8 +19,9 @@ game_boards = {}
 game_timers = {}
 GAME_TIME = 1000
 ITEM_DELAY = 10
-MAX_ITEMS = 10 #TODO: implement
+MAX_ITEMS = 10
 NUM_ID = [0]
+curr_num_items = [0,0,0]
 
 ## TEMP ##
 # @app.route('/jake', methods=["GET", "POST"])
@@ -48,9 +49,9 @@ def join_game(game_num):
                     return render_template("waiting.html")
                 else:
                     if session["player_ID"] == game_players[game_num][0]:
-                        return render_template("Game.html", score=[0,GAME_TIME,0],player_num=1)
+                        return render_template("Game.html", score=[0,GAME_TIME,0],player_num=1, game_num = game_num)
                     else:
-                        return render_template("Game.html", score=[0,GAME_TIME,0],player_num=2)
+                        return render_template("Game.html", score=[0,GAME_TIME,0],player_num=2, game_num = game_num)
             else:
                 return "Game Full...<a href='/'>go home.</a>"
         else:
@@ -77,16 +78,23 @@ def join_game(game_num):
             else:
                 return "Game Full...<a href='/'>go home.</a>"
 
-@app.route('/get_score', methods=["POST"])
-def get_score():
+@app.route('/get_score/<int:game_num>', methods=["POST"])
+@app.route('/get_score/', methods=["POST"])
+def get_score(game_num=0):
     '''
     Calculate and return the score of each player in the game
     '''
+    # Check if the user passed in a value
     if len(game_boards) >= 1:
-        if game_boards[0] == -1:
-            return json.dumps(-1)
-        score = game_boards[0].getScore()
-        return json.dumps([score[1],game_timers[0],score[0], game_boards[0].map.getMap()])
+        try:
+            if game_boards[game_num] == -1:
+                # Return -1 if the game is over, and let client figure out winner based on score
+                return json.dumps(-1)
+            score = game_boards[game_num].getScore()
+            return json.dumps([score[1],game_timers[game_num],score[0], game_boards[game_num].map.getMap()])
+        except:
+            pass
+    # If we cannot access the score, return -2 (the client will handle this as 'don't update' )
     return json.dumps("-2")
 
 def update_data(counter, game_num):
@@ -107,13 +115,16 @@ def update_game(counter, game_num):
         game_boards[game_num] = -1
         games[game_num][1] = 0
     else:
-        r = randint(1,ITEM_DELAY)
-        if r == 1:
-            i = Item(1)
-            x_spawn = randint(0,19)
-            y_spawn = randint(0,19)
-            if game_boards[game_num].map.map[x_spawn][y_spawn][1] != "Wall()":
-                game_boards[game_num].map.map[x_spawn][y_spawn] = [game_boards[game_num].map.map[x_spawn][y_spawn][0], i]
+        if curr_num_items[game_num] < MAX_ITEMS:
+            r = randint(1,ITEM_DELAY)
+            if r == 1:
+                i = Item(1)
+                x_spawn = randint(0,19)
+                y_spawn = randint(0,19)
+                if game_boards[game_num].map.map[x_spawn][y_spawn][1] != "Wall()":
+                    curr_num_items[game_num] += 1
+                    game_boards[game_num].map.map[x_spawn][y_spawn] = [game_boards[game_num].map.map[x_spawn][y_spawn][0], i]
+
         game_timers[0] = counter
         game_boards[game_num].update()
         Timer(.5, update_game, [counter - .5, game_num]).start()
@@ -181,6 +192,7 @@ def create_new_game():
     Adds a new game to the games list
     '''
     games.append([len(games),0])
+    curr_num_items.append(0)
     return json.dumps("Success")
 
 @app.errorhandler(404)

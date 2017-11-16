@@ -11,7 +11,13 @@ var score2;
 var item;
 var map;
 
+var gameNumber;
+
 getImages();
+
+function getGameNum() {
+    gameNumber = document.getElementById('game_num').getAttribute('val');
+}
 
 /**
  * Loads all of the images that will be used for the game
@@ -45,8 +51,10 @@ function getImages() {
  * using a callback function.
  */
 function getScore() {
+    getGameNum();
+    console.log(gameNumber);
     $.ajax({
-        url: "/get_score",
+        url: "/get_score/" + gameNumber,
         type: "POST",
         success: function(data){
             if (data == -1) {
@@ -113,7 +121,6 @@ function drawMap(map) {
                 ctx.fillStyle = "rgba(50, 50, 50, .9)";
                 ctx.fillRect(xpos, ypos, COL_WIDTH, ROW_WIDTH);
             } else if(currSquare[1] == "Item(1)") {
-                console.log("doing it")
                 ctx.drawImage(item, xpos, ypos);
             } else if(currSquare[1] == "Picobot(1)") {
                 ctx.drawImage(bluepico, xpos, ypos);
