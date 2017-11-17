@@ -8,39 +8,98 @@
     <link rel="shortcut icon" href="/static/favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        showHome()
+        function getProfile() {
+            s = `
+            <h1 style="padding-left: 30px;">
+                Currently not logged in.
+            </h1>
+            `
+            document.getElementById('curr_disp').innerHTML = s;
+        }
+        function showHighScores() {
+            s = `
+            <h1 style="padding-left: 30px;">High Scores</h1>
 
+            <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
+            {% for game in games %}
+                <li class = 'list-group-item clearfix'>
+                    <h1>  Number {{ game[0] +1 }}: {{game[1]}} Points.
+                        <input type='button' class='btn btn-default pull-right' value='See Profile'></input>
+                    </h1>
+                </li>
+            {% endfor %}
+            </ul>
+            `;
+            document.getElementById('curr_disp').innerHTML = s;
+        }
+        function showHome() {
+            document.getElementById('curr_disp').innerHTML =
+            `
+            <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
+            {% for game in games %}
+                <li class = 'list-group-item clearfix'>
+
+                    <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
+                        {% if game[1] == 2 %}
+                            <input type='button' class='btn btn-default pull-right' value='Full'></input>
+                        {% else %}
+                            <a href = '/game/{{game[0]}}'>
+                                <input type='button' class='btn btn-success pull-right' value='Join Game'> </input>
+                            </a>
+                        {% endif %}
+                    </h1>
+                </li>
+            {% endfor %}
+            </ul>
+            `
+
+        }
+    </script>
 </head>
-<header>
-    <h1>
-        <center>
-            <img src="/static/picoblue.png">
-            Multiplayer Picobot Game - Lobby
-            <img src="/static/picored.png">
-        </center>
-    </h1>
-</header>
-
 <body>
 
-    <title> Picoio</title>
-    <ul class = "list-group" style="padding-left: 30px; padding-right: 30px">
-    {% for game in games %}
-        <li class = "list-group-item clearfix">
+    <title> Picoio </title>
 
-            <h1>  Game Number {{game[0] +1 }}: {{game[1]}} players in game.
-                {% if game[1] == 2 %}
-                    <!-- <a href = "/game/{{game[0]}}"> -->
-                        <input type = "button" class = "btn btn-default pull-right" value = "Full"></input>
-                    <!-- </a> -->
-                {% else %}
-                    <a href = "/game/{{game[0]}}">
-                        <input type = "button" class = "btn btn-success pull-right" value = "Join Game"> </input>
-                    </a>
-                {% endif %}
-            </h1>
-        </li>
-    {% endfor %}
-    </ul>
+    <nav class="navbar navbar-inverse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#" onclick="showHome();">Home</a></li>
+            <li><a href="#" onclick="getProfile();">Profile</a></li>
+            <li><a href="#" onclick="showHighScores();">High Scores</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" style="margin-right: 20px; ">Login</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>
+            <center>
+                <img src="/static/picoblue.png">
+                Multiplayer Picobot Game - Lobby
+                <img src="/static/picored.png">
+            </center>
+        </h1>
+    </header>
+    <div id="curr_disp">
+    <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
+        {% for game in games %}
+            <li class = 'list-group-item clearfix'>
+
+                <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
+                    {% if game[1] == 2 %}
+                        <input type='button' class='btn btn-default pull-right' value='Full'></input>
+                    {% else %}
+                        <a href = '/game/{{game[0]}}'>
+                            <input type='button' class='btn btn-success pull-right' value='Join Game'> </input>
+                        </a>
+                    {% endif %}
+                </h1>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
     <center style = "padding-left: 200px; padding-right: 200px">
         <h3>
             Rules:

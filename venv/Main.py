@@ -78,6 +78,10 @@ def join_game(game_num):
             else:
                 return "Game Full...<a href='/'>go home.</a>"
 
+@app.route('/check_game_ready/<int:game_num>', methods=["POST"])
+def check_game_ready(game_num):
+    return json.dumps(game_num)
+
 @app.route('/get_score/<int:game_num>', methods=["POST"])
 @app.route('/get_score/', methods=["POST"])
 def get_score(game_num=0):

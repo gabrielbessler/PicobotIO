@@ -10,6 +10,24 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="shortcut icon" href="/static/favicon.ico">
 
+    <script>
+        interval = setInterval(function() {
+            checkGameReady();
+        }, 2000);
+
+        function checkGameReady() {
+            gameNum = 0;
+            $.ajax({
+                url: "/check_game_ready/" + gameNum,
+                type: "POST",
+                success: function(data){
+                    console.log("data");
+                }
+            });
+        }
+    </script>
+
+
 </head>
 
 <body>

@@ -52,7 +52,6 @@ function getImages() {
  */
 function getScore() {
     getGameNum();
-    console.log(gameNumber);
     $.ajax({
         url: "/get_score/" + gameNumber,
         type: "POST",
