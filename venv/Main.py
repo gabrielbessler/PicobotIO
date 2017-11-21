@@ -26,14 +26,14 @@ curr_num_items = [0,0,0]
 ## TEMP ##
 # @app.route('/jake', methods=["GET", "POST"])
 # def get_jake_data():
-#     return json.dumps("here's some data")
+#     return json.dumps("sample data")
 
 @app.route('/')
 def index():
     '''
     Main lobby/waiting screen
     '''
-    return render_template("Main.html", games = games)
+    return render_template("Main.html", games=games)
 
 @app.route('/game/<int:game_num>')
 def join_game(game_num):
@@ -205,3 +205,8 @@ def page_not_found(e):
     Displays a "page not found" error for 404 errors
     '''
     return render_template('404.html')
+
+
+@app.route('/profile/<string:profile_name>')
+def profile(profile_name):
+    return render_template("profile.html")

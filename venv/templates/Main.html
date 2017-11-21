@@ -9,53 +9,66 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
-        showHome()
-        function getProfile() {
-            s = `
-            <h1 style="padding-left: 30px;">
-                Currently not logged in.
-            </h1>
-            `
-            document.getElementById('curr_disp').innerHTML = s;
-        }
-        function showHighScores() {
-            s = `
-            <h1 style="padding-left: 30px;">High Scores</h1>
 
-            <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
-            {% for game in games %}
-                <li class = 'list-group-item clearfix'>
-                    <h1>  Number {{ game[0] +1 }}: {{game[1]}} Points.
-                        <input type='button' class='btn btn-default pull-right' value='See Profile'></input>
-                    </h1>
-                </li>
-            {% endfor %}
-            </ul>
-            `;
-            document.getElementById('curr_disp').innerHTML = s;
-        }
-        function showHome() {
-            document.getElementById('curr_disp').innerHTML =
-            `
-            <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
-            {% for game in games %}
-                <li class = 'list-group-item clearfix'>
+    showHome()
+    /**
+     * shows the user profile if the user is logged in
+     */
+    function getProfile() {
+        s = `
+        <h1 style="padding-left: 30px;">
+            Currently not logged in.
+        </h1>
+        `
+        document.getElementById('curr_disp').innerHTML = s;
+    }
+    /**
+     * Shows the high scores
+     */
+    function showHighScores() {
+        s = `
+        <h1 style="padding-left: 30px;">High Scores</h1>
 
-                    <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
-                        {% if game[1] == 2 %}
-                            <input type='button' class='btn btn-default pull-right' value='Full'></input>
-                        {% else %}
-                            <a href = '/game/{{game[0]}}'>
-                                <input type='button' class='btn btn-success pull-right' value='Join Game'> </input>
-                            </a>
-                        {% endif %}
-                    </h1>
-                </li>
-            {% endfor %}
-            </ul>
-            `
+        <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
+        {% for game in games %}
+            <li class = 'list-group-item clearfix'>
+                <h1>  Number {{ game[0] +1 }}: {{game[1]}} Points.
+                    <a href="{{ url_for('profile', profile_name='foobar') }}">
+                    <input type='button' class='btn btn-default pull-right' value='See Profile'></input>
+                    </a>
+                </h1>
+            </li>
+        {% endfor %}
+        </ul>
+        `;
+        document.getElementById('curr_disp').innerHTML = s;
+    }
 
-        }
+    /**
+     * show the home screen (all of the games available)
+     */
+    function showHome() {
+        document.getElementById('curr_disp').innerHTML =
+        `
+        <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
+        {% for game in games %}
+            <li class = 'list-group-item clearfix'>
+
+                <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
+                    {% if game[1] == 2 %}
+                        <input type='button' class='btn btn-default pull-right' value='Full'></input>
+                    {% else %}
+                        <a href = '/game/{{game[0]}}'>
+                            <input type='button' class='btn btn-success pull-right' value='Join Game'> </input>
+                        </a>
+                    {% endif %}
+                </h1>
+            </li>
+        {% endfor %}
+        </ul>
+        `
+
+    }
     </script>
 </head>
 <body>
@@ -112,8 +125,24 @@
         </h4>
     </center>
     <center>
-        <input style="margin-left: 30px;" type="button" class="btn btn-success" value="Create New Game" onclick="createNewGame()"></input>
+        <input id="createGameBtn" style="margin-left: 30px;" type="button" class="btn btn-success" value="Create New Game" onclick="createNewGame(); showGameCreate()"></input>
     </center>
+
+    <div class="alert alert-info" id="new_game">
+        <strong id="alert_text"></strong>
+        <a href="#" class="close" aria-label="close" onclick="$('#new_game').fadeOut(1000, show_game_done)">&times</a>
+    </div>
+
+    <style>
+        #new_game {
+            display: none;
+            margin-bottom: 30px;
+        }
+        #createGameBtn {
+            margin-bottom: 30px;
+        }
+    </style>
+    <!-- display:none; padding-bottom: 30px;  -->
     <script src="/static/Lobby.js"></script>
 </body>
 </html>
