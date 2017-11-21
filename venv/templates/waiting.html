@@ -21,9 +21,11 @@
                 url: "/check_game_ready/" + gameNum,
                 type: "POST",
                 success: function(data){
-                    console.log("data");
+                    if (!(data == 1)) {
+                        window.location.href = "/" + JSON.parse(data);
+                    }
                 }
-            });
+          });
         }
     </script>
 

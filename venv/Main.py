@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, abort, session
+from flask import Flask, render_template, request, abort, session, url_for
 from random import randint
 import os
 import json
@@ -21,9 +21,9 @@ GAME_TIME = 1000
 ITEM_DELAY = 10
 MAX_ITEMS = 10
 NUM_ID = [0]
-curr_num_items = [0,0,0]
+curr_num_items = [0, 0, 0]
 
-## TEMP ##
+# TEMP #
 # @app.route('/jake', methods=["GET", "POST"])
 # def get_jake_data():
 #     return json.dumps("sample data")
@@ -80,7 +80,13 @@ def join_game(game_num):
 
 @app.route('/check_game_ready/<int:game_num>', methods=["POST"])
 def check_game_ready(game_num):
-    return json.dumps(game_num)
+    if game_num not in game_players:
+        return json.dumps(1)
+    # TODO: consider using defaultdict
+    if len(game_players[game_num]) == 2:
+        return json.dumps(url_for('join_game', game_num=game_num)[1:])
+    else:
+        return json.dumps(1)
 
 @app.route('/get_score/<int:game_num>', methods=["POST"])
 @app.route('/get_score/', methods=["POST"])
