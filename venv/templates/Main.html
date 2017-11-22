@@ -52,10 +52,13 @@
         <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
         {% for game in games %}
             <li class = 'list-group-item clearfix'>
-
-                <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
+                {% if game[1] == 1 %}
+                    <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} player in game OO.
+                {% else %}
+                    <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
+                {% endif %}
                     {% if game[1] == 2 %}
-                        <input type='button' class='btn btn-default pull-right' value='Full'></input>
+                        <input type='button' class='btn btn-default pull-right' value='Full' onclick="showGameFull()"></input>
                     {% else %}
                         <a href = '/game/{{game[0]}}'>
                             <input type='button' class='btn btn-success pull-right' value='Join Game'> </input>
@@ -108,7 +111,7 @@
                 <p>
                     Password:
                     <div class="form-group">
-                        <input class="form-control" id="inputdefault" type="text">
+                        <input class="form-control" id="inputdefault" type="password">
                     </div>
                 </p>
             </div>
@@ -144,10 +147,14 @@
     <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
         {% for game in games %}
             <li class = 'list-group-item clearfix'>
+                {% if game[1] == 1 %}
+                    <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} player in game.
+                {% else %}
+                    <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
+                {% endif %}
 
-                <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
                     {% if game[1] == 2 %}
-                        <input type='button' class='btn btn-default pull-right' value='Full'></input>
+                        <input type='button' class='btn btn-default pull-right' value='Full' onclick="showGameFull()"></input>
                     {% else %}
                         <a href = '/game/{{game[0]}}'>
                             <input type='button' class='btn btn-success pull-right' value='Join Game'> </input>
@@ -176,11 +183,16 @@
 
     <div class="alert alert-info" id="new_game">
         <strong id="alert_text"></strong>
-        <a href="#" class="close" aria-label="close" onclick="$('#new_game').fadeOut(1000, show_game_done)">&times</a>
+        <a href="#" class="close" aria-label="close" onclick="$('#new_game').fadeOut(500, show_game_done)">&times</a>
+    </div>
+
+    <div class="alert alert-danger" id="join_full">
+        <strong id="alert_text_2"></strong>
+        <a href="#" class="close" aria-label="close" onclick="$('#join_full').fadeOut(500)">&times</a>
     </div>
 
     <style>
-        #new_game {
+        #new_game, #join_full {
             display: none;
             margin-bottom: 30px;
             width: 90%;

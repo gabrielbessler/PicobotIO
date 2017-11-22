@@ -13,7 +13,32 @@ var map;
 
 var gameNumber;
 
+// FOR TESTING
+var manualControl = false;
+
 getImages();
+$(document).keypress(function(event){
+    keyCode = String.fromCharCode(event.which).toLowerCase();
+
+    if (keyCode == "a") {
+        console.log("got A");
+    }
+    else if(keyCode == "s") {
+
+    }
+    else if(keyCode == "d") {
+
+    }
+    else if(keyCode == "w") {
+
+    }
+    else if(keyCode == "m") {
+        manualControl = !manualControl;
+
+    }
+
+});
+
 
 function getGameNum() {
     gameNumber = document.getElementById('game_num').getAttribute('val');
