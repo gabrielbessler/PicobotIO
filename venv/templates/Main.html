@@ -49,6 +49,7 @@
     function showHome() {
         document.getElementById('curr_disp').innerHTML =
         `
+        <input type="button" class="btn btn-primary" value="Reload Games" onclick="reloadGameList();" id="reloadGames"></input>
         <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
         {% for game in games %}
             <li class = 'list-group-item clearfix'>
@@ -82,10 +83,24 @@
 
         <center>
             <input id="createGameBtn" style="margin-left: 30px;" type="button" class="btn btn-success" value="Create New Game" onclick="createNewGame(); showGameCreate()"></input>
-        </center>
+            <input id="quickJoin" style="margin-left: 5px;" type="button" class="btn btn-success" value="Quick Join" onclick="quickJoin()"></input>
+            </center>
+
+        <div class="alert alert-info" id="new_game">
+            <strong id="alert_text"></strong>
+            <a href="#" class="close" aria-label="close" onclick="$('#new_game').fadeOut(500, show_game_done)">&times</a>
+        </div>
+
+        <div class="alert alert-danger" id="join_full">
+            <strong id="alert_text_2"></strong>
+            <a href="#" class="close" aria-label="close" onclick="$('#join_full').fadeOut(500)">&times</a>
+        </div>
         `
 
     }
+    $( document ).ready(function() {
+        showHome();
+    });
     </script>
 </head>
 <body>
@@ -143,67 +158,27 @@
             </center>
         </h1>
     </header>
+
     <div id="curr_disp">
-    <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
-        {% for game in games %}
-            <li class = 'list-group-item clearfix'>
-                {% if game[1] == 1 %}
-                    <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} player in game.
-                {% else %}
-                    <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
-                {% endif %}
-
-                    {% if game[1] == 2 %}
-                        <input type='button' class='btn btn-default pull-right' value='Full' onclick="showGameFull()"></input>
-                    {% else %}
-                        <a href = '/game/{{game[0]}}'>
-                            <input type='button' class='btn btn-success pull-right' value='Join Game'> </input>
-                        </a>
-                    {% endif %}
-                </h1>
-            </li>
-        {% endfor %}
-        </ul>
-        <center style = "padding-left: 200px; padding-right: 200px">
-            <h3>
-                Rules:
-            </h3>
-            <h4>
-                You will compete against another player to cover the most ground possible.
-                Control your Picobot by changing its rules.
-                When you drive over a square, it will change colors to show you control it.
-                At the end of the time, whoever has the most space covered wins.
-            </h4>
-        </center>
-
-        <center>
-            <input id="createGameBtn" style="margin-left: 30px;" type="button" class="btn btn-success" value="Create New Game" onclick="createNewGame(); showGameCreate()"></input>
-        </center>
-    </div>
-
-    <div class="alert alert-info" id="new_game">
-        <strong id="alert_text"></strong>
-        <a href="#" class="close" aria-label="close" onclick="$('#new_game').fadeOut(500, show_game_done)">&times</a>
-    </div>
-
-    <div class="alert alert-danger" id="join_full">
-        <strong id="alert_text_2"></strong>
-        <a href="#" class="close" aria-label="close" onclick="$('#join_full').fadeOut(500)">&times</a>
     </div>
 
     <style>
         #new_game, #join_full {
             display: none;
-            margin-bottom: 30px;
+            margin-top: 30px;
             width: 90%;
             position: relative;
             left: 5%;
         }
-        #createGameBtn {
-            margin-bottom: 30px;
+        #reloadGames {
+            margin-left: 30px;
+            margin-bottom: 8px;
         }
         #login_bar {
             border-radius: 0px;
+        }
+        body {
+            padding-bottom: 30px;
         }
     </style>
     <!-- display:none; padding-bottom: 30px;  -->

@@ -4,14 +4,13 @@ const COL_WIDTH = 30;
 const ROW_WIDTH = 30;
 var loadedImages = 0;
 var sampleMap = [];
+var gameNumber;
 var bluepico;
 var redpico;
 var score1;
 var score2;
 var item;
 var map;
-
-var gameNumber;
 
 // FOR TESTING
 var manualControl = false;
@@ -94,7 +93,7 @@ function getScore() {
                     document.getElementById("score1").innerHTML = "LOSER";
                     document.getElementById("score2").innerHTML = "WINNER";
                 }
-            } else if (data != "-2") {
+            } else if (data != -2) {
                 data = eval(data);
                 map = eval(data[3]);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -175,8 +174,9 @@ function preset1() {
 function submit() {
     playerNum = document.getElementById('player_num').getAttribute('val');
     inst = document.getElementById('pico_instructions').value.split('\n');
+    getGameNum();
     $.ajax({
-        url: "/update_instructions",
+        url: "/update_instructions/" + gameNumber,
         type: "POST",
         dataType: "json",
         contentType: 'application/json; charset=UTF-8',
@@ -185,4 +185,8 @@ function submit() {
             document.getElementById("pico_errors").innerHTML = data;
         }
     });
+}
+
+function reloadGameList() {
+    console.log("feature currently in progress.");
 }

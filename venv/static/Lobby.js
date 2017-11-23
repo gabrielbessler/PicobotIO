@@ -34,3 +34,7 @@ function show_game_done() {
     showingGameCreation = false;
 }
 
+function quickJoin() {
+    // TODO - get the first game available and join it
+
+}
