@@ -239,3 +239,9 @@ def page_not_found(e):
 @app.route('/profile/<string:profile_name>')
 def profile(profile_name):
     return render_template("profile.html")
+
+@app.route('/exit_game/<int:game_num>')
+def exit_game(game_num):
+    #TODO
+    print("removing player from game...")
+

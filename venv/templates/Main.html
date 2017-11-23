@@ -14,6 +14,9 @@
      * shows the user profile if the user is logged in
      */
     function getProfile() {
+        $('#homeBtn').removeClass('active');
+        $('#profileBtn').addClass("active");
+        $('#highScoreBtn').removeClass("active");
         s = `
         <h1 style="padding-left: 30px;">
             Currently not logged in.
@@ -25,6 +28,9 @@
      * Shows the high scores
      */
     function showHighScores() {
+        $('#homeBtn').removeClass('active');
+        $('#profileBtn').removeClass("active");
+        $('#highScoreBtn').addClass("active");
         s = `
         <h1 style="padding-left: 30px;">High Scores</h1>
 
@@ -43,33 +49,82 @@
         document.getElementById('curr_disp').innerHTML = s;
     }
 
+    function showMore() {
+        showHome(true);
+    }
+    function showLess() {
+        showHome(false);
+    }
+
     /**
      * show the home screen (all of the games available)
      */
-    function showHome() {
-        document.getElementById('curr_disp').innerHTML =
-        `
-        <input type="button" class="btn btn-primary" value="Reload Games" onclick="reloadGameList();" id="reloadGames"></input>
-        <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
-        {% for game in games %}
-            <li class = 'list-group-item clearfix'>
-                {% if game[1] == 1 %}
-                    <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} player in game OO.
+    function showHome(showAll = false) {
+        $('#homeBtn').addClass('active');
+        $('#profileBtn').removeClass("active");
+        $('#highScoreBtn').removeClass("active");
+        /* TODO: fix redundancy */
+        if (showAll == false) {
+            document.getElementById('curr_disp').innerHTML = `
+            <input type="button" class="btn btn-primary" value="Reload Games" onclick="reloadGameList();" id="reloadGames"></input>
+            <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
+            {% for game in games %}
+                {% if game[0] < 5 %}
+                    <li class = 'list-group-item clearfix'>
+                        {% if game[1] == 1 %}
+                            <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} player in game.
+                        {% else %}
+                            <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
+                        {% endif %}
+                            {% if game[1] == 2 %}
+                                <input type='button' class='btn btn-default pull-right' value='Full' onclick="showGameFull()"></input>
+                            {% else %}
+                                <a href = '/game/{{game[0]}}'>
+                                    <input type='button' class='btn btn-success pull-right' value='Join Game'> </input>
+                                </a>
+                            {% endif %}
+                        </h1>
+                    </li>
                 {% else %}
-                    <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
-                {% endif %}
-                    {% if game[1] == 2 %}
-                        <input type='button' class='btn btn-default pull-right' value='Full' onclick="showGameFull()"></input>
-                    {% else %}
-                        <a href = '/game/{{game[0]}}'>
-                            <input type='button' class='btn btn-success pull-right' value='Join Game'> </input>
-                        </a>
+                    {% if game[0] == 5 %}
+                        <li class = 'list-group-item clearfix'>
+                            <center><span onclick="showMore();"><h1>...</h1></span></center>
+                        </li>
                     {% endif %}
-                </h1>
-            </li>
-        {% endfor %}
-        </ul>
-        <center style = "padding-left: 200px; padding-right: 200px">
+                {% endif %}
+            {% endfor %}
+            </ul>
+            `
+        } else {
+            document.getElementById('curr_disp').innerHTML = `
+            <input type="button" class="btn btn-primary" value="Reload Games" onclick="reloadGameList();" id="reloadGames"></input>
+            <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
+            {% for game in games %}
+                    <li class = 'list-group-item clearfix'>
+                        {% if game[1] == 1 %}
+                            <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} player in game.
+                        {% else %}
+                            <h1>  Game Number {{ game[0] +1 }}: {{game[1]}} players in game.
+                        {% endif %}
+                            {% if game[1] == 2 %}
+                                <input type='button' class='btn btn-default pull-right' value='Full' onclick="showGameFull()"></input>
+                            {% else %}
+                                <a href = '/game/{{game[0]}}'>
+                                    <input type='button' class='btn btn-success pull-right' value='Join Game'> </input>
+                                </a>
+                            {% endif %}
+                        </h1>
+                    </li>
+            {% endfor %}
+                <li class = 'list-group-item clearfix'>
+                    <center><span onclick="showLess();"><h1>^</h1></span></center>
+                </li>
+            </ul>
+            `
+        }
+
+        document.getElementById('curr_disp').innerHTML +=
+        `<center style = "padding-left: 200px; padding-right: 200px">
         <h3>
             Rules:
         </h3>
@@ -88,15 +143,13 @@
 
         <div class="alert alert-info" id="new_game">
             <strong id="alert_text"></strong>
-            <a href="#" class="close" aria-label="close" onclick="$('#new_game').fadeOut(500, show_game_done)">&times</a>
+            <a href="#_" class="close" aria-label="close" onclick="$('#new_game').fadeOut(500, show_game_done)">&times</a>
         </div>
 
         <div class="alert alert-danger" id="join_full">
             <strong id="alert_text_2"></strong>
-            <a href="#" class="close" aria-label="close" onclick="$('#join_full').fadeOut(500)">&times</a>
-        </div>
-        `
-
+            <a href="#_" class="close" aria-label="close" onclick="$('#join_full').fadeOut(500)">&times</a>
+        </div>`
     }
     $( document ).ready(function() {
         showHome();
@@ -140,9 +193,9 @@
 
     <nav class="navbar navbar-inverse" id="login_bar">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#" onclick="showHome();">Home</a></li>
-            <li><a href="#" onclick="getProfile();">Profile</a></li>
-            <li><a href="#" onclick="showHighScores();">High Scores</a></li>
+            <li id="homeBtn" class="active"><a href="#" onclick="showHome();">Home</a></li>
+            <li id="profileBtn"><a href="#" onclick="getProfile();">Profile</a></li>
+            <li id="highScoreBtn"><a href="#" onclick="showHighScores();">High Scores</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#" style="margin-right: 20px;" data-toggle="modal" data-target="#loginModal">Login</a></li>

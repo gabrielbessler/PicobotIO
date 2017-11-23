@@ -34,6 +34,10 @@
         function leaveGame() {
             gameNum = $('#game_num').attr('value');
             window.location.href = "/";
+            $.ajax({
+                url: "/exit_game/" + gameNum,
+                type: "POST"
+            });
           }
     </script>
 
@@ -46,6 +50,11 @@
         Waiting for another player...
         (<span id="timer">0</span>s)
     </h1>
-    <button type="button" class="btn btn-danger" onclick="leaveGame()">Exit Queue</button>
+    <button id="exitBtn" type="button" class="btn btn-danger" onclick="leaveGame()">Exit Queue</button>
+    <style>
+        #exitBtn {
+            margin-left: 30px;
+        }
+    </style>
 </body>
 </html>
