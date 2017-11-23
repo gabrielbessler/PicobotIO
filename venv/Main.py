@@ -158,6 +158,7 @@ def update_game(counter, game_num):
         game_boards[game_num].update()
         Timer(.5, update_game, [counter - .5, game_num]).start()
 
+
 @app.route('/update_instructions/<int:game_num>', methods=["GET", "POST"])
 def get_instructions(game_num):
     '''
@@ -240,8 +241,17 @@ def page_not_found(e):
 def profile(profile_name):
     return render_template("profile.html")
 
+
 @app.route('/exit_game/<int:game_num>')
 def exit_game(game_num):
-    #TODO
+    # TODO
     print("removing player from game...")
 
+
+@app.route('/quick_join/', methods=["POST"])
+def quick_join():
+    for game in games:
+        if game[1] < 2:
+                return json.dumps('/game/' + str(game[0]))
+
+    return json.dumps("error")

@@ -35,6 +35,16 @@ function show_game_done() {
 }
 
 function quickJoin() {
-    // TODO - get the first game available and join it
-
+    $.ajax({
+        url: "/quick_join/",
+        type: "POST",
+        success: function(data){
+            data = JSON.parse(data);
+            if (data == "error") {
+                console.log('error')
+            } else {
+                window.location.href = data;
+            }
+        }
+    });
 }

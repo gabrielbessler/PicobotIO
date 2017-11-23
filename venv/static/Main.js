@@ -190,4 +190,3 @@ function submit() {
 function reloadGameList() {
     console.log("feature currently in progress.");
 }
-
