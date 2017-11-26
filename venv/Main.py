@@ -21,6 +21,7 @@ GAME_TIME = 1000
 ITEM_DELAY = 10
 MAX_ITEMS = 10
 NUM_ID = [0]
+MAX_GAMES = 100
 curr_num_items = [0, 0, 0]
 
 # TEMP #
@@ -224,10 +225,12 @@ def create_new_game():
     '''
     Adds a new game to the games list
     '''
-    games.append([len(games),0])
-    curr_num_items.append(0)
-    return json.dumps("Success")
-
+    if len(games) < MAX_GAMES:
+        games.append([len(games), 0])
+        curr_num_items.append(0)
+        return json.dumps("Success")
+    else:
+        return json.dumps("Failure")
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -236,6 +239,9 @@ def page_not_found(e):
     '''
     return render_template('404.html')
 
+@app.errorhandler(405)
+def method_not_alloed(e):
+    return page_not_found(e)
 
 @app.route('/profile/<string:profile_name>')
 def profile(profile_name):

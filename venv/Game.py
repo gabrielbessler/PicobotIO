@@ -64,7 +64,8 @@ class Game(object):
 
     def getScore(self):
         '''
-        Counts the numbers of squares that each player currently has colored on the map
+        Counts the numbers of squares that each player currently has colored
+        on the map
         Returns the scores in [player1score, player2score]
         '''
         score1 = 0

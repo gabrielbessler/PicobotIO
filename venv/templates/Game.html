@@ -17,29 +17,27 @@
     <span id="game_num" val="{{ game_num }}"></span>
     <span id="player_num" val="{{ player_num }}"></span>
 
-    <div class="bs-example">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class = "text-center">Blue Score</th>
-                    <th class = "text-center">Time Remaining</th>
-                    <th class = "text-center">Red Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td id="score1" class = "info text-center" style="font-weight:bold">{{score[0]}}</td>
-                    <td id="timer" class = "text-center" style="font-weight:bold">5 s</td>
-                    <td id="score2" class = "danger text-center" style="font-weight:bold">{{score[2]}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class = "text-center">Blue Score</th>
+                <th class = "text-center">Time Remaining</th>
+                <th class = "text-center">Red Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="score1" class = "info text-center" style="font-weight:bold">{{score[0]}}</td>
+                <td id="timer" class = "text-center" style="font-weight:bold">5 s</td>
+                <td id="score2" class = "danger text-center" style="font-weight:bold">{{score[2]}}</td>
+            </tr>
+        </tbody>
+    </table>
+
     <canvas id="canvas" width="600" height="600" style="float: left; border:1px solid #000000;">
-        <h1>
-            Canvas not supported
-        </h1>
+        <h1>Canvas not supported</h1>
     </canvas>
+
     <center><div>
         {% if player_num == 1 %}
             <center><h1 style="color: red">Rules (Player {{ player_num }})</h1></center>
@@ -58,8 +56,8 @@ Sample Code:
         <input onclick="preset2()" type"button" class="btn btn-info" value="Preset Two"></input>
         <br>
         <center><h2>Errors</h2></center>
-        <textarea class="form-control" id="pico_errors" style="width: 600px; margin-left: 30px; resize: none" rows="3">
-Your rules are valid.</textarea>
+        <textarea class="form-control" id="pico_errors" style="width: 600px; margin-left: 30px; resize: none" rows="3" readonly>
+Submit a ruleset.</textarea>
     </div></center>
 
     <script src="/static/Main.js"></script>

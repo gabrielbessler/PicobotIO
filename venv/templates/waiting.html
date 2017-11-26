@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <title>Pico.io</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/waiting.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="shortcut icon" href="/static/favicon.ico">
@@ -52,27 +53,5 @@
     </h1>
     <div class="loader"></div>
     <button id="exitBtn" type="button" class="btn btn-danger" onclick="leaveGame()">Exit Queue</button>
-
-    <style>
-        #exitBtn {
-            position: relative;
-            left: 30px;
-        }
-        .loader {
-            border: 16px solid #f3f3f3; /* Light grey */
-            border-top: 16px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 120px;
-            height: 120px;
-            animation: spin 2s linear infinite;
-            margin-left: 30px;
-            margin-bottom: 30px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-
 </body>
 </html>

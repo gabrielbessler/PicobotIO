@@ -9,8 +9,8 @@ class Map():
         Creates a new map and then poulates it using mapType
         '''
         #BUG: make sure that start1 and start2 are correctly updated
-        self.start1 = [1,1,1]
-        self.start2 = [18,18,2]
+        self.start1 = [1, 1, 1]
+        self.start2 = [18, 18, 2]
         self.map = self.generate(mapType)
         self.p1 = Picobot(self.start1, [])
         self.p2 = Picobot(self.start2, [])
