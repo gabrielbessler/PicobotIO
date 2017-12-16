@@ -1,5 +1,5 @@
 # PicobotIO
-Multiplayer version of Picobot game create at MuddHacks (Harvey Mudd Hackathon) 
+Multiplayer version of Picobot game created at MuddHacks (Harvey Mudd Hackathon) 
 by Gabriel Bessler, Tyler Sam, Sam Tan, and Jake Lawrence 
 
 ## Installing the application 
