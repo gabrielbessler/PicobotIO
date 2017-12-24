@@ -1,18 +1,15 @@
-# Map Class
-
 import random
 from Wall import Wall
-from Item import Item
 from Picobot import Picobot
 
 
 class Map():
 
-    # map constructor with type
     def __init__(self, mapType):
         '''
-
+        Creates a new map and then poulates it using mapType
         '''
+        # BUG: make sure that start1 and start2 are correctly updated
         self.start1 = [1, 1, 1]
         self.start2 = [18, 18, 2]
         self.map = self.generate(mapType)
@@ -22,8 +19,7 @@ class Map():
         self.map[18][18] = [2, self.p2]
         self.size = 20
 
-    # generate Map
-    def generate(self, mapType):
+    def generate(self, map_type):
         '''
         Given a map type, initialises a new map in the type of the 2D list
         '''
@@ -35,19 +31,20 @@ class Map():
                 board[19][i] = w
                 board[i][0] = w
                 board[i][19] = w
-        if mapType == "type1":
+
+        if map_type == "type1":
             for i in range(8, 12):
                 for j in range(8, 12):
                     board[i][j] = w
             self.start1 = [1, 1, 1]
             self.start2 = [18, 18, 2]
-        if mapType == "random":
+        elif map_type == "random":
             for i in range(size):
                 for j in range(size):
                     rand_num = random.randint(1, 101)
                     if rand_num < 21:
                         board[i][j] = w
-        if mapType == "diamond":
+        elif map_type == "diamond":
             for i in range(1, 9):
                 for j in range(1, 10-i):
                     board[i][j] = w
@@ -56,8 +53,7 @@ class Map():
                     board[19 - i][19 - j] = w
             self.start1 = [1, 9, 1]
             self.start2 = [18, 10, 2]
-
-        if mapType == "islands":
+        elif map_type == "islands":
             for i in range(3, 7):
                 for j in range(3, 7):
                     board[i][j] = w
@@ -74,29 +70,31 @@ class Map():
             self.start2 = [18, 18, 2]
         return board
 
-    # return a string with the surroundings
-    def getSurroundings(self, xPos, yPos):
-
-        if self.map[yPos-1][xPos][1] == "Wall()":
+    def getSurroundings(self, x_pos, y_pos):
+        '''
+        Return a string with the surroundings of a given x_pos, y_pos
+        '''
+        # TODO: shorten this by using a for loop
+        if self.map[y_pos-1][x_pos][1] == "Wall()":
             north = "x"
         else:
             north = "_"
-        if self.map[yPos][xPos-1][1] == "Wall()":
+        if self.map[y_pos][x_pos-1][1] == "Wall()":
             west = "x"
         else:
             west = "_"
-        if self.map[yPos][xPos + 1][1] == "Wall()":
+        if self.map[y_pos][x_pos + 1][1] == "Wall()":
             east = "x"
         else:
             east = "_"
-        if self.map[yPos+1][xPos][1] == "Wall()":
+        if self.map[y_pos+1][x_pos][1] == "Wall()":
             south = "x"
         else:
             south = "_"
         surroundings = north + south + east + west
         return surroundings
 
-    def getSize(self):
+    def get_sze(self):
         '''
         Returns the map's size
         '''
@@ -113,7 +111,7 @@ class Map():
                 tempMap[i][j][1] = str(self.map[i][j][1])
         return tempMap
 
-    def checkConsistent(self, map):
+    def check_consistent(self, map):
         '''
         TODO: check if the map is consistent
         '''

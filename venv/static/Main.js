@@ -4,6 +4,7 @@ const COL_WIDTH = 30;
 const ROW_WIDTH = 30;
 var loadedImages = 0;
 var sampleMap = [];
+var gameNumber;
 var bluepico;
 var redpico;
 var score1;
@@ -11,7 +12,36 @@ var score2;
 var item;
 var map;
 
+// FOR TESTING
+var manualControl = false;
+
 getImages();
+$(document).keypress(function(event){
+    keyCode = String.fromCharCode(event.which).toLowerCase();
+
+    if (keyCode == "a") {
+        console.log("got A");
+    }
+    else if(keyCode == "s") {
+
+    }
+    else if(keyCode == "d") {
+
+    }
+    else if(keyCode == "w") {
+
+    }
+    else if(keyCode == "m") {
+        manualControl = !manualControl;
+
+    }
+
+});
+
+
+function getGameNum() {
+    gameNumber = document.getElementById('game_num').getAttribute('val');
+}
 
 /**
  * Loads all of the images that will be used for the game
@@ -45,8 +75,9 @@ function getImages() {
  * using a callback function.
  */
 function getScore() {
+    getGameNum();
     $.ajax({
-        url: "/get_score",
+        url: "/get_score/" + gameNumber,
         type: "POST",
         success: function(data){
             if (data == -1) {
@@ -62,7 +93,7 @@ function getScore() {
                     document.getElementById("score1").innerHTML = "LOSER";
                     document.getElementById("score2").innerHTML = "WINNER";
                 }
-            } else if (data != "-2") {
+            } else if (data != -2) {
                 data = eval(data);
                 map = eval(data[3]);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -112,7 +143,7 @@ function drawMap(map) {
             if (currSquare[1] == "Wall()") {
                 ctx.fillStyle = "rgba(50, 50, 50, .9)";
                 ctx.fillRect(xpos, ypos, COL_WIDTH, ROW_WIDTH);
-            } else if(currSquare[1] == "Item()") {
+            } else if(currSquare[1] == "Item(1)") {
                 ctx.drawImage(item, xpos, ypos);
             } else if(currSquare[1] == "Picobot(1)") {
                 ctx.drawImage(bluepico, xpos, ypos);
@@ -143,8 +174,9 @@ function preset1() {
 function submit() {
     playerNum = document.getElementById('player_num').getAttribute('val');
     inst = document.getElementById('pico_instructions').value.split('\n');
+    getGameNum();
     $.ajax({
-        url: "/update_instructions",
+        url: "/update_instructions/" + gameNumber,
         type: "POST",
         dataType: "json",
         contentType: 'application/json; charset=UTF-8',
@@ -153,4 +185,8 @@ function submit() {
             document.getElementById("pico_errors").innerHTML = data;
         }
     });
+}
+
+function reloadGameList() {
+    console.log("feature currently in progress.");
 }

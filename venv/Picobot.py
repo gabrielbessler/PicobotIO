@@ -21,13 +21,12 @@ class Picobot(object):
         for rule in self.ruleList:
             if self.currentState == rule[0]:
                 matches = True
-                for x in range(0, 4):
-                    if surroundings[x] != rule[1][x] and rule[1][x] != '*':
+                for i in range(0, 4):
+                    if surroundings[i] != rule[1][i] and rule[1][i] != '*':
                         matches = False
                 if matches:
                     self.currentState = rule[3]
                     return rule[2]
-        return
 
     def __repr__(self):
         '''

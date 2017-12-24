@@ -1,10 +1,10 @@
 class Wall():
 
-    def __init__(self):
+    def __init__(self, wall_type=0):
         '''
-        Creates a new wall object
+        Creates the default wall object
         '''
-        pass
+        self.wall_type = wall_type
 
     def __repr__(self):
         '''
