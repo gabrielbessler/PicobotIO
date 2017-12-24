@@ -1,15 +1,15 @@
 from flask import Flask, render_template, request, abort, session
+from threading import Timer
+from Picobot import Picobot
 from random import randint
-import os
-import json
-import Map
 from Game import Game
 from Item import Item
-from Picobot import Picobot
-from threading import Timer
+import json
+import Map
+import os
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24) #used for user sessions
+app.secret_key = os.urandom(24)  # used for user sessions
 
 # Stores all of the game information
 games = [[0, 0], [1, 0], [2, 0]]
@@ -20,12 +20,14 @@ game_timers = {}
 GAME_TIME = 1000
 NUM_ID = [0]
 
+
 @app.route('/')
 def index():
     '''
     Main lobby/waiting screen
     '''
-    return render_template("Main.html", games = games)
+    return render_template("Main.html", games=games)
+
 
 @app.route('/game/<int:game_num>')
 def join_game(game_num):
@@ -36,20 +38,25 @@ def join_game(game_num):
         abort(404)
     else:
         if "player_ID" in session:
-            if session["player_ID"] == game_players[game_num][0] or session["player_ID"] == game_players[game_num][1]:
+            if session["player_ID"] == game_players[game_num][0] or \
+               session["player_ID"] == game_players[game_num][1]:
                 if games[game_num][1] == 1:
                     return render_template("waiting.html")
                 else:
                     if session["player_ID"] == game_players[game_num][0]:
-                        return render_template("Game.html", score=[0,GAME_TIME,0],player_num=1)
+                        return render_template("Game.html",
+                                               score=[0, GAME_TIME, 0],
+                                               player_num=1)
                     else:
-                        return render_template("Game.html", score=[0,GAME_TIME,0],player_num=2)
+                        return render_template("Game.html",
+                                               score=[0, GAME_TIME, 0],
+                                               player_num=2)
             else:
                 return "Game Full...<a href='/'>go home.</a>"
         else:
             # first, we check how many players are in the game
             if games[game_num][1] < 2:
-                #if it's less than 2, we want to add a new player
+                # if it's less than 2, we want to add a new player
                 if games[game_num][1] == 0:
                     game_players[game_num] = [NUM_ID[0]]
                     games[game_num][1] += 1
@@ -66,9 +73,12 @@ def join_game(game_num):
                     games[game_num][1] += 1
                     session["player_ID"] = NUM_ID[0]
                     NUM_ID[0] += 1
-                    return render_template("Game.html", score=[0,GAME_TIME,0], player_num=2)
+                    return render_template("Game.html",
+                                           score=[0, GAME_TIME, 0],
+                                           player_num=2)
             else:
                 return "Game Full...<a href='/'>go home.</a>"
+
 
 @app.route('/get_score', methods=["POST"])
 def get_score():
@@ -79,8 +89,10 @@ def get_score():
         if game_boards[0] == -1:
             return json.dumps(-1)
         score = game_boards[0].getScore()
-        return json.dumps([score[1],game_timers[0],score[0], game_boards[0].map.getMap()])
+        return json.dumps([score[1], game_timers[0], score[0],
+                          game_boards[0].map.getMap()])
     return json.dumps("-2")
+
 
 def update_data(counter, game_num):
     '''
@@ -93,6 +105,7 @@ def update_data(counter, game_num):
     else:
         Timer(1, update_data, [counter - 1, game_num]).start()
 
+
 def update_game(counter, game_num):
     '''
     Countdown and update the game until the game ends
@@ -101,14 +114,15 @@ def update_game(counter, game_num):
         game_boards[game_num] = -1
         games[game_num][1] = 0
     else:
-        r = randint(1,3)
+        r = randint(1, 3)
         if r == 1:
             i = Item(1)
             print('creating item')
-            game_boards[game_num][randint(0,19), randint(0,19)] = i
+            game_boards[game_num][randint(0, 19), randint(0, 19)] = i
         game_timers[0] = counter
         game_boards[game_num].update()
         Timer(.5, update_game, [counter - .5, game_num]).start()
+
 
 @app.route('/update_instructions', methods=["GET", "POST"])
 def get_instructions():
@@ -139,6 +153,7 @@ def get_instructions():
 
     return json.dumps("Your inputs are valid.")
 
+
 def is_directions(s):
     '''
     Given a string S representing the environment segment of an instruction,
@@ -157,6 +172,7 @@ def is_directions(s):
     else:
         return True
 
+
 def represents_int(s):
     '''
     Checks if a number can be represntated as an integer
@@ -167,13 +183,15 @@ def represents_int(s):
     except ValueError:
         return False
 
+
 @app.route('/create_game', methods=["POST"])
 def create_new_game():
     '''
     Adds a new game to the games list
     '''
-    games.append([len(games),0])
+    games.append([len(games), 0])
     return json.dumps("Success")
+
 
 @app.errorhandler(404)
 def page_not_found(e):

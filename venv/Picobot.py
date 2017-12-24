@@ -21,7 +21,7 @@ class Picobot(object):
         for rule in self.ruleList:
             if self.currentState == rule[0]:
                 matches = True
-                for x in range(0,4):
+                for x in range(0, 4):
                     if surroundings[x] != rule[1][x] and rule[1][x] != '*':
                         matches = False
                 if matches:
@@ -31,6 +31,7 @@ class Picobot(object):
 
     def __repr__(self):
         '''
-        Returns a representation of the picobot that can be displayed on the board
+        Returns a representation of the picobot that can be displayed on the
+        board
         '''
         return "Picobot(" + str(self.color) + ")"

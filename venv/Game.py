@@ -1,4 +1,5 @@
 class Game(object):
+
     def __init__(self, map):
         '''
         Constructor for Game given two Picobots and a map
@@ -17,8 +18,10 @@ class Game(object):
         surr2 = self.map.getSurroundings(self.bot2.xPos, self.bot2.yPos)
 
         # Get the directions of both players
-        bot_1_dir = self.bot1.getDir(self.map.getSurroundings(self.bot1.xPos, self.bot1.yPos))
-        bot_2_dir = self.bot2.getDir(self.map.getSurroundings(self.bot2.xPos, self.bot2.yPos))
+        bot_1_dir = self.bot1.getDir(self.map.getSurroundings(self.bot1.xPos,
+                                                              self.bot1.yPos))
+        bot_2_dir = self.bot2.getDir(self.map.getSurroundings(self.bot2.xPos,
+                                                              self.bot2.yPos))
 
         # Updates the position for player 1
         if bot_1_dir == 'N' and surr1[0] != "x":
@@ -64,7 +67,8 @@ class Game(object):
 
     def getScore(self):
         '''
-        Counts the numbers of squares that each player currently has colored on the map
+        Counts the numbers of squares that each player currently
+        has colored on the map
         Returns the scores in [player1score, player2score]
         '''
         score1 = 0

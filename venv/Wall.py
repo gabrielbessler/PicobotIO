@@ -2,7 +2,7 @@ class Wall():
 
     def __init__(self):
         '''
-
+        Creates a new wall object
         '''
         pass
 
