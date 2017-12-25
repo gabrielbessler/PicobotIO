@@ -1,0 +1,43 @@
+<!-- the main header bar -->
+<nav class="navbar navbar-inverse" id="login_bar">
+    <ul class="nav navbar-nav">
+        <li id="homeBtn" class="active"><a href="#" onclick="showHome();">Home</a></li>
+        <li id="profileBtn"><a href="#" onclick="getProfile();">Profile</a></li>
+        <li id="highScoreBtn"><a href="#" onclick="showHighScores();">High Scores</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="#" style="margin-right: 20px;" data-toggle="modal" data-target="#loginModal">Login</a></li>
+    </ul>
+</nav>
+
+<!-- showing the login modal -->
+<div class="modal fade" id="loginModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+                <p> Login to Picoio </p>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Username:
+                    <div class="form-group">
+                        <input class="form-control" class="inputdefault" type="text">
+                    </div>
+                </p>
+                <p>
+                    Password:
+                    <div class="form-group">
+                        <input class="form-control" class="inputdefault" type="password">
+                    </div>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"> Login </button>
+                <button type="button" class="btn btn-secondary" > Register </button>
+            </div>
+            </div>
+        </div>
+    </div>

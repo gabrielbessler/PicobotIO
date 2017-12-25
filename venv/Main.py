@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, abort, session, url_for
 from random import randint
 from Game import Game
 from Item import Item
+from threading import Timer
 import json
 import Map
 import os
@@ -15,25 +16,40 @@ STARTUP_TIME = 10
 game_players = {}
 game_boards = {}
 game_timers = {}
-GAME_TIME = 1000
+GAME_TIME = 180
 ITEM_DELAY = 10
 MAX_ITEMS = 10
 NUM_ID = [0]
 MAX_GAMES = 100
 curr_num_items = [0, 0, 0]
 
-# TEMP #
-# @app.route('/jake', methods=["GET", "POST"])
-# def get_jake_data():
-#     return json.dumps("sample data")
 
+# ================ INDEX =====================
 
 @app.route('/')
 def index():
     '''
     Main lobby/waiting screen
     '''
-    return render_template("Main.html", games=games)
+    return render_template("index.html", list_of_games=games)
+
+
+@app.route('/get_game_list', methods=["POST"])
+def test():
+    '''
+    Returns the list of games currently available
+    '''
+    return json.dumps(games)
+
+
+@app.route('/quick_join/', methods=["POST"])
+def quick_join():
+    for game in games:
+        if game[1] < 2:
+                return json.dumps('/game/' + str(game[0]))
+    return json.dumps("error")
+
+# ================ MAIN GAME =================
 
 
 @app.route('/game/<int:game_num>')
@@ -268,12 +284,3 @@ def profile(profile_name):
 def exit_game(game_num):
     # TODO
     print("removing player from game...")
-
-
-@app.route('/quick_join/', methods=["POST"])
-def quick_join():
-    for game in games:
-        if game[1] < 2:
-                return json.dumps('/game/' + str(game[0]))
-
-    return json.dumps("error")

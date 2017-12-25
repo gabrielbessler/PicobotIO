@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Pico.io</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            showHome();
+        });
+    /**
+         * Shows the high scores
+         */
+        function showHighScores() {
+            $('#homeBtn').removeClass('active');
+            $('#profileBtn').removeClass("active");
+            $('#highScoreBtn').addClass("active");
+            s = `
+            <h1 style="padding-left: 30px;">High Scores</h1>
+
+            <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
+            {% for game in list_of_games %}
+                <li class = 'list-group-item clearfix'>
+                    <h1>  Number {{ game[0] +1 }}: {{game[1]}} Points.
+                        <a href="{{ url_for('profile', profile_name='foobar') }}">
+                        <input type='button' class='btn btn-default pull-right' value='See Profile'></input>
+                        </a>
+                    </h1>
+                </li>
+            {% endfor %}
+            </ul>
+            `;
+            document.getElementById('curr_disp').innerHTML = s;
+        }
+
+        /**
+        * show the home screen (all of the games available)
+        */
+       function showHome(showAllGames = false) {
+           $('#homeBtn').addClass('active');
+           $('#profileBtn').removeClass("active");
+           $('#highScoreBtn').removeClass("active");
+
+           document.getElementById('curr_disp').innerHTML = `
+           <input type="button" class="btn btn-primary" value="Reload Games" onclick="reloadGameList();" id="reloadGames"></input>
+           <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
+           `
+           s = "";
+
+            for (var gameIndex = 0; gameIndex < gameData.length; gameIndex++) {
+                gameVal = gameData[gameIndex][1];
+                s += "<li class = 'list-group-item clearfix'>";
+                if (gameIndex < 5 || showAllGames == true) {
+                    s += "<h1> Game Number " + (gameIndex+1).toString() + ": " + gameVal + " players in game.";
+                    if (gameVal == 2) {
+                        s += "<input type='button' class='btn btn-default pull-right' value='Full' onclick='showGameFull()'></input>"
+                    } else {
+                        s += `<a href = '/game/` + gameIndex + `'>
+                                <input type='button' class='btn btn-success pull-right' value='Join Game'> </input>
+                                </a>`
+                    }
+                    s += "</h1></li>"
+                } else {
+                    if (gameIndex == 5) {
+                        s += `<center><span onclick="showMore();"><span class="glyphicon glyphicon-menu-down"></span></span></center>`
+                        break;
+                    }
+                }
+            }
+            if (showAllGames) {
+                s += `<li class = 'list-group-item clearfix'>
+                      <center><span onclick="showLess();"><span class="glyphicon glyphicon-menu-up"></span></span></center>
+                      </li>`
+            }
+            document.getElementById('curr_disp').innerHTML += s;
+
+           /*
+           ======= Rules of the Game and new game / quick join buttons =======
+           */
+           document.getElementById('curr_disp').innerHTML +=
+           `</ul>
+           <center style = "padding-left: 200px; padding-right: 200px">
+           <h3>
+               Rules:
+           </h3>
+               <h4>
+                   You will compete against another player to cover the most ground possible.
+                   Control your Picobot by changing its rules.
+                   When you drive over a square, it will change colors to show you control it.
+                   At the end of the time, whoever has the most space covered wins.
+               </h4>
+           </center>
+
+           <center>
+               <input id="createGameBtn" style="margin-left: 30px;" type="button" class="btn btn-success" value="Create New Game" onclick="createNewGame(); showGameCreate()"></input>
+               <input id="quickJoin" style="margin-left: 5px;" type="button" class="btn btn-success" value="Quick Join" onclick="quickJoin()"></input>
+           </center>
+
+           <div class="alert alert-info center-block" id="new_game">
+               <strong id="alert_text"></strong>
+               <a href="#_" class="close" aria-label="close" onclick="$('#new_game').fadeOut(500, show_game_done)">&times</a>
+           </div>
+
+           <div class="alert alert-danger center-block" id="join_full">
+               <strong id="alert_text_2"></strong>
+               <a href="#_" class="close" aria-label="close" onclick="$('#join_full').fadeOut(500)">&times</a>
+           </div>`
+        }
+       gameData = JSON.parse("{{ list_of_games }}");
+   </script>
+
+</head>
+<body>
+
+{% include 'header.html' %}
+
+<!-- Shows the title of the game -->
+<header id="picoheader">
+    <h1><img src="/static/imgs/picoblue.png">
+        Multiplayer Picobot Game - Lobby
+        <img src="/static/imgs/picored.png"></h1>
+</header>
+
+<!-- used to store the main contents currently on the page -->
+<div id="curr_disp"></div>
+
+<!-- Linking to JS and CSS -->
+<link rel="stylesheet" href="/static/css/index.css"></link>
+<script src="/static/js/index.js"></script>
+
+
+</body>
+</html>
+

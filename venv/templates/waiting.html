@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <title>Pico.io</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/waiting.css">
+    <link rel="stylesheet" href="/static/css/waiting.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="shortcut icon" href="/static/favicon.ico">
@@ -16,10 +16,12 @@
         interval = setInterval(function() {
             checkGameReady();
         }, 2000);
+        interval2 = setInterval(function() {
+            timeWaiting += 1;
+            $('#timer').html(timeWaiting);
+        }, 1000);
 
         function checkGameReady() {
-            timeWaiting += 2
-            $('#timer').html(timeWaiting);
             gameNum = $('#game_num').attr('value');
             $.ajax({
                 url: "/check_game_ready/" + gameNum,
@@ -45,6 +47,9 @@
 </head>
 
 <body>
+
+    {% include 'header.html' %}
+
     <span id="game_num" value="{{ game_num }}">
     </span>
     <h1 class="text-primary" style="margin-left: 30px">

@@ -33,7 +33,6 @@ $(document).keypress(function(event){
     }
     else if(keyCode == "m") {
         manualControl = !manualControl;
-
     }
 
 });
@@ -47,9 +46,9 @@ function getGameNum() {
  * Loads all of the images that will be used for the game
  */
 function getImages() {
-    imageURLS = ["/static/item.png", "/static/picoblue.png", "/static/picored.png"]
+    imageURLS = ["/static/imgs/item.png", "/static/imgs/picoblue.png", "/static/imgs/picored.png"]
     loadedImages = 0;
-    images = [0,0,0];
+    images = [0, 0, 0];
     for (i = 0; i < imageURLS.length; i++) {
         pic = new Image();
         pic.src = imageURLS[i];

@@ -1,0 +1,20 @@
+#new_game, #join_full {
+    display: none;
+    margin-top: 30px;
+    width: 90%;
+}
+#reloadGames, li {
+    margin-left: 20px;
+}
+#login_bar {
+    border-radius: 0px;
+}
+#picoheader {
+    text-align: center;
+}
+body {
+    padding-bottom: 30px;
+}
+.glyphicon {
+    font-size: 3em;
+}
