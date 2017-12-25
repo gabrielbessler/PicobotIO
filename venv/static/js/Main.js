@@ -69,6 +69,22 @@ function getImages() {
     }
 }
 
+function gameOver() {
+    document.getElementById("timer").innerHTML = 0 + " s";
+    if (score1 == score2) {
+        document.getElementById("score1").innerHTML = "TIE";
+        document.getElementById("score2").innerHTML = "TIE";
+    } else if (score2 < score1) {
+        document.getElementById("score1").innerHTML = "WINNER";
+        document.getElementById("score2").innerHTML = "LOSER";
+    } else {
+        document.getElementById("score1").innerHTML = "LOSER";
+        document.getElementById("score2").innerHTML = "WINNER";
+    }
+
+    document.getElementById("game_over_menu").style.display = "block";
+}
+
 /**
  * Sends a post request to the server and updates the score being displayed
  * using a callback function.
@@ -81,17 +97,7 @@ function getScore() {
         success: function(data){
             if (data == -1) {
                 clearInterval(interval);
-                document.getElementById("timer").innerHTML = 0 + " s";
-                if (score1 == score2) {
-                    document.getElementById("score1").innerHTML = "TIE";
-                    document.getElementById("score2").innerHTML = "TIE";
-                } else if (score2 < score1) {
-                    document.getElementById("score1").innerHTML = "WINNER";
-                    document.getElementById("score2").innerHTML = "LOSER";
-                } else {
-                    document.getElementById("score1").innerHTML = "LOSER";
-                    document.getElementById("score2").innerHTML = "WINNER";
-                }
+                gameOver();
             } else if (data != -2) {
                 data = eval(data);
                 map = eval(data[3]);
@@ -184,8 +190,4 @@ function submit() {
             document.getElementById("pico_errors").innerHTML = data;
         }
     });
-}
-
-function reloadGameList() {
-    console.log("feature currently in progress.");
 }

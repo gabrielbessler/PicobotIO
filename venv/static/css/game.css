@@ -1,0 +1,15 @@
+#game_over_menu {
+    border: 2px solid black;
+    background: gray;
+    text-align: center;
+    position: absolute;
+    display: none;
+    height: 200px;
+    width: 200px;
+    left: 200px;
+    top: 200px;
+}
+#container {
+    position: relative;
+
+}

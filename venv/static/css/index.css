@@ -5,9 +5,7 @@
 }
 #reloadGames, li {
     margin-left: 20px;
-}
-#login_bar {
-    border-radius: 0px;
+    margin-right: 20px;
 }
 #picoheader {
     text-align: center;

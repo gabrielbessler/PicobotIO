@@ -9,6 +9,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="shortcut icon" href="/static/favicon.ico">
+  <link rel='stylesheet' href="/static/css/game.css">
 
 </head>
 
@@ -34,9 +35,15 @@
         </tbody>
     </table>
 
-    <canvas id="canvas" width="600" height="600" style="float: left; border:1px solid #000000;">
-        <h1>Canvas not supported</h1>
-    </canvas>
+    <div id="container">
+        <canvas id="canvas" width="600" height="600" style="float: left; border:1px solid #000000;">
+            <h1>Canvas not supported</h1>
+        </canvas>
+        <div id="game_over_menu">
+            <h1>Game Over!</h1>
+            <h2> <a href="/">Go Home</a> </h2>
+        </div>
+    </div>
 
     <center><div>
         {% if player_num == 1 %}
@@ -59,6 +66,8 @@ Sample Code:
         <textarea class="form-control" id="pico_errors" style="width: 600px; margin-left: 30px; resize: none" rows="3" readonly>
 Submit a ruleset.</textarea>
     </div></center>
+
+
 
     <script src="/static/js/Main.js"></script>
 </body>

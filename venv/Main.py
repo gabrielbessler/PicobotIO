@@ -16,7 +16,7 @@ STARTUP_TIME = 10
 game_players = {}
 game_boards = {}
 game_timers = {}
-GAME_TIME = 180
+GAME_TIME = 10
 ITEM_DELAY = 10
 MAX_ITEMS = 10
 NUM_ID = [0]
@@ -114,7 +114,8 @@ def join_game(game_num):
                     NUM_ID[0] += 1
                     return render_template("Game.html",
                                            score=[0, GAME_TIME, 0],
-                                           player_num=2)
+                                           player_num=2,
+                                           game_num=game_num)
             else:
                 return "Game Full...<a href='/'>go home.</a>"
 
@@ -262,6 +263,19 @@ def create_new_game():
         return json.dumps("Failure")
 
 
+@app.route('/get_profile/<string:profile_name>', methods=["POST"])
+def get_profile(profile_name):
+    '''
+    Returns the HTML representation of the profile_info
+    to be display for the user's OWN profile
+    '''
+    L = ["Foo", 5, 3, round(100*(5/3)), "Destroyer"]
+
+    return render_template("profile_info.html", name=L[0],
+                           wins=L[1], losses=L[2],
+                           winloss=L[3], title=L[4])
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     '''
@@ -277,7 +291,11 @@ def method_not_alloed(e):
 
 @app.route('/profile/<string:profile_name>')
 def profile(profile_name):
-    return render_template("profile.html")
+    # name, wins, losses, winloss, title
+    L = ["Foo", 5, 3, round(100*(5/3)), "Destroyer"]
+
+    return render_template("profile.html", name=L[0], wins=L[1], losses=L[2],
+                           winloss=L[3], title=L[4])
 
 
 @app.route('/exit_game/<int:game_num>')

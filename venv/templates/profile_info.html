@@ -1,0 +1,25 @@
+{% if title=="Rookie" %}
+    <h2> <span class="text-muted"> {{ title }} </span> {{ name }} </h1>
+{% endif %}
+{% if title=="Soldier" %}
+    <h2> <span class="text-primary"> {{ title }} </span> {{ name }} </h1>
+{% endif %}
+{% if title=="Battlemaster" %}
+    <h2> <span class="text-success"> {{ title }} </span> {{ name }} </h1>
+{% endif %}
+{% if title=="Destroyer" %}
+    <h2> <span class="text-danger"> {{ title }} </span> {{ name }} </h1>
+{% endif %}
+<h3>
+    <strong>Wins</strong><span class="text-success"> {{ wins }} </span>
+    <strong>Losses</strong> <span class="text-danger"> {{ losses }} </span>
+</h3>
+<h3>
+    <strong>W/L</strong> {{ winloss }} %
+</h3>
+
+<style>
+    h3, h1, h2 {
+        margin-left: 3%;
+    }
+</style>

@@ -1,5 +1,6 @@
 showingGameCreation = false;
 showing_num = 0;
+username = "foo";
 
 /**
  * Sends a request to the server to create a new game
@@ -67,12 +68,31 @@ function getProfile() {
     $('#homeBtn').removeClass('active');
     $('#profileBtn').addClass("active");
     $('#highScoreBtn').removeClass("active");
-    new_page = `
-    <h1 style="padding-left: 30px;">
-        Currently not logged in.
-    </h1>
-    `
-    document.getElementById('curr_disp').innerHTML = new_page;
+    if (username == null) {
+        new_page = `
+        <h1 style="padding-left: 30px;">
+            Currently not logged in.
+        </h1>
+        `
+        document.getElementById('curr_disp').innerHTML = new_page;
+    } else {
+        // we will not use the default profile display, but
+        // rather insert the profile_info.html data into the
+        // current web page.
+
+        // we will call a python function using jQuery that
+        // will return the correct HTML code
+
+
+        $.ajax({
+            url: "/get_profile/" + username,
+            type: "POST",
+            success: function(data){
+                new_page = data;
+                document.getElementById('curr_disp').innerHTML = new_page;
+            }
+        });
+    }
 }
 
 /**
@@ -95,7 +115,7 @@ function showLess() {
 function reloadGameList() {
     $.ajax({
         url: "/get_game_list",
-        type: "GET",
+        type: "POST",
         success: function(data) {
             gameData = JSON.parse(data);
             showHome();

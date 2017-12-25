@@ -13,7 +13,8 @@
         $(document).ready(function() {
             showHome();
         });
-    /**
+
+        /**
          * Shows the high scores
          */
         function showHighScores() {
@@ -23,7 +24,7 @@
             s = `
             <h1 style="padding-left: 30px;">High Scores</h1>
 
-            <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
+            <ul class = 'list-group'>
             {% for game in list_of_games %}
                 <li class = 'list-group-item clearfix'>
                     <h1>  Number {{ game[0] +1 }}: {{game[1]}} Points.
