@@ -57,7 +57,11 @@
                 gameVal = gameData[gameIndex];
                 s += "<li class = 'list-group-item clearfix'>";
                 if (gameIndex < 5 || showAllGames == true) {
-                    s += "<h1> Game Number " + (gameIndex+1).toString() + ": " + gameVal + " players in game.";
+                    if (gameVal == 1) {
+                        s += "<h1> Game Number " + (gameIndex+1).toString() + ": " + gameVal + " player in game.";
+                    } else {
+                        s += "<h1> Game Number " + (gameIndex+1).toString() + ": " + gameVal + " players in game.";
+                    }
                     if (gameVal == 2) {
                         s += "<input type='button' class='btn btn-default pull-right' value='Full' onclick='showGameFull()'></input>"
                     } else {
