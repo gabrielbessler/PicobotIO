@@ -8,6 +8,8 @@ class Game(object):
         self.bot2 = map.p2
         self.map = map
 
+        self.curr_num_items = 0
+
     def update(self):
         '''
         Uses the direction and current position of both players to update their
@@ -80,3 +82,20 @@ class Game(object):
                 if self.map.map[x][y][0] == 2:
                     score2 += 1
         return [score1, score2]
+
+    def spawn_item(self):
+        '''
+        Spawns at an item at a random location on the screen
+        '''
+        r = randint(1, ITEM_DELAY)
+        if r == 1:
+            new_item = Item(1)
+            x_spawn = randint(0, 19)
+            y_spawn = randint(0, 19)
+            obj = self.map.map[x_spawn][y_spawn][1]
+            if obj != "Wall()":
+                self.curr_num_items += 1
+                # make sure that the tile stays the same color,
+                # but spawn in the new item
+                L = [self.map.map[x_spawn][y_spawn][0], new_item]
+                self.map.map[x_spawn][y_spawn] = L

@@ -18,7 +18,7 @@ function createNewGame() {
 function showGameCreate() {
     showing_num++;
     if (showing_num > 1) {
-        $('#alert_text').html("Game created! (" + showing_num +")");
+        $('#alert_text').html("Game created! (" + showing_num + ")");
     } else {
         $('#alert_text').html("Game created!");
     }

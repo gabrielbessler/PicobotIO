@@ -27,7 +27,7 @@
             <ul class = 'list-group'>
             {% for game in list_of_games %}
                 <li class = 'list-group-item clearfix'>
-                    <h1>  Number {{ game[0] +1 }}: {{game[1]}} Points.
+                    <h1>  Number {{ loop.index }}: {{ game }} Points.
                         <a href="{{ url_for('profile', profile_name='foobar') }}">
                         <input type='button' class='btn btn-default pull-right' value='See Profile'></input>
                         </a>
@@ -54,7 +54,7 @@
            s = "";
 
             for (var gameIndex = 0; gameIndex < gameData.length; gameIndex++) {
-                gameVal = gameData[gameIndex][1];
+                gameVal = gameData[gameIndex];
                 s += "<li class = 'list-group-item clearfix'>";
                 if (gameIndex < 5 || showAllGames == true) {
                     s += "<h1> Game Number " + (gameIndex+1).toString() + ": " + gameVal + " players in game.";

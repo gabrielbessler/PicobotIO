@@ -10,28 +10,30 @@ import os
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # used for user sessions
 
-# Stores all of the game information
-games = [[0, 0], [1, 0], [2, 0]]
+# Constants related to the game
 STARTUP_TIME = 10
+GAME_TIME = 100
+ITEM_DELAY = 10
+MAX_ITEMS = 10
+MAX_GAMES = 100
+
+# Stores all of the game information
+games = [0, 0, 0]
 game_players = {}
 game_boards = {}
 game_timers = {}
-GAME_TIME = 10
-ITEM_DELAY = 10
-MAX_ITEMS = 10
 NUM_ID = [0]
-MAX_GAMES = 100
-curr_num_items = [0, 0, 0]
-
 
 # ================ INDEX =====================
+
 
 @app.route('/')
 def index():
     '''
     Main lobby/waiting screen
     '''
-    return render_template("index.html", list_of_games=games)
+    return render_template("index.html",
+                           list_of_games=games)
 
 
 @app.route('/get_game_list', methods=["POST"])
@@ -45,8 +47,8 @@ def test():
 @app.route('/quick_join/', methods=["POST"])
 def quick_join():
     for game in games:
-        if game[1] < 2:
-                return json.dumps('/game/' + str(game[0]))
+        if game < 2:
+                return json.dumps('/game/' + str(game))
     return json.dumps("error")
 
 # ================ MAIN GAME =================
@@ -71,7 +73,7 @@ def join_game(game_num):
                    session["player_ID"] == game_players[game_num][1]:
                     # if the player_ID is equal to one of the two IDs in this
                     # game, let the player join the game
-                    if games[game_num][1] == 1:
+                    if games[game_num] == 1:
                         return render_template("waiting.html")
                     else:
                         if session["player_ID"] == game_players[game_num][0]:
@@ -89,16 +91,15 @@ def join_game(game_num):
             except:
                 # If the game is empty, this means that the player was/is part
                 # of ANOTHER game, but not this one
-                # TODO: what is the best way to deal with this case?
-                return "Error - You are in another game!"
+                return render_template('another_game.html')
 
         else:
             # first, we check how many players are in the game
-            if games[game_num][1] < 2:
+            if games[game_num] < 2:
                 # if it's less than 2, we want to add a new player
-                if games[game_num][1] == 0:
+                if games[game_num] == 0:
                     game_players[game_num] = [NUM_ID[0]]
-                    games[game_num][1] += 1
+                    games[game_num] += 1
                     session["player_ID"] = NUM_ID[0]
                     NUM_ID[0] += 1
                     return render_template("waiting.html", game_num=game_num)
@@ -109,7 +110,7 @@ def join_game(game_num):
                     game_boards[game_num] = g
                     game_timers[game_num] = STARTUP_TIME
                     Timer(1, update_data, [STARTUP_TIME, game_num]).start()
-                    games[game_num][1] += 1
+                    games[game_num] += 1
                     session["player_ID"] = NUM_ID[0]
                     NUM_ID[0] += 1
                     return render_template("Game.html",
@@ -171,19 +172,10 @@ def update_game(counter, game_num):
     '''
     if counter <= 0:
         game_boards[game_num] = -1
-        games[game_num][1] = 0
+        games[game_num] = 0
     else:
-        if curr_num_items[game_num] < MAX_ITEMS:
-            r = randint(1, ITEM_DELAY)
-            if r == 1:
-                i = Item(1)
-                x_spawn = randint(0, 19)
-                y_spawn = randint(0, 19)
-                obj = game_boards[game_num].map.map[x_spawn][y_spawn][1]
-                if obj != "Wall()":
-                    curr_num_items[game_num] += 1
-                    L = [game_boards[game_num].map.map[x_spawn][y_spawn][0], i]
-                    game_boards[game_num].map.map[x_spawn][y_spawn] = L
+        if game_boards[game_num].curr_num_items < MAX_ITEMS:
+            game_boards[game_num].spawn_item()
 
         game_timers[game_num] = counter
         game_boards[game_num].update()
@@ -197,12 +189,10 @@ def get_instructions(game_num):
     '''
     L = request.get_json()
     playerNum = int(L[0])
-    print(playerNum)
     L = eval("[" + L[1:] + "]")
     ruleList = []
     for i in L:
-        i = str(i)
-        i = i.replace(" ", "")
+        i = str(i).replace(" ", "")
         if(i[0] != '[' or i[15] != ']'):
             return json.dumps("Start and end with square brackets.")
         elif not (represents_int(i[1]) and represents_int(i[14])):
@@ -225,18 +215,10 @@ def is_directions(s):
     Given a string S representing the environment segment of an instruction,
     check if the environement is in the correct format
     '''
-    if not(s[0] == "_" or s[0] == "*" or s[0] == "x"):
-        return False
-    elif not(s[1] == "_" or s[1] == "*" or s[1] == "x"):
-        return False
-    elif not(s[2] == "_" or s[2] == "*" or s[2] == "x"):
-        return False
-    elif not(s[3] == "_" or s[3] == "*" or s[3] == "x"):
-        return False
-    elif not(s[4] == "N" or s[4] == "S" or s[4] == "W" or s[4] == "E"):
-        return False
-    else:
-        return True
+    for index in range(5):
+        if not(s[index] == "_" or s[index] == "*" or s[index] == "x"):
+            return False
+    return True
 
 
 def represents_int(s):
@@ -255,12 +237,11 @@ def create_new_game():
     '''
     Adds a new game to the games list
     '''
+    global games
     if len(games) < MAX_GAMES:
-        games.append([len(games), 0])
-        curr_num_items.append(0)
+        games += [0]
         return json.dumps("Success")
-    else:
-        return json.dumps("Failure")
+    return json.dumps("Failure")
 
 
 @app.route('/get_profile/<string:profile_name>', methods=["POST"])
@@ -298,7 +279,18 @@ def profile(profile_name):
                            winloss=L[3], title=L[4])
 
 
-@app.route('/exit_game/<int:game_num>')
+@app.route('/exit_game/<int:game_num>', methods=["POST"])
 def exit_game(game_num):
-    # TODO
-    print("removing player from game...")
+    # the only case when this can happen is if there is only one person in
+    #  queue
+    # (if there are two, then the game has already started and you cannot
+    # leave )
+    if games[game_num] == 1:
+        games[game_num] = 0
+        game_players[game_num] = []
+        return 'true'
+    return 'err'
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
