@@ -16,7 +16,7 @@ By default, this will start the app on `http://127.0.0.1:5000.`
 
 ## Hosting Online 
 
-The application is currently hosted [here](http://www.gabebessler.com). 
+The application is currently hosted [here](gabebessler.com). 
 It uses a GUnicorn server behind NGINX to deploy the Python WSGI App*
 
 *for more information on how this is done, check out this 
