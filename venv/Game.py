@@ -1,13 +1,17 @@
+from random import randint
+from Item import Item
+
+
 class Game(object):
 
-    def __init__(self, map):
+    def __init__(self, map, item_delay=10):
         '''
         Constructor for Game given two Picobots and a map
         '''
         self.bot1 = map.p1
         self.bot2 = map.p2
         self.map = map
-
+        self.item_delay = item_delay
         self.curr_num_items = 0
 
     def update(self):
@@ -87,7 +91,7 @@ class Game(object):
         '''
         Spawns at an item at a random location on the screen
         '''
-        r = randint(1, ITEM_DELAY)
+        r = randint(1, self.item_delay)
         if r == 1:
             new_item = Item(1)
             x_spawn = randint(0, 19)

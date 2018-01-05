@@ -1,9 +1,10 @@
 <!-- the main header bar -->
 <nav class="navbar navbar-inverse" id="login_bar">
+    <span id="top"></span>
     <ul class="nav navbar-nav">
-        <li id="homeBtn" class="active"><a href="#" onclick="reloadGameList();">Home</a></li>
-        <li id="profileBtn"><a href="#" onclick="getProfile();">Profile</a></li>
-        <li id="highScoreBtn"><a href="#" onclick="showHighScores();">High Scores</a></li>
+        <li id="homeBtn" class="active"><a onclick="reloadGameList(); return false;" href>Home</a></li>
+        <li id="profileBtn"><a onclick="getProfile(); return false;" href>Profile</a></li>
+        <li id="highScoreBtn"><a onclick="showHighScores(); return false;" href>High Scores</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <li><a href="#" style="margin-right: 20px;" data-toggle="modal" data-target="#loginModal">Login</a></li>

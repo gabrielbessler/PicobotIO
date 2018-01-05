@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, abort, session, url_for
 from random import randint
 from Game import Game
-from Item import Item
 from threading import Timer
 import json
 import Map
@@ -12,7 +11,7 @@ app.secret_key = os.urandom(24)  # used for user sessions
 
 # Constants related to the game
 STARTUP_TIME = 10
-GAME_TIME = 100
+GAME_TIME = 5
 ITEM_DELAY = 10
 MAX_ITEMS = 10
 MAX_GAMES = 100
@@ -37,7 +36,7 @@ def index():
 
 
 @app.route('/get_game_list', methods=["POST"])
-def test():
+def get_game_list():
     '''
     Returns the list of games currently available
     '''
@@ -87,11 +86,13 @@ def join_game(game_num):
                                                    player_num=2,
                                                    game_num=game_num)
                 else:
-                    return "Game Full...<a href='/'>go home.</a>"
+                    err = "Game Full..."
+                    return render_template('error-disp.html', error_code=err)
             except:
                 # If the game is empty, this means that the player was/is part
                 # of ANOTHER game, but not this one
-                return render_template('another_game.html')
+                err = "You are already in another queue or match."
+                return render_template('error-disp.html', error_code=err)
 
         else:
             # first, we check how many players are in the game
@@ -106,7 +107,7 @@ def join_game(game_num):
                 else:
                     game_players[game_num].append(NUM_ID[0])
                     m = Map.Map("islands")
-                    g = Game(m)
+                    g = Game(m, ITEM_DELAY)
                     game_boards[game_num] = g
                     game_timers[game_num] = STARTUP_TIME
                     Timer(1, update_data, [STARTUP_TIME, game_num]).start()
@@ -118,7 +119,8 @@ def join_game(game_num):
                                            player_num=2,
                                            game_num=game_num)
             else:
-                return "Game Full...<a href='/'>go home.</a>"
+                s = "Game full..."
+                return render_template('error-disp.html', error_code=s)
 
 
 @app.route('/check_game_ready/<int:game_num>', methods=["POST"])
@@ -173,13 +175,14 @@ def update_game(counter, game_num):
     if counter <= 0:
         game_boards[game_num] = -1
         games[game_num] = 0
+        game_players[game_num] = []
     else:
         if game_boards[game_num].curr_num_items < MAX_ITEMS:
             game_boards[game_num].spawn_item()
 
         game_timers[game_num] = counter
         game_boards[game_num].update()
-        Timer(.5, update_game, [counter - .5, game_num]).start()
+        Timer(.25, update_game, [counter - .25, game_num]).start()
 
 
 @app.route('/update_instructions/<int:game_num>', methods=["GET", "POST"])
@@ -215,7 +218,7 @@ def is_directions(s):
     Given a string S representing the environment segment of an instruction,
     check if the environement is in the correct format
     '''
-    for index in range(5):
+    for index in range(4):
         if not(s[index] == "_" or s[index] == "*" or s[index] == "x"):
             return False
     return True
@@ -262,7 +265,8 @@ def page_not_found(e):
     '''
     Displays a "page not found" error for 404 errors
     '''
-    return render_template('404.html')
+    err = "Oops, you've taken a wrong turn."
+    return render_template('error-disp.html', error_code=err)
 
 
 @app.errorhandler(405)

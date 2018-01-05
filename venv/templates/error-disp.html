@@ -15,10 +15,10 @@
 <body>
     {% include 'header.html' %}
     <h1 class="text-primary">
-        Oops, you've taken a wrong turn.
+        {{ error_code }}
     </h1>
     <a href="/" class="text-info">
-    <input type="button" class="btn btn-primary" value="Go back home">
+    <input type="button" class="btn btn-primary" value="Go Home">
     </input>
     </a>
 

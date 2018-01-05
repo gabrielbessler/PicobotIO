@@ -63,7 +63,7 @@ function getImages() {
 
                 interval = setInterval(function() {
                     getScore();
-                }, 450);
+                }, 250);
             }
         }
     }
