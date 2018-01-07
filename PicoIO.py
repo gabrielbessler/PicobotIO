@@ -1,10 +1,14 @@
 from flask import Flask, render_template, request, abort, session, url_for
+from threading import Timer
 from random import randint
 from Game import Game
-from threading import Timer
+import datetime
+import logging
+import pymongo
 import json
 import Map
 import os
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # used for user sessions
@@ -22,6 +26,62 @@ game_players = {}
 game_boards = {}
 game_timers = {}
 NUM_ID = [0]
+
+# ================ Mongo Handler =============
+
+
+class MongoHandler:
+
+    def __init__(self):
+        '''
+        Connects to the MongoDB file
+        '''
+        self.client = pymongo.MongoClient()
+        self.db = self.client.PicoIOData
+        self.collection = self.db.PicoData
+
+    def is_user(self, username):
+        '''
+        Given a username as a string,
+        returns true a user exists with that username
+        '''
+        user = self.collection.find_one({"username": username})
+        if user is None:
+            return False
+        return True
+
+    def insert_new_user(self, username, password):
+        '''
+        Given a username and password as strings,
+        creates a new user in the database if a user with the
+        given username does not already exist
+        '''
+        if not self.is_user(username):
+            document = {
+                "username": username,
+                "password": password,
+                "wins": 0,
+                "losses": 0,
+                "registry_date": datetime.datetime.utcnow()}
+            self.collection.insert_one(document)
+        else:
+            return ValueError("Username already in use.")
+
+    def login(self, username, password):
+        '''
+        Given a username and a password as strings,
+        sees if the given password is correct for the given
+        username
+        '''
+        if True:
+            return True
+        else:
+            raise ValueError("Incorrect password")
+
+    def reset_password(self, username, password):
+        '''
+        Changes the password for a given username
+        '''
 
 # ================ INDEX =====================
 
@@ -132,6 +192,32 @@ def check_game_ready(game_num):
         return json.dumps(url_for('join_game', game_num=game_num)[1:])
     else:
         return json.dumps(1)
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    '''
+    Attempts to login to an account in the database
+    '''
+    try:
+        data = request.get_json()
+        mongo_handler.login(data['username'], data['password'])
+        return "successful login"
+    except ValueError as error:
+        return error.args
+
+
+@app.route("/register", methods=["POST"])
+def register():
+    '''
+    Registers a new user in the database
+    '''
+    try:
+        data = request.get_json()
+        mongo_handler.insert_new_user(data['username'], data['password'])
+        return "Success"
+    except ValueError as error:
+        return error.args
 
 
 @app.route('/get_score/<int:game_num>', methods=["POST"])
@@ -297,4 +383,6 @@ def exit_game(game_num):
 
 
 if __name__ == "__main__":
+    mongo_handler = MongoHandler()
     app.run(host='0.0.0.0')
+

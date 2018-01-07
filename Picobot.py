@@ -7,11 +7,11 @@ class Picobot(object):
         [x position, y position, color]
         and a set of rules for he picobot
         '''
+        self.currentState = 0
+        self.ruleList = rules
+        self.color = L[2]
         self.xPos = L[0]
         self.yPos = L[1]
-        self.color = L[2]
-        self.ruleList = rules
-        self.currentState = 0
 
     def getDir(self, surroundings):
         '''
