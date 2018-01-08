@@ -82,6 +82,48 @@ class MongoHandler:
         '''
         Changes the password for a given username
         '''
+        pass
+
+    def get_profile_info(self, username):
+        '''
+        Given a username, returns a list with the user info in the form
+        [name, wins, losses, win/loss ratio, title]
+        '''
+        if not self.is_user(username):
+            raise ValueError("Not a valid username")
+        else:
+            user_info = self.collection.find_one({"username": username})
+            title = ""
+            wins = user_info['wins']
+            losses = user_info['losses']
+
+            # TODO: use this instead and add a get_title() method that works
+            # efficiently
+            title_requirements = {"Rookie": 1, "Soldier": 5,
+                                  "Battlemaster": 25, "Destroyer": 100}
+
+            if wins >= 1:
+                title = "Rookie"
+            elif wins >= 5:
+                title = "Soldier"
+            elif wins >= 25:
+                title = "Battlemaster"
+            elif wins >= 100:
+                title = "Destroyer"
+
+            if losses == 0:
+                if wins == 0:
+                    winloss = 50
+                else:
+                    winloss = wins*100
+            else:
+                winloss = round(100*(wins/losses))
+
+            profile_info = [username, wins, losses,
+                            winloss, title]
+
+            return profile_info
+
 
 # ================ INDEX =====================
 
@@ -136,23 +178,23 @@ def join_game(game_num):
                         return render_template("waiting.html")
                     else:
                         if session["player_ID"] == game_players[game_num][0]:
-                            return render_template("Game.html",
+                            return render_template("game.html",
                                                    score=[0, GAME_TIME, 0],
                                                    player_num=1,
                                                    game_num=game_num)
                         else:
-                            return render_template("Game.html",
+                            return render_template("game.html",
                                                    score=[0, GAME_TIME, 0],
                                                    player_num=2,
                                                    game_num=game_num)
                 else:
                     err = "Game Full..."
-                    return render_template('error-disp.html', error_code=err)
+                    return render_template('error_disp.html', error_code=err)
             except:
                 # If the game is empty, this means that the player was/is part
                 # of ANOTHER game, but not this one
                 err = "You are already in another queue or match."
-                return render_template('error-disp.html', error_code=err)
+                return render_template('error_disp-disp.html', error_code=err)
 
         else:
             # first, we check how many players are in the game
@@ -174,13 +216,13 @@ def join_game(game_num):
                     games[game_num] += 1
                     session["player_ID"] = NUM_ID[0]
                     NUM_ID[0] += 1
-                    return render_template("Game.html",
+                    return render_template("game.html",
                                            score=[0, GAME_TIME, 0],
                                            player_num=2,
                                            game_num=game_num)
             else:
                 s = "Game full..."
-                return render_template('error-disp.html', error_code=s)
+                return render_template('error_disp.html', error_code=s)
 
 
 @app.route('/check_game_ready/<int:game_num>', methods=["POST"])
@@ -271,7 +313,7 @@ def update_game(counter, game_num):
         Timer(.25, update_game, [counter - .25, game_num]).start()
 
 
-@app.route('/update_instructions/<int:game_num>', methods=["GET", "POST"])
+@app.route('/update_instructions/<int:game_num>', methods=["POST"])
 def get_instructions(game_num):
     '''
     Updates the instructions for a given picobot
@@ -339,7 +381,7 @@ def get_profile(profile_name):
     Returns the HTML representation of the profile_info
     to be display for the user's OWN profile
     '''
-    L = ["Foo", 5, 3, round(100*(5/3)), "Destroyer"]
+    L = mongo_handler.get_profile_info(profile_name)
 
     return render_template("profile_info.html", name=L[0],
                            wins=L[1], losses=L[2],
@@ -352,7 +394,7 @@ def page_not_found(e):
     Displays a "page not found" error for 404 errors
     '''
     err = "Oops, you've taken a wrong turn."
-    return render_template('error-disp.html', error_code=err)
+    return render_template('error_disp.html', error_code=err)
 
 
 @app.errorhandler(405)
@@ -363,10 +405,14 @@ def method_not_alloed(e):
 @app.route('/profile/<string:profile_name>')
 def profile(profile_name):
     # name, wins, losses, winloss, title
-    L = ["Foo", 5, 3, round(100*(5/3)), "Destroyer"]
+    try:
+        L = mongo_handler.get_profile_info(profile_name)
 
-    return render_template("profile.html", name=L[0], wins=L[1], losses=L[2],
-                           winloss=L[3], title=L[4])
+        return render_template("profile.html", name=L[0], wins=L[1],
+                               losses=L[2], winloss=L[3], title=L[4])
+    except ValueError as err:
+        err_msg = "The user " + profile_name + " does not exist"
+        return render_template("error_disp.html", error_code=err_msg)
 
 
 @app.route('/exit_game/<int:game_num>', methods=["POST"])
@@ -385,4 +431,3 @@ def exit_game(game_num):
 if __name__ == "__main__":
     mongo_handler = MongoHandler()
     app.run(host='0.0.0.0')
-

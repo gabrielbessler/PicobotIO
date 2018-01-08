@@ -13,7 +13,7 @@ function createNewGame() {
 }
 
 /**
- *
+ * Shows an alert to the user with a "Game created!" message
  */
 function showGameCreate() {
     showing_num++;
@@ -28,7 +28,8 @@ function showGameCreate() {
 }
 
 /**
- *
+ * Shows an alert to the user with the message:
+ * "cannot join full game"
  */
 function showGameFull() {
     $('#alert_text_2').html("Cannot join full game!");
@@ -44,7 +45,8 @@ function show_game_done() {
 }
 
 /**
- *
+ * Gets the first available game from the server and then
+ * joins that game
  */
 function quickJoin() {
     $.ajax({
@@ -82,8 +84,6 @@ function getProfile() {
 
         // we will call a python function using jQuery that
         // will return the correct HTML code
-
-
         $.ajax({
             url: "/get_profile/" + username,
             type: "POST",
@@ -96,21 +96,22 @@ function getProfile() {
 }
 
 /**
- *
+ * Changes game list display so that all games are displayed
  */
 function showMore() {
     showHome(true);
 }
 
 /**
- *
+ * Changes game list display so not all games are displayed
  */
 function showLess() {
     showHome(false);
 }
 
 /**
- *
+ * Sends a request to the server for list of games / game infos,
+ * and then updates the game list accordingly
  */
 function reloadGameList() {
     $.ajax({

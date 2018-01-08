@@ -1,0 +1,34 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <title>Pico.io</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/error.css">
+
+</head>
+
+<body>
+    <!-- The header shown at the top of every page -->
+    {% include 'header.html' %}
+
+    <!-- error code is given by provided by flask backend -->
+    <h1 class="text-primary">
+        {{ error_code }}
+    </h1>
+
+    <!-- Button to go to main page -->
+    <a href="/" class="text-info">
+        <input type="button" class="btn btn-primary" value="Go Home">
+        </input>
+    </a>
+
+</body>
+
+</html>

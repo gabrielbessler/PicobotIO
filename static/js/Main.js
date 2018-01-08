@@ -12,7 +12,7 @@ var score2;
 var item;
 var map;
 
-// FOR TESTING
+// USED FOR TESTING
 var manualControl = false;
 
 getImages();
@@ -20,7 +20,7 @@ $(document).keypress(function(event){
     keyCode = String.fromCharCode(event.which).toLowerCase();
 
     if (keyCode == "a") {
-        console.log("got A");
+
     }
     else if(keyCode == "s") {
 
@@ -37,7 +37,9 @@ $(document).keypress(function(event){
 
 });
 
-
+/**
+ * Gets the ID of the game currently being played from HTML data
+ */
 function getGameNum() {
     gameNumber = document.getElementById('game_num').getAttribute('val');
 }
@@ -69,6 +71,10 @@ function getImages() {
     }
 }
 
+/**
+ * Updates all of the text info due to game over,
+ * and displays the 'game over' screen
+ */
 function gameOver() {
     document.getElementById("timer").innerHTML = 0 + " s";
     if (score1 == score2) {

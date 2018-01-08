@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>Pico.io</title>
@@ -10,7 +11,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             showHome();
         });
 
@@ -42,25 +43,25 @@
         /**
         * show the home screen (all of the games available)
         */
-       function showHome(showAllGames = false) {
-           $('#homeBtn').addClass('active');
-           $('#profileBtn').removeClass("active");
-           $('#highScoreBtn').removeClass("active");
+        function showHome(showAllGames = false) {
+            $('#homeBtn').addClass('active');
+            $('#profileBtn').removeClass("active");
+            $('#highScoreBtn').removeClass("active");
 
-           document.getElementById('curr_disp').innerHTML = `
+            document.getElementById('curr_disp').innerHTML = `
            <input type="button" class="btn btn-primary" value="Reload Games" onclick="reloadGameList();" id="reloadGames"></input>
            <ul class = 'list-group' style='padding-left: 30px; padding-right: 30px'>
            `
-           s = "";
+            s = "";
 
             for (var gameIndex = 0; gameIndex < gameData.length; gameIndex++) {
                 gameVal = gameData[gameIndex];
                 s += "<li class = 'list-group-item clearfix'>";
                 if (gameIndex < 5 || showAllGames == true) {
                     if (gameVal == 1) {
-                        s += "<h1> Game Number " + (gameIndex+1).toString() + ": " + gameVal + " player in game.";
+                        s += "<h1> Game Number " + (gameIndex + 1).toString() + ": " + gameVal + " player in game.";
                     } else {
-                        s += "<h1> Game Number " + (gameIndex+1).toString() + ": " + gameVal + " players in game.";
+                        s += "<h1> Game Number " + (gameIndex + 1).toString() + ": " + gameVal + " players in game.";
                     }
                     if (gameVal == 2) {
                         s += "<input type='button' class='btn btn-default pull-right' value='Full' onclick='showGameFull()'></input>"
@@ -84,11 +85,11 @@
             }
             document.getElementById('curr_disp').innerHTML += s;
 
-           /*
-           ======= Rules of the Game and new game / quick join buttons =======
-           */
-           document.getElementById('curr_disp').innerHTML +=
-           `</ul>
+            /*
+            ======= Rules of the Game and new game / quick join buttons =======
+            */
+            document.getElementById('curr_disp').innerHTML +=
+                `</ul>
            <center style = "padding-left: 200px; padding-right: 200px">
            <h3>
                Rules:
@@ -116,29 +117,31 @@
                <a href="#_" class="close" aria-label="close" onclick="$('#join_full').fadeOut(500)">&times</a>
            </div>`
         }
-       gameData = JSON.parse("{{ list_of_games }}");
-   </script>
+        gameData = JSON.parse("{{ list_of_games }}");
+    </script>
 
 </head>
+
 <body>
 
-{% include 'header.html' %}
+    {% include 'header.html' %}
 
-<!-- Shows the title of the game -->
-<header id="picoheader">
-    <h1><img src="/static/imgs/picoblue.png">
-        Multiplayer Picobot Game - Lobby
-        <img src="/static/imgs/picored.png"></h1>
-</header>
+    <!-- Shows the title of the game -->
+    <header id="picoheader">
+        <h1>
+            <img src="/static/imgs/picoblue.png"> Multiplayer Picobot Game - Lobby
+            <img src="/static/imgs/picored.png">
+        </h1>
+    </header>
 
-<!-- used to store the main contents currently on the page -->
-<div id="curr_disp"></div>
+    <!-- used to store the main contents currently on the page -->
+    <div id="curr_disp"></div>
 
-<!-- Linking to JS and CSS -->
-<link rel="stylesheet" href="/static/css/index.css"></link>
-<script src="/static/js/index.js"></script>
+    <!-- Linking to JS and CSS -->
+    <link rel="stylesheet" href="/static/css/index.css"></link>
+    <script src="/static/js/index.js"></script>
 
 
 </body>
-</html>
 
+</html>

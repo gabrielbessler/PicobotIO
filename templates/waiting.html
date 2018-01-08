@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
 
     <meta charset="utf-8">
@@ -13,10 +14,10 @@
 
     <script>
         timeWaiting = 0;
-        interval = setInterval(function() {
+        interval = setInterval(function () {
             checkGameReady();
         }, 2000);
-        interval2 = setInterval(function() {
+        interval2 = setInterval(function () {
             timeWaiting += 1;
             $('#timer').html(timeWaiting);
         }, 1000);
@@ -26,12 +27,12 @@
             $.ajax({
                 url: "/check_game_ready/" + gameNum,
                 type: "POST",
-                success: function(data){
+                success: function (data) {
                     if (!(data == 1)) {
                         window.location.href = "/" + JSON.parse(data);
                     }
                 }
-          });
+            });
         }
 
         function leaveGame() {
@@ -41,7 +42,7 @@
                 url: "/exit_game/" + gameNum,
                 type: "POST"
             });
-          }
+        }
     </script>
 
 </head>
@@ -53,10 +54,11 @@
     <span id="game_num" value="{{ game_num }}">
     </span>
     <h1 class="text-primary" style="margin-left: 30px">
-        Waiting for another player...
-        (<span id="timer">0</span>s)
+        Waiting for another player... (
+        <span id="timer">0</span>s)
     </h1>
     <div class="loader"></div>
     <button id="exitBtn" type="button" class="btn btn-danger" onclick="leaveGame()">Exit Queue</button>
 </body>
+
 </html>
