@@ -194,7 +194,7 @@ def join_game(game_num):
                 # If the game is empty, this means that the player was/is part
                 # of ANOTHER game, but not this one
                 err = "You are already in another queue or match."
-                return render_template('error_disp-disp.html', error_code=err)
+                return render_template('error_disp.html', error_code=err)
 
         else:
             # first, we check how many players are in the game
