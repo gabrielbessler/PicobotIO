@@ -4,7 +4,9 @@ from Picobot import Picobot
 
 
 class Map():
-
+    '''
+    Stores all of the tiles in an instance of the game
+    '''
     def __init__(self, mapType):
         '''
         Creates a new map and then poulates it using mapType
@@ -27,10 +29,10 @@ class Map():
         board = [[[0, 0] for x in range(size)] for y in range(size)]
         w = [0, Wall()]
         for i in range(0, 20):
-                board[0][i] = w
-                board[19][i] = w
-                board[i][0] = w
-                board[i][19] = w
+            board[0][i] = w
+            board[19][i] = w
+            board[i][0] = w
+            board[i][19] = w
 
         if map_type == "type1":
             for i in range(8, 12):
@@ -105,14 +107,13 @@ class Map():
         Returns a representation of the map where each object is converted
         to its string representation
         '''
-        tempMap = self.map
+        temp_map = self.map
         for i in range(20):
             for j in range(20):
-                tempMap[i][j][1] = str(self.map[i][j][1])
-        return tempMap
+                temp_map[i][j][1] = str(self.map[i][j][1])
+        return temp_map
 
     def check_consistent(self, map):
         '''
         TODO: check if the map is consistent
         '''
-        pass

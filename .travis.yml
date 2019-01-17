@@ -8,4 +8,4 @@ install:
  - pip install pylint 
 
 script: 
- - pylint *.py 
+ - pylint --disable=R,C,W *.py 

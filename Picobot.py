@@ -1,4 +1,4 @@
-class Picobot(object):
+class Picobot:
 
     # constructor
     def __init__(self, L, rules):

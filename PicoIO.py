@@ -1,14 +1,11 @@
-from flask import Flask, render_template, request, abort, session, url_for
-from threading import Timer
-from random import randint
-from Game import Game
-import datetime
-import logging
-import pymongo
-import json
-import Map
 import os
-
+import json
+import datetime
+from threading import Timer
+import pymongo
+from flask import Flask, render_template, request, abort, session, url_for
+from Game import Game
+import Map
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # used for user sessions
@@ -31,7 +28,7 @@ NUM_ID = [0]
 
 
 class MongoHandler:
-
+    ''' Handles connection to database (store games, users, etc) '''
     def __init__(self):
         '''
         Connects to the MongoDB file
@@ -73,16 +70,34 @@ class MongoHandler:
         sees if the given password is correct for the given
         username
         '''
-        if True:
+        # TODO
+        print(username)
+        print(password)
+        if 1 == 1:
             return True
-        else:
-            raise ValueError("Incorrect password")
+        
+        raise ValueError("Incorrect password")
+
 
     def reset_password(self, username, password):
         '''
         Changes the password for a given username
         '''
-        pass
+
+    def get_title(self, wins):
+        '''
+        Returns the best title a user has obtained based on number of wins
+        '''
+        title_requirements = {"rookie": 1, "Soldier": 5, "Battlemaster": 25,
+                              "Destroyer": 100}
+        max_wins = 0
+        max_title = ""
+        for title in title_requirements:
+            if wins >= title_requirements[title] and title_requirements[title] >= max_wins:
+                max_title = title
+                max_wins = title_requirements[title]
+
+        return max_title
 
     def get_profile_info(self, username):
         '''
@@ -93,23 +108,9 @@ class MongoHandler:
             raise ValueError("Not a valid username")
         else:
             user_info = self.collection.find_one({"username": username})
-            title = ""
             wins = user_info['wins']
             losses = user_info['losses']
-
-            # TODO: use this instead and add a get_title() method that works
-            # efficiently
-            title_requirements = {"Rookie": 1, "Soldier": 5,
-                                  "Battlemaster": 25, "Destroyer": 100}
-
-            if wins >= 1:
-                title = "Rookie"
-            elif wins >= 5:
-                title = "Soldier"
-            elif wins >= 25:
-                title = "Battlemaster"
-            elif wins >= 100:
-                title = "Destroyer"
+            title = self.get_title(wins)
 
             if losses == 0:
                 if wins == 0:
@@ -147,9 +148,12 @@ def get_game_list():
 
 @app.route('/quick_join/', methods=["POST"])
 def quick_join():
+    '''
+    Finds the first available game
+    '''
     for game in games:
         if game < 2:
-                return json.dumps('/game/' + str(game))
+            return json.dumps('/game/' + str(game))
     return json.dumps("error")
 
 # ================ MAIN GAME =================
@@ -176,20 +180,19 @@ def join_game(game_num):
                     # game, let the player join the game
                     if games[game_num] == 1:
                         return render_template("waiting.html")
-                    else:
-                        if session["player_ID"] == game_players[game_num][0]:
-                            return render_template("game.html",
-                                                   score=[0, GAME_TIME, 0],
-                                                   player_num=1,
-                                                   game_num=game_num)
-                        else:
-                            return render_template("game.html",
-                                                   score=[0, GAME_TIME, 0],
-                                                   player_num=2,
-                                                   game_num=game_num)
-                else:
-                    err = "Game Full..."
-                    return render_template('error_disp.html', error_code=err)
+
+                    if session["player_ID"] == game_players[game_num][0]:
+                        return render_template("game.html",
+                                               score=[0, GAME_TIME, 0],
+                                               player_num=1,
+                                               game_num=game_num)
+
+                    return render_template("game.html",
+                                           score=[0, GAME_TIME, 0],
+                                           player_num=2,
+                                           game_num=game_num)
+                err = "Game Full..."
+                return render_template('error_disp.html', error_code=err)
             except:
                 # If the game is empty, this means that the player was/is part
                 # of ANOTHER game, but not this one
@@ -206,34 +209,37 @@ def join_game(game_num):
                     session["player_ID"] = NUM_ID[0]
                     NUM_ID[0] += 1
                     return render_template("waiting.html", game_num=game_num)
-                else:
-                    game_players[game_num].append(NUM_ID[0])
-                    m = Map.Map("islands")
-                    g = Game(m, ITEM_DELAY)
-                    game_boards[game_num] = g
-                    game_timers[game_num] = STARTUP_TIME
-                    Timer(1, update_data, [STARTUP_TIME, game_num]).start()
-                    games[game_num] += 1
-                    session["player_ID"] = NUM_ID[0]
-                    NUM_ID[0] += 1
-                    return render_template("game.html",
-                                           score=[0, GAME_TIME, 0],
-                                           player_num=2,
-                                           game_num=game_num)
-            else:
-                s = "Game full..."
-                return render_template('error_disp.html', error_code=s)
+
+                game_players[game_num].append(NUM_ID[0])
+                m = Map.Map("islands")
+                g = Game(m, ITEM_DELAY)
+                game_boards[game_num] = g
+                game_timers[game_num] = STARTUP_TIME
+                Timer(1, update_data, [STARTUP_TIME, game_num]).start()
+                games[game_num] += 1
+                session["player_ID"] = NUM_ID[0]
+                NUM_ID[0] += 1
+                return render_template("game.html",
+                                       score=[0, GAME_TIME, 0],
+                                       player_num=2,
+                                       game_num=game_num)
+            
+            err_msg = "Game full..."
+            return render_template('error_disp.html', error_code=err_msg)
 
 
 @app.route('/check_game_ready/<int:game_num>', methods=["POST"])
 def check_game_ready(game_num):
+    '''
+    Checks if the game has enough players
+    '''
     if game_num not in game_players:
         return json.dumps(1)
     # TODO: consider using defaultdict
     if len(game_players[game_num]) == 2:
         return json.dumps(url_for('join_game', game_num=game_num)[1:])
-    else:
-        return json.dumps(1)
+
+    return json.dumps(1)
 
 
 @app.route("/login", methods=["POST"])
@@ -326,13 +332,16 @@ def get_instructions(game_num):
         i = str(i).replace(" ", "")
         if(i[0] != '[' or i[15] != ']'):
             return json.dumps("Start and end with square brackets.")
-        elif not (represents_int(i[1]) and represents_int(i[14])):
+
+        if not (represents_int(i[1]) and represents_int(i[14])):
             return json.dumps("Current and next states must be ints.")
-        else:
-            directions = i[4:8] + i[11]
-            if not (is_directions(directions)):
-                return json.dumps("Use valid direction operators.")
-            ruleList.append([int(i[1]), i[4:8], i[11], int(i[14])])
+
+        directions = i[4:8] + i[11]
+        if not is_directions(directions):
+            return json.dumps("Use valid direction operators.")
+
+        ruleList.append([int(i[1]), i[4:8], i[11], int(i[14])])
+
     if playerNum == 1:
         game_boards[game_num].bot2.ruleList = ruleList
     else:
@@ -346,8 +355,8 @@ def is_directions(s):
     Given a string S representing the environment segment of an instruction,
     check if the environement is in the correct format
     '''
-    for index in range(4):
-        if not(s[index] == "_" or s[index] == "*" or s[index] == "x"):
+    for dir_index in range(4):
+        if not(s[dir_index] == "_" or s[dir_index] == "*" or s[dir_index] == "x"):
             return False
     return True
 
@@ -389,7 +398,7 @@ def get_profile(profile_name):
 
 
 @app.errorhandler(404)
-def page_not_found(e):
+def page_not_found(error):
     '''
     Displays a "page not found" error for 404 errors
     '''
@@ -398,29 +407,34 @@ def page_not_found(e):
 
 
 @app.errorhandler(405)
-def method_not_alloed(e):
-    return page_not_found(e)
+def method_not_allowed(error):
+    ''' Handles 405 Errors '''
+    return page_not_found(error)
 
 
 @app.route('/profile/<string:profile_name>')
 def profile(profile_name):
+    '''
+    Displays the profile of a speficied user
+    '''
     # name, wins, losses, winloss, title
     try:
-        L = mongo_handler.get_profile_info(profile_name)
+        profile_info = mongo_handler.get_profile_info(profile_name)
 
-        return render_template("profile.html", name=L[0], wins=L[1],
-                               losses=L[2], winloss=L[3], title=L[4])
-    except ValueError as err:
+        return render_template("profile.html", name=profile_info[0],
+                               wins=profile_info[1], losses=profile_info[2],
+                               winloss=profile_info[3], title=profile_info[4])
+    except ValueError:
         err_msg = "The user " + profile_name + " does not exist"
         return render_template("error_disp.html", error_code=err_msg)
 
 
 @app.route('/exit_game/<int:game_num>', methods=["POST"])
 def exit_game(game_num):
-    # the only case when this can happen is if there is only one person in
-    #  queue
-    # (if there are two, then the game has already started and you cannot
-    # leave )
+    '''the only case when this can happen is if there is only one person in
+       queue
+       (if there are two, then the game has already started and you cannot
+       leave )'''
     if games[game_num] == 1:
         games[game_num] = 0
         game_players[game_num] = []

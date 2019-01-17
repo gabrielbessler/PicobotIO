@@ -2,8 +2,11 @@ from random import randint
 from Item import Item
 
 
-class Game(object):
-
+class Game:
+    '''
+    Contains all of the information for a particular match (instance of the game),
+    including boardstate and player positions
+    '''
     def __init__(self, map, item_delay=10):
         '''
         Constructor for Game given two Picobots and a map

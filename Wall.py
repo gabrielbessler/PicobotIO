@@ -1,5 +1,8 @@
 class Wall():
-
+    '''
+    Walls are tiles in the map that cannot be move through by the player.
+    Nothing will ever spawn on a wall.
+    '''
     def __init__(self, wall_type=0):
         '''
         Creates the default wall object
