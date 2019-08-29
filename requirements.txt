@@ -39,5 +39,5 @@ soupsieve==1.7.1
 traitlets==4.3.2
 urllib3==1.24.2
 wcwidth==0.1.7
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 wrapt==1.11.0
