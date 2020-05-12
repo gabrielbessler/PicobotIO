@@ -11,7 +11,7 @@ function login() {
     };
     $.ajax({
         type: "POST",
-        url: "/login",
+        url: "/Picobot/login",
         data: JSON.stringify(logindata),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
@@ -33,7 +33,7 @@ function register() {
     };
     $.ajax({
         type: "POST",
-        url: "/register",
+        url: "/Picobot/register",
         data: JSON.stringify(registerdata),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',

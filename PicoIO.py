@@ -129,7 +129,7 @@ class MongoHandler:
 # ================ INDEX =====================
 
 
-@app.route('/')
+@app.route('/picobot')
 def index():
     '''
     Main lobby/waiting screen
@@ -138,7 +138,7 @@ def index():
                            list_of_games=games)
 
 
-@app.route('/get_game_list', methods=["POST"])
+@app.route('/Picobot/get_game_list', methods=["POST"])
 def get_game_list():
     '''
     Returns the list of games currently available
@@ -146,7 +146,7 @@ def get_game_list():
     return json.dumps(games)
 
 
-@app.route('/quick_join/', methods=["POST"])
+@app.route('/Picobot/quick_join/', methods=["POST"])
 def quick_join():
     '''
     Finds the first available game
@@ -159,7 +159,7 @@ def quick_join():
 # ================ MAIN GAME =================
 
 
-@app.route('/game/<int:game_num>')
+@app.route('/Picobot/game/<int:game_num>')
 def join_game(game_num):
     '''
     Join game number <game_num> given in the URL
@@ -228,7 +228,7 @@ def join_game(game_num):
             return render_template('error_disp.html', error_code=err_msg)
 
 
-@app.route('/check_game_ready/<int:game_num>', methods=["POST"])
+@app.route('/Picobot/check_game_ready/<int:game_num>', methods=["POST"])
 def check_game_ready(game_num):
     '''
     Checks if the game has enough players
@@ -242,7 +242,7 @@ def check_game_ready(game_num):
     return json.dumps(1)
 
 
-@app.route("/login", methods=["POST"])
+@app.route("/Picobot/login", methods=["POST"])
 def login():
     '''
     Attempts to login to an account in the database
@@ -255,7 +255,7 @@ def login():
         return error.args
 
 
-@app.route("/register", methods=["POST"])
+@app.route("/Picobot/register", methods=["POST"])
 def register():
     '''
     Registers a new user in the database
@@ -268,7 +268,7 @@ def register():
         return error.args
 
 
-@app.route('/get_score/<int:game_num>', methods=["POST"])
+@app.route('/Picobot/get_score/<int:game_num>', methods=["POST"])
 def get_score(game_num):
     '''
     Calculate and return the score of each player in the game
@@ -319,7 +319,7 @@ def update_game(counter, game_num):
         Timer(.25, update_game, [counter - .25, game_num]).start()
 
 
-@app.route('/update_instructions/<int:game_num>', methods=["POST"])
+@app.route('/Picobot/update_instructions/<int:game_num>', methods=["POST"])
 def get_instructions(game_num):
     '''
     Updates the instructions for a given picobot
@@ -372,7 +372,7 @@ def represents_int(s):
         return False
 
 
-@app.route('/create_game', methods=["POST"])
+@app.route('/Picobot/create_game', methods=["POST"])
 def create_new_game():
     '''
     Adds a new game to the games list
@@ -384,7 +384,7 @@ def create_new_game():
     return json.dumps("Failure")
 
 
-@app.route('/get_profile/<string:profile_name>', methods=["POST"])
+@app.route('/Picobot/get_profile/<string:profile_name>', methods=["POST"])
 def get_profile(profile_name):
     '''
     Returns the HTML representation of the profile_info
@@ -412,7 +412,7 @@ def method_not_allowed(error):
     return page_not_found(error)
 
 
-@app.route('/profile/<string:profile_name>')
+@app.route('/Picobot/profile/<string:profile_name>')
 def profile(profile_name):
     '''
     Displays the profile of a speficied user
@@ -429,7 +429,7 @@ def profile(profile_name):
         return render_template("error_disp.html", error_code=err_msg)
 
 
-@app.route('/exit_game/<int:game_num>', methods=["POST"])
+@app.route('/Picobot/exit_game/<int:game_num>', methods=["POST"])
 def exit_game(game_num):
     '''the only case when this can happen is if there is only one person in
        queue

@@ -7,7 +7,7 @@ username = "foo";
  */
 function createNewGame() {
     $.ajax({
-        url: "/create_game",
+        url: "/Picobot/create_game",
         type: "POST"
     });
 }
@@ -50,7 +50,7 @@ function show_game_done() {
  */
 function quickJoin() {
     $.ajax({
-        url: "/quick_join/",
+        url: "/Picobot/quick_join/",
         type: "POST",
         success: function(data){
             data = JSON.parse(data);
@@ -85,7 +85,7 @@ function getProfile() {
         // we will call a python function using jQuery that
         // will return the correct HTML code
         $.ajax({
-            url: "/get_profile/" + username,
+            url: "/Picobot/get_profile/" + username,
             type: "POST",
             success: function(data){
                 new_page = data;
@@ -115,7 +115,7 @@ function showLess() {
  */
 function reloadGameList() {
     $.ajax({
-        url: "/get_game_list",
+        url: "/Picobot/get_game_list",
         type: "POST",
         success: function(data) {
             gameData = JSON.parse(data);
