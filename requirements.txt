@@ -37,7 +37,7 @@ simplegeneric==0.8.1
 six==1.11.0
 soupsieve==1.7.1
 traitlets==4.3.2
-urllib3==1.24.2
+urllib3==1.26.5
 wcwidth==0.1.7
 Werkzeug==0.15.3
 wrapt==1.11.0
